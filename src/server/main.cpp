@@ -6,8 +6,7 @@
 
 #include <unistd.h> // Unix for closing
 
-#include "game_format.h"
-#include "server_handle.h"	// All server handles
+#include "server_handler.hpp"	// All server handles
 
 #include "network_const.h"
 
@@ -45,28 +44,9 @@ void cleanup_server(int sockfd) {
 	close(sockfd);
 }
 
-
-// Global state
-RoomInfo currentRoom;
-
 void run_server(int sockfd) {
-	while(true) {
-		switch(currentRoom.currentState) {
-			// No LOBBY case
-			case GameState::ROOM:
-				handleRoom(sockfd);
-				break;
-			case GameState::INGAME:
-				break;
-			case GameState::LEADERBOARD:
-				break;
-			case GameState::ENDSERVER:
-				return;
-				break;
-			default:
-				std::cerr << "RUN SERVER: STATE UNKNOWN??? " << std::endl;
-		}
-	}
+	ServerHandler server1(sockfd);
+	server1.run();
 }
 /*
 void handleState() {
@@ -95,7 +75,6 @@ int main(){
 
 	server_sock = initialize_server(CHOSEN_PORT);
 
-	currentRoom.currentState = GameState::ROOM; // Testing
 	run_server(server_sock);
 	cleanup_server(server_sock);
 	

@@ -5,82 +5,80 @@
 #include "msg/msg_format.hpp"
 #include "msg/msg_sendrecv.h"
 
-#include "game_format.h"
-
-#include "server_handle.h"
+#include "server_handler.hpp"
 
 using namespace std;
 
-extern RoomInfo currentRoom;	// Definition in server.cpp
-
-void startGame(const sockaddr_in& clientAddress) {
-	if (compareSockAddrIn(currentRoom.host, clientAddress)) {
+void startGame(const sockaddr_in& clientAddress, ServerHandler * serverHandler) {
+	if (compareSockAddrIn(serverHandler->host, clientAddress)) {
 		cout << "Game started!" << endl;
-		currentRoom.currentState = GameState::INGAME;
+		serverHandler->setState(new InGameState());
 	}
 }
 
-void handleConnect(const sockaddr_in& clientAddress) {
+void handleConnect(const sockaddr_in& clientAddress, ServerHandler * serverHandler) {
 	cout << "Connection from " << formatSockAddrIn(clientAddress) << ": " << endl;
 
 	Player newPlayer;
 	newPlayer.score = 0;
 
 	// If exist, will skip
-	auto result = currentRoom.playerMap.emplace(clientAddress, newPlayer);
+	auto result = serverHandler->playerMap.emplace(clientAddress, newPlayer);
 	if (result.second) {
 		cout << "Joined successful!" << endl;
 
-		if (currentRoom.playerMap.size() == 1) { // Make host
-			currentRoom.host = clientAddress;
+		if (serverHandler->playerMap.size() == 1) { // Make host
+			serverHandler->host = clientAddress;
 		}
 	} else {
 		cout << "Joined failed. Player  already exists." << endl;
 	}
 }
 
-void handleDisconnect(const sockaddr_in& clientAddress) {
+void handleDisconnect(const sockaddr_in& clientAddress, ServerHandler * serverHandler) {
 	cout << "Disconnection from " << formatSockAddrIn(clientAddress) << ": " << endl;
 	
 	// If exist, will skip
-	auto result = currentRoom.playerMap.erase(clientAddress);
+	auto result = serverHandler->playerMap.erase(clientAddress);
 	// Check if the removal was successful
 	if (result == 1) {
 		cout << "Remove player successful!" << endl;
 
-		if (currentRoom.playerMap.size() == 0) { // No one left
+		if (serverHandler->playerMap.size() == 0) { // No one left
 			cout << "Room will be destroyed!" << endl;
-			currentRoom.currentState = GameState::ENDSERVER;
+
+			serverHandler->setState(new DestroyState());
 		}
 	} else {
 		cout << "Remove player failed. Player not found." << endl;
 	}
 }
 
-
-void handleRoom(int sockfd) {
+void RoomState::handle() {
+	// TODO: May consider moving this to somewhere defined once
 	sockaddr_in clientAddress{};
 	socklen_t clientAddrLen = sizeof(clientAddress);
 
+	cout << "ROOM RUNNING" << endl;
 //	int socket, struct sockaddr * targetAddr, socklen_t * targetAddrLen, AppMsg * msg
-	while (currentRoom.currentState == GameState::ROOM) {
+
 		// - wait for client to connect
-		unique_ptr<BaseMsg> msg = recvMsg(sockfd, (struct sockaddr*)&clientAddress, &clientAddrLen);
+		unique_ptr<BaseMsg> msg = recvMsg(serverHandler->sockfd, (struct sockaddr*)&clientAddress, &clientAddrLen);
 
 		if (!msg) {	// nullptr
 			cerr << "SERVER ROOM: Error receiving data" << endl;
-			continue;
+			return;
 		}
 		// - wait for host to start
 		switch (msg->type()) {
 			case MsgType::CONNECT: 
-				handleConnect(clientAddress);
+				handleConnect(clientAddress, serverHandler);
 				break;
 			case MsgType::DISCONNECT:
-				handleDisconnect(clientAddress);
+				handleDisconnect(clientAddress, serverHandler);
 				break;
 			default:
 				cerr << "SERVER ROOM: MSG TYPE NOT INFERABLE: " << msg->toString() << endl;
 		}
-	}
+
 }
