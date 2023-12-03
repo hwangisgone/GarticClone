@@ -1,12 +1,9 @@
-# CMake minimum version
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.18)
 
-# Project name
-project(GarticClone)
+project(GarticPhone VERSION 1.0 LANGUAGES CXX)
 
-# Add executable
-add_executable(GarticExecutable src/main.cpp)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-
-configure_file(src/wordlist.txt
-    ${CMAKE_CURRENT_BINARY_DIR}/wordlist.txt COPYONLY)
+# Include subdirectories
+add_subdirectory(src)

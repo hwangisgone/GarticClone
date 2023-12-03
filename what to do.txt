@@ -1,0 +1,25 @@
+Gameplay
+
+Objectives
+- 
+
+Platform/Tools you will use for your project
+- cmake (cross-compiling for windows & linux)
+- Qt/QML (UI)
+2 min
+
+4-6 minutes:
+
+Design of your program
+	
+Design of your application protocol
+
+2 min
+	
+Your timeline/tasks to finish your project
+	
+Task assignment
+	
+2 min
+
+Progress of your built program (if having)
