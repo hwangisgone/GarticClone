@@ -15,5 +15,7 @@ add_executable(server_program ${SERVER_SOURCES})
 # Linking
 target_link_libraries(server_program sockaddr_util_lib msg_lib)
 
-# Include the current directory for header files
-# target_include_directories(server_program PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+# Copy to outside
+add_custom_command(TARGET server_program POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:server_program> ${CMAKE_SOURCE_DIR}/build/server_program
+)
