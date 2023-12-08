@@ -10,7 +10,7 @@
 using namespace std;
 
 // BASE
-string BaseMsg::toString() {
+string BaseMsg::toString() const {
 	return	to_string(static_cast<underlying_type<MsgType>::type>(msg_type))
 		+ ":" + to_string(msg_length)
 		+ ":" + debugPrint();
@@ -45,6 +45,6 @@ void ConnectMsg::deserializeBody(char * buffer) {
 	strncpy(name, buffer, 50);
 }
 
-string ConnectMsg::debugPrint() {
+string ConnectMsg::debugPrint() const {
 	return name;
 }

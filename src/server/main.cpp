@@ -6,7 +6,7 @@
 
 #include <unistd.h> // Unix for closing
 
-#include "server_handler.hpp"	// All server handles
+#include "server_lobby.hpp"	// All server handles
 
 #include "network_const.h"
 
@@ -45,7 +45,7 @@ void cleanup_server(int sockfd) {
 }
 
 void run_server(int sockfd) {
-	ServerHandler server1(sockfd);
+	ServerLobby server1(sockfd);
 	server1.run();
 }
 /*

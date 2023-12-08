@@ -4,6 +4,7 @@
 #include "msg_format.hpp"
 #include "msg_serialize.h"
 #include "msg_sendrecv.h"
+#include "debugging.h"
 
 #include <cstring>
 #include <iostream>
@@ -14,21 +15,25 @@
 #define BUFFER_SIZE 1024
 
 char onceBuffer[BUFFER_SIZE];
-int sendMsg(int socket, struct sockaddr * targetAddr, socklen_t * targetAddrLen, const BaseMsg& msg) {
+int sendMsg(int socket, struct sockaddr * targetAddr, socklen_t targetAddrLen, BaseMsg& msg) {
 	// Clear onceBuffer and serializing
 	memset(onceBuffer, 0, sizeof(onceBuffer));
+
+	msg.calcLengthFromBody();
 	serializeMsg(onceBuffer, msg);
 
+	DEBUG_PRINT(msg.toString());
+
 	// Need refactoring
-	ssize_t sentBytes = sendto(socket, onceBuffer, msg.length(), 0, targetAddr, *targetAddrLen);
-	if (sentBytes == -1) {
+	ssize_t sentBytes = sendto(socket, onceBuffer, msg.length(), 0, targetAddr, targetAddrLen);
+	if (sentBytes < 0) {
 		std::cerr << "Error sending data" << std::endl;
 		return -1;
 	}
 
 	// Need checking??
 	if (sentBytes != msg.length()) {
-		std::cout << "ERROR: SEND BYTES != MSG LENGTH: " << sentBytes << " != " << msg.length() << "\n";
+		std::cerr << "ERROR: SEND BYTES != MSG LENGTH: " << sentBytes << " != " << msg.length() << "\n";
 	}
 
 	return 0;
@@ -46,8 +51,11 @@ std::unique_ptr<BaseMsg> recvMsg(int socket, struct sockaddr * targetAddr, sockl
 	std::unique_ptr<BaseMsg> msg = deserializeMsg(onceBuffer);
 
 	// Need checking??
-	if (receivedBytes != msg->length()) {
-		std::cout << "ERROR: RECEIVED BYTES != MSG LENGTH: " << receivedBytes << " != " << msg->length() << "\n";
+	if (msg) {
+		DEBUG_PRINT(msg->toString());
+		if (receivedBytes != msg->length()) {
+			std::cerr << "ERROR: RECEIVED BYTES != MSG LENGTH: " << receivedBytes << " != " << msg->length() << "\n";
+		}
 	}
 
 	return msg;

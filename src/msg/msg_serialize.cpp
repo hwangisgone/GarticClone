@@ -11,7 +11,7 @@
 
 void serializeMsg(char * buffer, const BaseMsg& msg) {
 	uint16_t conv_type = htons(static_cast<std::underlying_type<MsgType>::type>(msg.type()));						// Host short to Network short
-	uint32_t conv_length = htonl(msg.calcLengthFromBody());	// Host long to Network long
+	uint32_t conv_length = htonl(msg.length());	// Host long to Network long
 
 	// Type: 2 bytes
 	memcpy(buffer, &conv_type, sizeof(uint16_t));
@@ -34,7 +34,7 @@ std::unique_ptr<BaseMsg> deserializeMsg(char * buffer) {
 
 	// Length: 4 bytes
 	memcpy(&conv_length, buffer, sizeof(uint32_t));
-	buffer += sizeof(uint32_t); 
+	buffer += sizeof(uint32_t);
 
 	MsgType current_type = static_cast<MsgType>(ntohs(conv_type));
 	std::unique_ptr<BaseMsg> msg = factoryProduceMsg(current_type);

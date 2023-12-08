@@ -23,7 +23,7 @@ target_link_libraries(myapp PRIVATE
 )
 ]]
 
-# Include the root directory for network_constants.h
+# Include the root directory for network_constants.h & debugging.h
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # Include subdirectories

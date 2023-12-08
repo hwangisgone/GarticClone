@@ -1,6 +1,7 @@
 #ifndef MSG_FORMAT_H
 #define MSG_FORMAT_H
 
+#include <netinet/in.h>
 #include <string>
 #include <memory>		// unique_ptr
 
@@ -38,17 +39,16 @@ public:
 	BaseMsg(MsgType type): msg_type(type), msg_length(0) {}	// Syntax: Constructor
 	BaseMsg(): msg_type(MsgType::NONE), msg_length(0) {}				// Default
 
-	uint32_t calcLengthFromBody() const {
-		// msg_length = 6 + bodySize()+1;	// [ 2 | 4 | content \0 ]
-		return 6 + bodySize()+1;
+	uint32_t calcLengthFromBody() {
+		msg_length = 6 + bodySize()+1;	// [ 2 | 4 | content \0 ]
+		return msg_length;
 	}
-
-	std::string toString();
 
 	virtual void serializeBody(char * buffer) const {}	// Syntax: virtual means it should have subclass defining it (abstract method)
 	virtual void deserializeBody(char * buffer) {}		// Doesn't need =0 because it may contain no body
 
-	virtual std::string debugPrint() { return ""; }
+	std::string toString() const;
+	virtual std::string debugPrint() const { return ""; }
 };
 
 
@@ -100,12 +100,13 @@ protected:
 	uint32_t bodySize() const override;
 public:
 	char name[50];
+	sockaddr_in addr;	// Assigned during recv
 
 	ConnectMsg(): BaseMsg(MsgType::CONNECT) {}
 
 	void serializeBody(char * buffer) const override;
 	void deserializeBody(char * buffer) override;
-	std::string debugPrint() override;
+	std::string debugPrint() const override;
 };
 
 
