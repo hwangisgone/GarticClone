@@ -18,7 +18,10 @@ private:
 	// Condition variable for signaling
 	std::condition_variable m_cond;
 
-public: 
+public:
+	size_t size() const {
+		return m_queue.size();
+	}
 	// Pushes an element to the queue
 	void push(T& item) {
 		std::unique_lock<std::mutex> lock(m_mutex);

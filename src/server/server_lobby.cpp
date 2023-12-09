@@ -24,11 +24,17 @@ void ServerLobby::run() {
 	// while(keepAlive) {
 		// - wait for client to connect
 		MsgWrapper oneWrapper;
-		oneWrapper.msg = recvMsg(sockfd, (struct sockaddr*)&clientAddress, &clientAddrLen);
-		if (!oneWrapper.msg) {	// nullptr
+		unique_ptr<BaseMsg> testMsg;
+		
+		testMsg = recvMsg(sockfd, (struct sockaddr*)&clientAddress, &clientAddrLen);
+		if (!testMsg) {	// nullptr
 			cerr << "SERVER: Error receiving data" << endl;
 			return;
 		}
+		if (testMsg->type() == MsgType::CONNECT) {
+			static_cast<ConnectMsg&>(*testMsg).addr = clientAddress;	// Add a field not normally included in payload
+		}
+		oneWrapper.msg = std::move(testMsg);
 
 		addSession(clientAddress);
 		PlayerSession& currentClient = sessionRoomMap.at(clientAddress);
@@ -40,6 +46,8 @@ void ServerLobby::run() {
 		oneWrapper.playerID = currentClient.account->playerID;
 		currentClient.inRoom->msgQueue.push(oneWrapper);
 	// }
+		oneWrapper.msg = factoryProduceMsg(MsgType::DISCONNECT);
+		currentClient.inRoom->msgQueue.push(oneWrapper);
 
 	// Only delete if stopped
 	for (RoomHandler* ptr : allRooms) {

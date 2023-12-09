@@ -19,23 +19,22 @@ void startGame(const StartMsg& msg, int playerID, RoomHandler * room) {
 }
 
 void handleConnect(const ConnectMsg& msg, int playerID, RoomHandler * room) {
-	DEBUG_PRINT("Connection from " + formatSockAddrIn(msg.addr));
-	// room->addPlayer(playerID, msg.addr);
+	DEBUG_PRINT("  (StateRoom) Connection from " + formatSockAddrIn(msg.addr));
+	room->addPlayer(playerID, msg.addr);
 }
 
 void handleDisconnect(int playerID, RoomHandler * room) {
-	DEBUG_PRINT("Disconnection from " + playerID);
+	DEBUG_PRINT("  (StateRoom) Disconnection.");
 	room->removePlayer(playerID);
 }
 
 void RoomState::handle(const BaseMsg& msg, int playerID) {
 	// - wait for host to start
-	DEBUG_PRINT(msg.toString());
-	return;
+	DEBUG_PRINT("  (StateRoom) " + msg.toString());
 
 	switch (msg.type()) {
 		case MsgType::CONNECT: 
-			// handleConnect(static_cast<const ConnectMsg&>(msg), playerID, room);
+			handleConnect(static_cast<const ConnectMsg&>(msg), playerID, room);
 			break;
 		case MsgType::DISCONNECT:
 			handleDisconnect(playerID, room);
