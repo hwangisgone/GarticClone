@@ -3,6 +3,7 @@
 
 #include <netinet/in.h>
 #include <string>
+#include <cstring>		// memcpy
 #include <memory>		// unique_ptr
 
 enum class MsgType : uint16_t
@@ -129,10 +130,36 @@ public:
 	// void deserializeBody(char * buffer) override {}
 };
 
+
+
 // DrawMsg: [x 2|y 2|clr 4 (rgba)]
 // AnswerMsg: [user 100|message 900]
+class AnswerMsg : public BaseMsg {
+private:
+    char message[900];
+public:
+    AnswerMsg() : BaseMsg(MsgType::ANSWER) {}
+
+    void serializeBody(char *buffer) const override {
+        memcpy(buffer, this->message, length());
+    }
+
+    void deserializeBody(char *buffer) override {
+        memcpy(buffer, this->message, length());
+    }
+
+};
+
+
 // ScoreMsg: [user 100|score 4]
 
+class ScoreMsg: public BaseMsg{
+private:
+	int score;
+public:
+	ScoreMsg() : BaseMsg(MsgType::SCORE){}
+
+};
 
 
 
