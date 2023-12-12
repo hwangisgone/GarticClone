@@ -34,7 +34,9 @@ public:
 
 class InGameState: public ServerState {
 public:
+	char *answer;
 	void handle(const BaseMsg& msg, int playerID) override;
+	
 };
 
 class LeaderboardState: public ServerState {
