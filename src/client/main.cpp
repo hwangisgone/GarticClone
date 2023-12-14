@@ -13,36 +13,6 @@
 std::mutex mtx;
 bool exitProgram = false;
 
-// void getMsg(int clientSocket) {
-// 	char buffer[BUFFER_SIZE];
-
-// 	while(true) {
-// 		// Receive the response from the server
-
-// 		ssize_t receivedBytes = recvfrom(clientSocket, buffer, BUFFER_SIZE, 0, nullptr, nullptr);
-// 		if (receivedBytes == -1) {
-// 			std::cerr << "Error receiving data" << std::endl;
-// 			continue;
-// 		}
-// 		buffer[receivedBytes] = '\0';
-
-// 		deserializeMsg(buffer, &msg);
-
-// 		std::cout << "Received from server: ";
-// 		printMsg(&msg);
-// 		std::cout << std::endl;
-
-// 		if ()
-
-// 		{
-// 			std::lock_guard<std::mutex> lock(mtx);
-// 			if (exitProgram) {
-// 				break;  // Exit the loop and end the thread
-// 			}
-// 		}   // The lock_guard automatically releases the lock when it goes out of scope
-// 	}
-// }
-
 sockaddr_in serverAddress{};
 
 int initialize_client(int port, char * inputAddr) {
@@ -65,19 +35,23 @@ void cleanup_client(int sockfd) {
 	close(sockfd);
 }
 
-void client_echo(int clientSocket) {
-	//std::thread printing(getMsg, clientSocket);
-	BaseMsg msg(MsgType::CONNECT);
-	// Get user input and send messages to the server
-	// while (true) {
-		// Send the message to the server
-	sendMsg(clientSocket, (struct sockaddr *)&serverAddress, sizeof(serverAddress), msg);
-	// while (true) {
+// void client_echo(int clientSocket) {
+// 	//std::thread printing(getMsg, clientSocket);
+// 	BaseMsg msg(MsgType::CONNECT);
+// 	// Get user input and send messages to the server
+// 	// while (true) {
+// 		// Send the message to the server
+// 	sendMsg(clientSocket, (struct sockaddr *)&serverAddress, sizeof(serverAddress), msg);
+// 	// while (true) {
 		
-	// }
-	// }
+// 	// }
+// 	// }
 
-	//printing.join();
+// 	//printing.join();
+// }
+
+void client_echo(int clientSocket) {
+	
 }
 
 
