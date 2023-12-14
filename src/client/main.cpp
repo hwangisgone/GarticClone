@@ -1,17 +1,12 @@
 #include <iostream>
 #include <cstring>
+
 #include <arpa/inet.h>
 #include <unistd.h>
 
-#include <thread>
-#include <mutex>
-
-#include "msg/msg_format.hpp"
-#include "msg/msg_sendrecv.h"
 #include "network_const.h"
 
-std::mutex mtx;
-bool exitProgram = false;
+#include "states/client_handler.hpp"
 
 sockaddr_in serverAddress{};
 
@@ -35,29 +30,10 @@ void cleanup_client(int sockfd) {
 	close(sockfd);
 }
 
-// void client_echo(int clientSocket) {
-// 	//std::thread printing(getMsg, clientSocket);
-// 	BaseMsg msg(MsgType::CONNECT);
-// 	// Get user input and send messages to the server
-// 	// while (true) {
-// 		// Send the message to the server
-// 	sendMsg(clientSocket, (struct sockaddr *)&serverAddress, sizeof(serverAddress), msg);
-// 	// while (true) {
-		
-// 	// }
-// 	// }
-
-// 	//printing.join();
-// }
-
-void client_echo(int clientSocket) {
-	
-}
-
-
 void run_client(int client_sock) {
 	printf("Client started.\n");
-	client_echo(client_sock);
+	ClientHandler client1(client_sock, serverAddress);
+	client1.run();
 }
 
 

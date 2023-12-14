@@ -5,6 +5,7 @@ add_library(msg_lib STATIC
 	msg_serialize.cpp
 
 	types/msg_connect.cpp
+	types/msg_ingame.cpp
 )
 
 # To include msg_format.hpp

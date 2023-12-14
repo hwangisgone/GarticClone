@@ -1,5 +1,11 @@
 set(CLIENT_SOURCES
 	main.cpp
+
+	states/client_handler.cpp
+
+	states/state_room.cpp
+	states/state_ingame.cpp
+	states/state_leaderboard.cpp
 	# Add more files as needed
 )
 

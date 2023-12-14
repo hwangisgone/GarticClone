@@ -3,6 +3,8 @@
 #include <arpa/inet.h>		// sockaddr_in
 
 #include "msg/types/msg_connect.hpp"
+#include "msg/types/msg_transition.hpp"
+
 #include "msg/msg_sendrecv.h"
 #include "debugging.h"
 

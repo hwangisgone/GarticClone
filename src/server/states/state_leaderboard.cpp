@@ -43,6 +43,7 @@ int getPlayerPoint(unordered_map<int, Player>& inputMap, int playerID){
 			// no find this playerID
 		}
 	}
+	return 0;
 }
 
 void LeaderboardState::handle(const BaseMsg& msg, int playerID) {

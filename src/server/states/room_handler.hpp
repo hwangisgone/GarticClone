@@ -58,11 +58,6 @@ struct Player {
 	sockaddr_in currentAddr;
 };
 
-struct MsgWrapper {
-	int playerID;
-	std::unique_ptr<BaseMsg> msg;
-};
-
 // Context
 class RoomHandler {
 private:

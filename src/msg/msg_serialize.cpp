@@ -45,7 +45,7 @@ std::unique_ptr<BaseMsg> deserializeMsg(char * buffer) {
 	}
 
 	// Convert int back Network -> Host
-	msg->setTypeLength(current_type, ntohl(conv_length));
+	msg->setLength(ntohl(conv_length));
 	msg->deserializeBody(buffer);
 	return msg;
 }

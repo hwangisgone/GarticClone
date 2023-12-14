@@ -1,29 +1,6 @@
 #ifndef SERVER_LOBBY_H
 #define SERVER_LOBBY_H
 
-	//  TODO:
-	//	structure for each room
-	//	each room will implement thread
-	//	
-	// Need an vector to store Room object
-	// The map will reference it
-
-/*
-
-
-	cout << "ROOM RUNNING" << endl;
-//	int socket, struct sockaddr * targetAddr, socklen_t * targetAddrLen, AppMsg * msg
-
-
-	// TODO: Move this to another thread
-	// 2 threads:
-	// - recvMsg thread
-	// - sendMsg thread(s): thread for handling, each thread is a mini server handling room
-	// - Queue to connect both
-
-
-*/
-
 #include "sockaddr_in/sockaddr_in_functions.h"
 #include "states/room_handler.hpp"
 #include <string>

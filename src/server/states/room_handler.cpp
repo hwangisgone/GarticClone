@@ -1,6 +1,5 @@
 #include "room_handler.hpp"
 
-#include <iostream>
 #include <string>
 #include "debugging.h"
 
@@ -113,6 +112,6 @@ void RoomHandler::removePlayer(int playerID) {
 			host = highest_playerID;
 		}
 	} else {
-		DEBUG_PRINT("Room: Remove " + playerName + " failed. Player not found.");
+		DEBUG_PRINT("(Room) Remove " + playerName + " failed. Player not found.");
 	}
 }

@@ -5,10 +5,11 @@
 #include "../msg_format.hpp"
 
 class ConnectMsg: public BaseMsg {
-protected:
+private:
 	uint32_t bodySize() const override;
 public:
 	uint32_t playerID;
+	char name[50];
 	sockaddr_in addr;	// Assigned during recv
 	
 	ConnectMsg(): BaseMsg(MsgType::CONNECT) {}
@@ -19,7 +20,7 @@ public:
 };
 
 class DisconnectMsg: public BaseMsg {
-protected:
+private:
 	uint32_t bodySize() const override;
 public:
 	uint32_t playerID;

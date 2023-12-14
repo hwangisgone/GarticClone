@@ -7,6 +7,8 @@
 
 #include "msg_format.hpp"	
 #include "types/msg_connect.hpp"	// hpp for the ones with classes
+#include "types/msg_ingame.hpp"
+#include "types/msg_transition.hpp"
 
 using namespace std;
 

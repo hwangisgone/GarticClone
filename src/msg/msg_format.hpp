@@ -26,15 +26,13 @@ class BaseMsg {
 private:
 	MsgType msg_type;
 	uint32_t msg_length;
-
-protected:
-	virtual uint32_t bodySize() const { return 0; };	// bodySize() used only for serialization
+	virtual uint32_t bodySize() const { DEBUG_PRINT("bodySize() WHY?"); return 0; };	// bodySize() used only for serialization
 
 public:
 	MsgType type() const { return msg_type; }			// Syntax: const means it won't change members (msg_type or length)
 	uint32_t length() const { return msg_length; }
-	void setTypeLength(MsgType type, uint32_t length) { 
-		msg_type = type;
+
+	void setLength(uint32_t length) {
 		msg_length = length;
 	}
 
@@ -59,89 +57,9 @@ public:
 
 std::unique_ptr<BaseMsg> factoryProduceMsg(MsgType type);
 
-
-class StartMsg: public BaseMsg {
-// protected:
-// 	uint32_t bodySize() override { return 0; }
-public:
-	StartMsg(): BaseMsg(MsgType::START) {}
-// 	void serializeBody(char * buffer) override {}
-// 	void deserializeBody(char * buffer) override {}
+struct MsgWrapper {
+	int playerID;
+	std::unique_ptr<BaseMsg> msg;
 };
-
-
-class EndMsg: public BaseMsg {
-// protected:
-// 	uint32_t bodySize() override { return 0; }
-public:
-	EndMsg(): BaseMsg(MsgType::END) {}
-	// void serializeBody(char * buffer) override {}
-	// void deserializeBody(char * buffer) override {}
-};
-
-
-class LobbyMsg: public BaseMsg {
-// protected:
-// 	uint32_t bodySize() override { return 0; }
-public:
-	LobbyMsg(): BaseMsg(MsgType::LOBBY) {}
-	// void serializeBody(char * buffer) override {}
-	// void deserializeBody(char * buffer) override {}
-};
-
-
-class NextRoundMsg: public BaseMsg {
-// protected:
-// 	uint32_t bodySize() override { return 0; }
-public:
-	NextRoundMsg(): BaseMsg(MsgType::NEXT_ROUND) {}
-	// void serializeBody(char * buffer) override {}
-	// void deserializeBody(char * buffer) override {}
-};
-
-
-
-class DrawMsg: public BaseMsg {
-protected:
-	// uint32_t bodySize() override { return 0; }
-public:
-	DrawMsg(): BaseMsg(MsgType::DRAW) {}	// Constructor
-	// void serializeBody(char * buffer) override {}
-	// void deserializeBody(char * buffer) override {}
-};
-
-
-
-// DrawMsg: [x 2|y 2|clr 4 (rgba)]
-// AnswerMsg: [user 100|message 900]
-class AnswerMsg : public BaseMsg {
-private:
-    char message[900];
-public:
-    AnswerMsg() : BaseMsg(MsgType::ANSWER) {}
-
-    void serializeBody(char *buffer) const override {
-        memcpy(buffer, this->message, length());
-    }
-
-    void deserializeBody(char *buffer) override {
-        memcpy(buffer, this->message, length());
-    }
-
-};
-
-
-// ScoreMsg: [user 100|score 4]
-
-class ScoreMsg: public BaseMsg{
-private:
-	int score;
-public:
-	ScoreMsg() : BaseMsg(MsgType::SCORE){}
-
-};
-
-
-
 
 #endif

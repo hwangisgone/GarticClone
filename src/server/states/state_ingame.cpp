@@ -2,7 +2,8 @@
 #include <cstring>
 
 #include "room_handler.hpp"
-#include "msg/msg_format.hpp"
+#include "msg/types/msg_connect.hpp"
+#include "msg/types/msg_ingame.hpp"
 #include "msg/msg_sendrecv.h"
 #include "msg/msg_serialize.h"
 #include "debugging.h"
@@ -36,6 +37,17 @@ int add_score(char *correct_ans)
 	return score;
 }
 
+void handleScore(const ScoreMsg &msg, int playerID, char* correct_ans, RoomHandler *room)
+{
+	auto i = room->playerMap.find(playerID);
+	int score = add_score(correct_ans);
+	if (i != room->playerMap.end())
+	{
+		Player targetPlayer = i->second;
+		targetPlayer.currentScore += score;
+	}
+}
+
 void handleAnswer(const BaseMsg &msg, int playerID, char *correct_ans, RoomHandler *room)
 {
 	char *answer;
@@ -45,23 +57,12 @@ void handleAnswer(const BaseMsg &msg, int playerID, char *correct_ans, RoomHandl
 	serializeMsg(answer, msg);
 	if (checkAnswer(correct_ans, answer))
 		{
-			handleScore(static_cast<const ConnectMsg &>(msg), playerID, correct_ans, room);
+			handleScore(static_cast<const ScoreMsg &>(msg), playerID, correct_ans, room);
 			// maybe can boardcast to all that some one correct
 		}
 	else
 	{
 		//
-	}
-}
-
-void handleScore(const BaseMsg &msg, int playerID, char* correct_ans, RoomHandler *room)
-{
-	auto i = room->playerMap.find(playerID);
-	int score = add_score(correct_ans);
-	if (i != room->playerMap.end())
-	{
-		Player targetPlayer = i->second;
-		targetPlayer.currentScore += score;
 	}
 }
 

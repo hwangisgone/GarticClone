@@ -25,6 +25,7 @@ string ConnectMsg::debugPrint() const {
 	return to_string(playerID);
 }
 
+
 // & DISCONNECT (They're the same)
 uint32_t DisconnectMsg::bodySize() const { 
 	return sizeof(uint32_t); // 4 bytes
