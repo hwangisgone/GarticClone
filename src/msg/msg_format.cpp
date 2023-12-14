@@ -5,7 +5,8 @@
 #include <type_traits>	// underlying_type
 #include <memory>		// unique_ptr
 
-#include "msg_format.hpp"	// hpp for the ones with classes
+#include "msg_format.hpp"	
+#include "types/msg_connect.hpp"	// hpp for the ones with classes
 
 using namespace std;
 
@@ -29,22 +30,4 @@ unique_ptr<BaseMsg> factoryProduceMsg(MsgType type) {
 		case MsgType::DRAW:			return make_unique<DrawMsg>();
 		default:			return nullptr;
 	}
-}
-
-
-// CONNECT
-uint32_t ConnectMsg::bodySize() const { 
-	return strlen(name); 
-}
-
-void ConnectMsg::serializeBody(char * buffer) const {
-	strncpy(buffer, name, 50);
-}
-
-void ConnectMsg::deserializeBody(char * buffer) {
-	strncpy(name, buffer, 50);
-}
-
-string ConnectMsg::debugPrint() const {
-	return name;
 }

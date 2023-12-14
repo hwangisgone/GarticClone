@@ -3,6 +3,9 @@
 #include "msg/msg_format.hpp"
 #include "msg/msg_sendrecv.h"
 
+// TODO: Temp:
+#include "msg/types/msg_connect.hpp"
+
 #include "states/room_handler.hpp"
 #include "server_lobby.hpp"
 #include "debugging.h"

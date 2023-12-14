@@ -2,18 +2,17 @@
 
 #include <arpa/inet.h>		// sockaddr_in
 
-#include "msg/msg_format.hpp"
+#include "msg/types/msg_connect.hpp"
 #include "msg/msg_sendrecv.h"
 #include "debugging.h"
 
 #include "sockaddr_in/sockaddr_in_functions.h"
 #include "room_handler.hpp"
 
-using namespace std;
 
 void startGame(const StartMsg& msg, int playerID, RoomHandler * room) {
 	if (room->host == playerID) {
-		cout << "Game started!" << endl;
+		DEBUG_PRINT("  (StateRoom) Game started!!!");
 		room->setState(new InGameState());
 	}
 }
@@ -40,7 +39,7 @@ void RoomState::handle(const BaseMsg& msg, int playerID) {
 			handleDisconnect(playerID, room);
 			break;
 		default:
-			cerr << "SERVER ROOM: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;
+			std::cerr << "SERVER ROOM: MSG TYPE NOT INFERABLE: " << msg.toString() << std::endl;
 	}
 
 }

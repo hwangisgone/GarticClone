@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include "safe_queue.hpp"
+#include <arpa/inet.h>
 #include <thread>
 #include <atomic>
 

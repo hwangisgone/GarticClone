@@ -1,9 +1,10 @@
 #ifndef MSG_FORMAT_H
 #define MSG_FORMAT_H
 
-#include <netinet/in.h>
+#include <type_traits>	// underlying_type
 #include <string>
 #include <memory>		// unique_ptr
+#include "debugging.h"
 
 enum class MsgType : uint16_t
 {
@@ -36,8 +37,11 @@ public:
 		msg_length = length;
 	}
 
-	BaseMsg(MsgType type): msg_type(type), msg_length(0) {}	// Syntax: Constructor
-	BaseMsg(): msg_type(MsgType::NONE), msg_length(0) {}				// Default
+	BaseMsg(MsgType type): msg_type(type), msg_length(0) {
+		DEBUG_PRINT("BaseMsg called for type" + std::to_string(static_cast<std::underlying_type<MsgType>::type>(type)));
+	}	// Syntax: Constructor
+
+	BaseMsg(): msg_type(MsgType::NONE), msg_length(0) {}	// Default
 
 	uint32_t calcLengthFromBody() {
 		msg_length = 6 + bodySize()+1;	// [ 2 | 4 | content \0 ]
@@ -94,30 +98,6 @@ public:
 	// void deserializeBody(char * buffer) override {}
 };
 
-
-class ConnectMsg: public BaseMsg {
-protected:
-	uint32_t bodySize() const override;
-public:
-	char name[50];
-	sockaddr_in addr;	// Assigned during recv
-
-	ConnectMsg(): BaseMsg(MsgType::CONNECT) {}
-
-	void serializeBody(char * buffer) const override;
-	void deserializeBody(char * buffer) override;
-	std::string debugPrint() const override;
-};
-
-
-class DisconnectMsg: public BaseMsg {
-// protected:
-// 	uint32_t bodySize() override { return 0; }
-public:
-	DisconnectMsg(): BaseMsg(MsgType::DISCONNECT) {}
-	// void serializeBody(char * buffer) override {}
-	// void deserializeBody(char * buffer) override {}
-};
 
 
 class DrawMsg: public BaseMsg {
