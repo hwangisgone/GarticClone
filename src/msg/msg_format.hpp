@@ -7,16 +7,24 @@
 #include <memory>		// unique_ptr
 #include "debugging.h"
 
+#include "msg_serialize.hpp"
+
 enum class MsgType : uint16_t
 {
 	NONE = 0,
-	START,
-	END,
-	LOBBY,
-	NEXT_ROUND,
+	AUTH,
+	SUCCESS,	// Unused
+	FAILURE,
+	ROOM_LIST,
+	CREATE_ROOM,
+	JOIN_ROOM,
+	DESTROY_ROOM,
 	CONNECT,
 	DISCONNECT,
 
+	START_GAME,
+	END_GAME,
+	NEXT_ROUND,
 	DRAW,
 	ANSWER,
 	SCORE,
@@ -26,7 +34,7 @@ class BaseMsg {
 private:
 	MsgType msg_type;
 	uint32_t msg_length;
-	virtual uint32_t bodySize() const { DEBUG_PRINT("bodySize() WHY?"); return 0; };	// bodySize() used only for serialization
+	virtual uint32_t bodySize() const { DEBUG_PRINT("BaseMsg::bodySize() WHY?"); return 0; };	// bodySize() used only for serialization
 
 public:
 	MsgType type() const { return msg_type; }			// Syntax: const means it won't change members (msg_type or length)
@@ -38,8 +46,7 @@ public:
 
 	BaseMsg(MsgType type): msg_type(type), msg_length(0) {
 		DEBUG_PRINT("BaseMsg called for type" + std::to_string(static_cast<std::underlying_type<MsgType>::type>(type)));
-	}	// Syntax: Constructor
-
+	}	// Syntax: Constructor;
 	BaseMsg(): msg_type(MsgType::NONE), msg_length(0) {}	// Default
 
 	uint32_t calcLengthFromBody() {
@@ -47,8 +54,8 @@ public:
 		return msg_length;
 	}
 
-	virtual void serializeBody(char * buffer) const {}	// Syntax: virtual means it should have subclass defining it (abstract method)
-	virtual void deserializeBody(char * buffer) {}		// Doesn't need =0 because it may contain no body
+	virtual void serializeBody(MsgBuffer& buff) const {}	// Syntax: virtual means it should have subclass defining it (abstract method)
+	virtual void deserializeBody(MsgBuffer& buff) {}		// Doesn't need =0 because it may contain no body
 
 	std::string toString() const;
 	virtual std::string debugPrint() const { return ""; }

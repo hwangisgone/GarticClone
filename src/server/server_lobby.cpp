@@ -1,13 +1,13 @@
 #include <iostream>
 
-#include "msg/msg_format.hpp"
-#include "msg/msg_sendrecv.h"
+#include "server_lobby.hpp"
 
 // TODO: Temp:
-#include "msg/types/msg_connect.hpp"
+#include "states/lobby/msg_lobby.hpp"
 
-#include "states/room_handler.hpp"
-#include "server_lobby.hpp"
+#include "room_handler.hpp"
+#include "msg/msg_format.hpp"
+#include "msg/msg_sendrecv.h"
 #include "debugging.h"
 
 using namespace std;
@@ -34,8 +34,8 @@ void ServerLobby::run() {
 			cerr << "SERVER: Error receiving data" << endl;
 			return;
 		}
-		if (testMsg->type() == MsgType::CONNECT) {
-			static_cast<ConnectMsg&>(*testMsg).addr = clientAddress;	// Add a field not normally included in payload
+		if (testMsg->type() == MsgType::JOIN_ROOM) {
+			static_cast<JoinRoomMsg&>(*testMsg).addr = clientAddress;	// Add a field not normally included in payload
 		}
 		oneWrapper.msg = std::move(testMsg);
 

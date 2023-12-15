@@ -1,0 +1,22 @@
+// CMakeList.txt linking library order
+(1)	[server]_base_lib
+
+(2)	msg_lib
+	msg_factory_lib
+
+(3)	[state]_lib
+
+(4)	sockaddr_util_lib
+
+// include order
+(1) #include <standard libraries>
+
+(2) #include <linux libraries>
+	<unistd.h>
+	<arpa/inet.h>
+	...
+
+(3) #include "header for this file"
+    #include "or direct dependency"
+
+(5) #include "other dependencies"

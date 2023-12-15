@@ -2,7 +2,7 @@
 #define SERVER_LOBBY_H
 
 #include "sockaddr_in/sockaddr_in_functions.h"
-#include "states/room_handler.hpp"
+#include "room_handler.hpp"
 #include <string>
 
 struct PlayerAccount {
