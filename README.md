@@ -61,17 +61,20 @@ npm -v
 > [!IMPORTANT]
 > If you use WSL/WSL2 to build and develop the app, you'll need to install the driver matching your system. More info can be found on [this Microsoft article][wslgui]
 
-To quickly build the app, you may run the `build.sh` script provided at the root of the project.
-
+To quickly build the app, you may run the `setup.sh` and `build.sh` script provided at the root of the project.
+ 
 ```
+./setup.sh
 ./build.sh
 ```
+In subsequent builds, you only need to run `build.sh`
 
 ### Step-by-step building:
 
 First, use npm to compile Svelte code in `ui`:
 ```
 cd ui
+npm install
 npm run build
 cd ..
 ```
@@ -79,6 +82,7 @@ cd ..
 Go to `build` directory and generate build with `cmake`.
 Building is required since it imports the HTML file into C++.
 ```
+mkdir build
 cd build
 cmake ..
 ```

@@ -6,13 +6,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Include subdirectories
-add_subdirectory(src)
+# add_subdirectory(src)
 
 
 
 # GUI
 # Read the content of the HTML file and generate a C++ source file
-file(READ "../ui/dist/index.html" HTML_CONTENT)
+file(READ "ui/dist/index.html" HTML_CONTENT)
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/html_const.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/html_const.cpp" @ONLY)
 
 message(STATUS "Read the HTML file")
