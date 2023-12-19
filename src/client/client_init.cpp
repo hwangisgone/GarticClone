@@ -1,4 +1,5 @@
 #include <iostream>
+#include <thread>
 
 #include <arpa/inet.h>
 #include <unistd.h>		// close
@@ -14,6 +15,8 @@ int initialize_client(int port, char * inputAddr) {
 		std::cerr << "Error creating socket" << std::endl;
 		return -1;
 	}
+
+	// TODO: setsockopt TIMER for RECV
 
 	// 2.? Initialize serverAddress
 	serverAddress.sin_family = AF_INET;
@@ -38,4 +41,19 @@ void run_client(int client_sock) {
 	printf("Client started.\n");
 	ClientHandler client1(client_sock, serverAddress);
 	client1.run();
+}
+
+
+// MOVE THIS TO THE ClientHandler itself (using KeepAlive to kill both)
+// For testing,
+void sendInput(int sockfd, unique_ptr<BaseMsg> (*)() getInput) {
+	while (true) {
+		unique_ptr<BaseMsg> msg = getInput();
+		sendMsg(sockfd, (struct sockaddr *)&serverAddress, sizeof(serverAddress), *msg)
+	}
+}
+
+std::thread inputThread;
+void initialize_input_thread() {
+	inputThread = std::thread()
 }

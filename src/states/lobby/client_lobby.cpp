@@ -15,7 +15,7 @@ void LobbyState::handleRecv(const BaseMsg &msg)
 	DEBUG_PRINT("  (LobbyState) " + msg.toString());
 
 	switch (msg.type()) {
-		case MsgType::JOIN_ROOM:
+		case MsgType::JOIN_ROOM:	// Success
 			break;
 		default:
 			cerr << "CLIENT LOBBY: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;

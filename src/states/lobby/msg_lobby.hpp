@@ -24,4 +24,9 @@ public:
 	std::string debugPrint() const override;
 };
 
+class RoomListMsg: public BaseMsg {
+private:
+	
+}
+
 #endif
