@@ -7,26 +7,31 @@ For the GUI, we used [Svelte][svelte] as the JavaScript framework and connect to
 
 Your compiler must support minimum C++11
 
-### 1. Installing GTK and WebKit2GTK on Linux and BSD
+First, update your linux kernel:
+
+Debian-based systems: `sudo apt upgrade`
+Fedora-based systems: `sudo dnf upgrade`
+
+### 1. Installing GTK and WebKit2GTK on Linux
 
 The [GTK][gtk] and [WebKit2GTK][webkitgtk] libraries are required for development and distribution.
 
 Debian-based systems:
 
 * Packages:
-  * Development: `apt install libgtk-3-dev libwebkit2gtk-4.0-dev`
-  * Production: `apt install libgtk-3-0 libwebkit2gtk-4.0-37`
+  * Development: `sudo apt install libgtk-3-dev libwebkit2gtk-4.0-dev`
+  * Production: `sudo apt install libgtk-3-0 libwebkit2gtk-4.0-37`
 
 Fedora-based systems:
 
 * Packages:
-  * Development: `dnf install gtk3-devel webkit2gtk4.0-devel`
-  * Production: `dnf install gtk3 webkit2gtk4.0`
+  * Development: `sudo dnf install gtk3-devel webkit2gtk4.0-devel`
+  * Production: `sudo dnf install gtk3 webkit2gtk4.0`
 
-BSD-based systems:
+<!-- BSD-based systems:
 
 * FreeBSD packages: `pkg install webkit2-gtk3`
-* Execution on BSD-based systems may require adding the `wxallowed` option (see [mount(8)](https://man.openbsd.org/mount.8))  to your fstab to bypass [W^X](https://en.wikipedia.org/wiki/W%5EX "write xor execute") memory protection for your executable. Please see if it works without disabling this security feature first.
+* Execution on BSD-based systems may require adding the `wxallowed` option (see [mount(8)](https://man.openbsd.org/mount.8))  to your fstab to bypass [W^X](https://en.wikipedia.org/wiki/W%5EX "write xor execute") memory protection for your executable. Please see if it works without disabling this security feature first. -->
 
 For building on other operating systems, please refer to the [webview repo][webview]
 
@@ -39,7 +44,8 @@ sudo apt-get install pkg-config
 
 ### 3. Install npm
 
-First, install [nvm][nvm] by either download and run the [install script][https://github.com/nvm-sh/nvm/blob/v0.39.7/install.sh] manually, or use cURL or Wget command:
+First, install [nvm][nvm] (Node Version Manager) by either download and run the [install script][nvm-sh] manually, or use cURL or Wget command:
+
 ```
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 ```
@@ -111,3 +117,4 @@ Use these to run server/client
 [svelte]:     https://svelte.dev
 [nvm]:        https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating
 [wslgui]:     https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps
+[nvm-sh]:     https://github.com/nvm-sh/nvm/blob/v0.39.7/install.sh
