@@ -30,7 +30,14 @@ BSD-based systems:
 
 For building on other operating systems, please refer to the [webview repo][webview]
 
-### 2. Install npm
+### 2. Install required packages
+
+Debian-based system:
+```
+sudo apt-get install pkg-config
+```
+
+### 3. Install npm
 
 First, install [nvm][nvm] by either download and run the [install script][https://github.com/nvm-sh/nvm/blob/v0.39.7/install.sh] manually, or use cURL or Wget command:
 ```
