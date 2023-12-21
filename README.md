@@ -72,7 +72,7 @@ npm -v
 ## Building
 
 > [!IMPORTANT]
-> If you use WSL/WSL2 to build and develop the app, you'll need to install the driver matching your system. More info can be found on [this Microsoft article][wslgui]
+> If you use WSL/WSL2 to build and develop the app, you'll need to install the driver matching your system. Please follow the instructions on [this Microsoft article][wslgui] before proceeding with building the app.
 
 To quickly build the app, you may run the `setup.sh` and `build.sh` script provided at the root of the project.
  
