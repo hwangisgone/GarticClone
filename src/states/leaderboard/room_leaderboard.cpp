@@ -45,6 +45,20 @@ int getPlayerPoint(unordered_map<int, Player>& inputMap, int playerID){
 	return 0;
 }
 
+int plusPlayerPoint(unordered_map<int, Player>& inputMap, int playerID, int plusPoint){
+	for (auto& pair : inputMap) {
+        if( pair.first == playerID){
+			Player& player = pair.second;
+			player.currentScore += plusPoint;
+			return plusPoint;
+		}
+		else{
+			// no find this playerID
+		}
+	}
+	return 0;
+}
+
 void LeaderboardState::handle(const BaseMsg& msg, int playerID) {
 	DEBUG_PRINT("  (LeaderboardState) " + msg.toString());
 
