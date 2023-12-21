@@ -7,3 +7,5 @@ add_library(client_lobby_lib STATIC
 add_library(server_lobby_lib STATIC
 	msg_lobby.cpp
 )
+
+add_subdirectory(test)

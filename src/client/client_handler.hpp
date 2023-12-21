@@ -63,6 +63,8 @@ class ClientHandler {
 private:
 	ClientState* currentState = nullptr;
 	bool keepAlive = true;
+
+	std::unique_ptr<BaseMsg> (*getInput)() = nullptr;
 public:
 	int sockfd;
 	sockaddr_in serverAddress;
@@ -79,6 +81,11 @@ public:
 
 	void addPlayer(int playerID, const char * inputName);
 	void removePlayer(int playerID);
+
+	void setInputFunction(std::unique_ptr<BaseMsg> (*getInput)());
+	void sendInput();
+	void initialize_input_thread();
+	void join_input_thread();
 };
 
 #endif

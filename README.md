@@ -64,7 +64,7 @@ Install the most recent LTS version of nodejs and npm:
 nvm install --lts
 ```
 
-Test the installation of npm and Nodejs:
+Test the installation of npm and Nodejs. Restart your terminal if this command doesn't display anything:
 ```
 npm -v
 ```

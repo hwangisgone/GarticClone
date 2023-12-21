@@ -1,5 +1,4 @@
 #include <iostream>
-#include <thread>
 
 #include <arpa/inet.h>
 #include <unistd.h>		// close
@@ -43,17 +42,7 @@ void run_client(int client_sock) {
 	client1.run();
 }
 
-
-// MOVE THIS TO THE ClientHandler itself (using KeepAlive to kill both)
-// For testing,
-void sendInput(int sockfd, unique_ptr<BaseMsg> (*)() getInput) {
-	while (true) {
-		unique_ptr<BaseMsg> msg = getInput();
-		sendMsg(sockfd, (struct sockaddr *)&serverAddress, sizeof(serverAddress), *msg)
-	}
-}
-
-std::thread inputThread;
-void initialize_input_thread() {
-	inputThread = std::thread()
+ClientHandler get_client(int client_sock) {
+	ClientHandler client1(client_sock, serverAddress);
+	return client1;
 }
