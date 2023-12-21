@@ -12,6 +12,21 @@
 
 using namespace std;
 
+void ServerLobby::LobbyHandle(BaseMsg& msg) {
+	DEBUG_PRINT("  (Lobby) " + msg.toString());
+
+	switch (msg.type()) {
+		case MsgType::AUTH: 
+			handleConnect(static_cast<const AuthMsg&>(msg), playerID, room);
+			break;
+		case MsgType::DISCONNECT:
+			handleDisconnect(playerID, room);
+			break;
+		default:
+			break;
+	}
+}
+
 void ServerLobby::run() {
 	// TODO: May consider moving this to somewhere defined once
 	sockaddr_in clientAddress{};
@@ -46,11 +61,13 @@ void ServerLobby::run() {
 			currentClient.inRoom = theOnlyOneRoom;
 		}
 
-		oneWrapper.playerID = currentClient.account->playerID;
-		currentClient.inRoom->msgQueue.push(oneWrapper);
+		if (currentClient.inRoom != nullptr) {
+			// Only push to room if is in room
+			oneWrapper.playerID = currentClient.account->playerID;
+			currentClient.inRoom->msgQueue.push(oneWrapper);
+		}
 	// }
-		oneWrapper.msg = factoryProduceMsg(MsgType::DISCONNECT);
-		currentClient.inRoom->msgQueue.push(oneWrapper);
+
 
 	// Only delete if stopped
 	for (RoomHandler* ptr : allRooms) {

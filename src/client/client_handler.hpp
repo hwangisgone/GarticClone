@@ -82,9 +82,8 @@ public:
 	void addPlayer(int playerID, const char * inputName);
 	void removePlayer(int playerID);
 
-	void setInputFunction(std::unique_ptr<BaseMsg> (*getInput)());
 	void sendInput();
-	void initialize_input_thread();
+	void initialize_input_thread(std::unique_ptr<BaseMsg> (*getInput)());
 	void join_input_thread();
 };
 

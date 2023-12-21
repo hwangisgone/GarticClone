@@ -6,7 +6,7 @@
 
 #include <unistd.h> // Unix for closing
 
-#include "server_lobby.hpp"	// All server handles
+#include "server_init.hpp"	// All server handles
 
 /*
 * Create a new server
@@ -45,6 +45,11 @@ void cleanup_server(int sockfd) {
 void run_server(int sockfd) {
 	ServerLobby server1(sockfd);
 	server1.run();
+}
+
+ServerLobby& get_server(int sockfd) {
+	static ServerLobby server1(sockfd);
+	return server1;
 }
 /*
 void handleState() {

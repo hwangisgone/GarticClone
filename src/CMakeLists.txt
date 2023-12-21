@@ -8,11 +8,11 @@ add_subdirectory(states)
 add_subdirectory(server)
 add_subdirectory(client)
 
-
-# Client
-add_executable(client_program client/main.cpp)
-# Linking
-target_link_libraries(client_program 
+# Generate master client and master server library
+# As stupid as it may sound, the msg_factory_lib prevent others from generating just becuase it makes the unique_ptr
+# TODO: deal with this issue?
+add_library(master_client_lib INTERFACE)
+target_link_libraries(master_client_lib INTERFACE
 	client_base_lib
 	msg_lib
 	msg_factory_lib
@@ -25,6 +25,7 @@ target_link_libraries(client_program
 
 	sockaddr_util_lib
 )
+
 # IMPORTANT NOTE: TO LINK CORRECTLY, DEPENDENCIES MUST BE LINKED LATER.
 # MUST BE LINKED IN ORDER OF FORWARD DECLARATION
 # E.G. B needs A
@@ -33,10 +34,8 @@ target_link_libraries(client_program
 #	B_lib
 #	A_lib
 
-# Server
-add_executable(server_program server/main.cpp)
-# Linking
-target_link_libraries(server_program 
+add_library(master_server_lib INTERFACE)
+target_link_libraries(master_server_lib INTERFACE
 	server_base_lib
 	msg_lib
 	msg_factory_lib
@@ -49,6 +48,16 @@ target_link_libraries(server_program
 
 	sockaddr_util_lib
 )
+
+
+# Client
+add_executable(client_program client/main.cpp)
+target_link_libraries(client_program PRIVATE master_client_lib)
+
+# Server
+add_executable(server_program server/main.cpp)
+target_link_libraries(server_program PRIVATE master_server_lib)
+
 
 # Copy to outside
 #add_custom_command(TARGET client_program POST_BUILD

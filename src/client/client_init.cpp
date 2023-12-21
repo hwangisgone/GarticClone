@@ -3,7 +3,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>		// close
 
-#include "client_handler.hpp"
+#include "client_init.hpp"
 
 sockaddr_in serverAddress{};
 
@@ -15,7 +15,11 @@ int initialize_client(int port, char * inputAddr) {
 		return -1;
 	}
 
-	// TODO: setsockopt TIMER for RECV
+	// LINUX set RECV timeout
+	struct timeval tv;
+	tv.tv_sec = 3;
+	tv.tv_usec = 0;
+	setsockopt(clientSocket, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
 
 	// 2.? Initialize serverAddress
 	serverAddress.sin_family = AF_INET;
@@ -42,7 +46,7 @@ void run_client(int client_sock) {
 	client1.run();
 }
 
-ClientHandler get_client(int client_sock) {
-	ClientHandler client1(client_sock, serverAddress);
+ClientHandler& get_client(int client_sock) {
+	static ClientHandler client1(client_sock, serverAddress);
 	return client1;
 }
