@@ -1,5 +1,1 @@
-set -x
-cd ui
-npm install
-cd ..
-mkdir build
+set -x ; cd ui && npm install && cd .. ; mkdir build
