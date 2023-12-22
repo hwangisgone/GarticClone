@@ -47,9 +47,8 @@ void run_server(int sockfd) {
 	server1.run();
 }
 
-ServerLobby& get_server(int sockfd) {
-	static ServerLobby server1(sockfd);
-	return server1;
+std::unique_ptr<ServerLobby> get_server(int sockfd) {
+	return std::make_unique<ServerLobby>(sockfd);
 }
 /*
 void handleState() {

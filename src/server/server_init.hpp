@@ -7,7 +7,7 @@ int initialize_server(int port);
 void run_server(int sockfd);
 void cleanup_server(int sockfd);
 
-ServerLobby& get_server(int sockfd);
+std::unique_ptr<ServerLobby> get_server(int sockfd);
 
 
 #endif
