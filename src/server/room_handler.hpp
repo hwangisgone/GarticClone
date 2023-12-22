@@ -70,13 +70,15 @@ public:
 	
 	int sockfd;
 	int host;	// playerID
+	int modeGame;
 	std::unordered_map<int, Player> playerMap;	// Map (playerID, Player)
 
 	RoomHandler(int sockfd);
 	~RoomHandler();
 
 	void setState(ServerState* newState);
-
+	void setMode( int modeGame);
+	
 	bool isDead();
 	void threadRun();
 	void threadKill();
