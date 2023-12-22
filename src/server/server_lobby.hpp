@@ -21,11 +21,15 @@ private:
 	std::atomic<bool> keepAlive = true;
 	int sockfd;
 
+	// Map address with PlayerSession
 	std::unordered_map<sockaddr_in, PlayerSession, sockaddr_in_hash, sockaddr_in_equal> sessionRoomMap;
-	
+
+	// Map roomID with room
+	int roomCount = 0;
+	std::unordered_map<int, RoomHandler *> allRooms;
+
 	int accountCount = 0;
 	std::vector<PlayerAccount> allAccounts;
-	std::vector<RoomHandler *> allRooms;
 public:
 	ServerLobby(int server_sock) {
 		sockfd = server_sock;
@@ -33,6 +37,8 @@ public:
 
 	void addSession(const sockaddr_in& addr);
 	void removeSession(const sockaddr_in& addr);
+
+	void LobbyHandle(PlayerSession& currentClient, BaseMsg& msg);
 
 	void run();
 	void kill();

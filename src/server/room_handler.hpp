@@ -61,7 +61,6 @@ struct Player {
 // Context
 class RoomHandler {
 private:
-	int roomID;
 	ServerState* currentState = nullptr;
 
 	std::thread roomThread;

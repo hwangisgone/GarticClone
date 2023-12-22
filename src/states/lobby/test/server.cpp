@@ -7,7 +7,7 @@ int main(){
 	server_sock = initialize_server(CHOSEN_PORT);
 	
 	auto server1 = get_server(server_sock);
-	
+	server1->run();
 
 	cleanup_server(server_sock);
 	
