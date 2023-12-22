@@ -22,6 +22,7 @@ private:
 	int sockfd;
 
 	std::unordered_map<sockaddr_in, PlayerSession, sockaddr_in_hash, sockaddr_in_equal> sessionRoomMap;
+	
 	int accountCount = 0;
 	std::vector<PlayerAccount> allAccounts;
 	std::vector<RoomHandler *> allRooms;
