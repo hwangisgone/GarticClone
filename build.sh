@@ -1,6 +1,1 @@
-set -x
-cd ui
-npm run build
-cd ../build
-cmake ..
-make
+set -x ; cd ui && npm run build && cd .. ; cd build && cmake .. && make

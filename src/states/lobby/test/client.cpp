@@ -5,32 +5,47 @@
 #include <arpa/inet.h>
 
 #include "network_const.h"
-#include "client_init.hpp"
-#include "client_input.hpp"
+#include "client/client_init.hpp"
 
+#include "states/new/msg_auth.hpp"
+#include "states/lobby/msg_lobby.hpp"
 
 using namespace std;
 
 unique_ptr<BaseMsg> inputToMsg() {
+	string input;
+	cout << "Input? (auth | joinroom x | exit)" << endl;
+	cin >> input;
 
-}
-
-void sendInput(int sockfd, const sockaddr_in * serverAddrPtr) {
-	sendMsg(sockfd, serverAddrPtr, )
+	if (input == "auth") {
+		auto msg = make_unique<AuthMsg>();
+		return msg;
+	} else if (input == "joinroom") {
+		int roomid;
+		cin >> roomid;
+		auto msg = make_unique<JoinRoomMsg>();
+		msg->roomID = roomid;
+		return msg;
+	} else {
+		DEBUG_PRINT("Exiting");
+		return nullptr;
+	}
 }
 
 int main() {
 	int client_sock;
 	char addr[] = "127.0.0.1";
 
-	thread inputThread = thread()
-
 	client_sock = initialize_client(CHOSEN_PORT, addr);
-	initialize_input_thread(inputToMsg);
 
-	run_client_from_state(client_sock, new LobbyState());
+	auto client1 = get_client(client_sock);
 
-	cleanup_thread();
+	client1.setState(new LobbyState());
+
+	client1.initialize_input_thread(inputToMsg);
+	client1.run();
+	client1.join_input_thread();
+
 	cleanup_client(client_sock);
 
 	return 0;

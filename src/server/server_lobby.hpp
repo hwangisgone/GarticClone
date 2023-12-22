@@ -9,7 +9,6 @@ struct PlayerAccount {
 	int playerID;
 	int multiGameScore;
 	std::string name;
-	std::string password;
 };
 
 struct PlayerSession {

@@ -1,10 +1,9 @@
 #include <iostream>
-#include <thread>
 
 #include <arpa/inet.h>
 #include <unistd.h>		// close
 
-#include "client_handler.hpp"
+#include "client_init.hpp"
 
 sockaddr_in serverAddress{};
 
@@ -16,7 +15,11 @@ int initialize_client(int port, char * inputAddr) {
 		return -1;
 	}
 
-	// TODO: setsockopt TIMER for RECV
+	// LINUX set RECV timeout
+	struct timeval tv;
+	tv.tv_sec = 3;
+	tv.tv_usec = 0;
+	setsockopt(clientSocket, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
 
 	// 2.? Initialize serverAddress
 	serverAddress.sin_family = AF_INET;
@@ -43,17 +46,7 @@ void run_client(int client_sock) {
 	client1.run();
 }
 
-
-// MOVE THIS TO THE ClientHandler itself (using KeepAlive to kill both)
-// For testing,
-void sendInput(int sockfd, unique_ptr<BaseMsg> (*)() getInput) {
-	while (true) {
-		unique_ptr<BaseMsg> msg = getInput();
-		sendMsg(sockfd, (struct sockaddr *)&serverAddress, sizeof(serverAddress), *msg)
-	}
-}
-
-std::thread inputThread;
-void initialize_input_thread() {
-	inputThread = std::thread()
+ClientHandler& get_client(int client_sock) {
+	static ClientHandler client1(client_sock, serverAddress);
+	return client1;
 }

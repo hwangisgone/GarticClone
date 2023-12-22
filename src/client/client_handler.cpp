@@ -1,21 +1,34 @@
 #include <string>
+#include <thread>
+#include <memory>
+
+#include <arpa/inet.h>
+
+#include "client_handler.hpp"
+
+#include "states/new/client_auth.hpp"
 #include "msg/msg_sendrecv.h"
 #include "debugging.h"
 
-#include "client_handler.hpp"
-#include "states/new/client_auth.hpp"
 
 using namespace std;
 
 // recvThread related
 void ClientHandler::run() {
 	unique_ptr<BaseMsg> msg;
+	int timeout_counter = 0;
 		
 	while (keepAlive) {
 		msg = recvMsg(sockfd, nullptr, nullptr);
 		if (!msg) {	// nullptr
-			cerr << "CLIENT: Error receiving data" << endl;
-			return;
+			if (errno && EAGAIN || errno && EWOULDBLOCK) {
+				DEBUG_COUT("CLIENT RECV TIMEOUT (" + to_string(timeout_counter) + ")\033[1A");
+				timeout_counter++;
+				continue;
+			} else {
+				DEBUG_PRINT("CLIENT: Error receiving data.");
+				return;	
+			}
 		}
 		currentState->handleRecv(*msg);	// This might kill the thread
 	}
@@ -26,6 +39,36 @@ void ClientHandler::run() {
 void ClientHandler::kill() {
 	keepAlive = false;
 }
+
+// FOR TESTING INPUT
+// For testing,
+
+void ClientHandler::sendInput() {
+	if (getInput == nullptr) {
+		DEBUG_PRINT("Cannot send input: getInput function not defined!!!");
+		return;
+	}
+	while (keepAlive) {
+		unique_ptr<BaseMsg> msg = this->getInput();
+		if (msg != nullptr) { 
+			sendMsg(this->sockfd, (struct sockaddr *)&this->serverAddress, sizeof(this->serverAddress), *msg);
+		} else {
+			DEBUG_PRINT("input: msg is null");
+			this->kill();
+		}
+	}
+}
+
+std::thread inputThread;
+void ClientHandler::initialize_input_thread(std::unique_ptr<BaseMsg> (*func)()) {
+	this->getInput = func;
+	inputThread = std::thread(&ClientHandler::sendInput, this);
+}
+
+void ClientHandler::join_input_thread() {
+	inputThread.join();
+}
+
 
 
 

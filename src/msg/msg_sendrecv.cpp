@@ -36,7 +36,7 @@ std::unique_ptr<BaseMsg> recvMsg(int socket, struct sockaddr * targetAddr, sockl
 	// targetAddr & targetAddrLen may be nullptr
 	ssize_t receivedBytes = recvfrom(socket, sendrecvBuffer.onceBuffer, BUFFER_SIZE, 0, targetAddr, targetAddrLen);
 	if (receivedBytes == -1) {
-		std::cerr << "Error receiving data" << std::endl;
+		DEBUG_COUT("\rError receiving data.\n");
 		return nullptr;
 	}
 	sendrecvBuffer.onceBuffer[receivedBytes] = '\0';
