@@ -55,6 +55,7 @@ public:
 
 struct Player {
 	int currentScore;
+	char name[50];
 	sockaddr_in currentAddr;
 };
 
@@ -83,7 +84,9 @@ public:
 
 	void addPlayer(int playerID, const sockaddr_in& addr);
 	void removePlayer(int playerID);
-	void broadCast();
+
+	void broadCast(BaseMsg& msg) const;	// Cannot use const for BaseMsg because sendMsg needs to calculate msgLength
+	void broadCastExcept(BaseMsg& msg, int playerID) const;
 };
 
 #endif

@@ -30,15 +30,14 @@ private:
 
 	int accountCount = 0;
 	std::vector<PlayerAccount> allAccounts;
+
+	void LobbyHandle(MsgWrapper& wrapper, sockaddr_in& clientAddress);
+	void addSession(const sockaddr_in& addr);
+	void removeSession(const sockaddr_in& addr);
 public:
 	ServerLobby(int server_sock) {
 		sockfd = server_sock;
 	}
-
-	void addSession(const sockaddr_in& addr);
-	void removeSession(const sockaddr_in& addr);
-
-	void LobbyHandle(PlayerSession& currentClient, BaseMsg& msg);
 
 	void run();
 	void kill();

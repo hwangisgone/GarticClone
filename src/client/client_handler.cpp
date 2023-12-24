@@ -103,7 +103,7 @@ void ClientHandler::setState(ClientState* newState) {
 
 // playerMap
 void ClientHandler::addPlayer(int playerID, const char * inputName) {
-	std::string playerName = "Player " + std::to_string(playerID);
+	std::string playerName = std::to_string(inputName);
 
 	DisplayPlayer newPlayer;
 	strcpy(newPlayer.name, inputName);

@@ -12,8 +12,50 @@
 
 using namespace std;
 
-void ServerLobby::LobbyHandle(PlayerSession& currentClient, BaseMsg& msg) {
-	DEBUG_PRINT("  (Lobby) " + msg.toString());
+void ServerLobby::createRoom(PlayerSession& creator, const sockaddr_in& addr) {
+	// Room count as roomID
+	auto result = this->allRooms.emplace(this->roomCount, new RoomHandler(this->sockfd));
+	if (result.second) {
+		DEBUG_PRINT("Lobby: Created room " + to_string(result.first->first) + " successfully!");
+		RoomHandler * newRoom = result.first->second;
+
+		creator.inRoom = newRoom;
+		newRoom->addPlayer(creator.account->playerID, creator.account->playerName, addr);	// Add host to room 
+		this->roomCount++;
+	} else {
+		DEBUG_PRINT("Lobby: Create room failed for some reason???");
+	}	
+}
+
+void ServerLobby::LobbyHandle(MsgWrapper& wrapper, sockaddr_in& clientAddress) {
+	BaseMsg& msg = *wrapper.msg;
+
+	auto it = sessionRoomMap.find(clientAddress);
+	if (it == sessionRoomMap.end()) {
+		// No such session exist yet
+		if (msg.type() == MsgType::AUTH) {
+			// Only process AUTH, any other unauthorized session will be dismissed
+			authorize(); // addSession(clientAddress); currentClient.account
+			//  = sessionRoomMap.at(clientAddress);
+		} else {
+			PRINT_ERROR("Dismissing message (not registered session)");
+		}
+	} else {
+		PlayerSession& currentClient = it->second;
+		oneWrapper.playerID = currentClient.account->playerID;
+
+		if (currentClient.inRoom == nullptr) {
+			// In lobby
+
+		} else {
+			// In room/game
+			currentClient.inRoom->msgQueue.push(oneWrapper);
+		}
+	}
+
+
+	BaseMsg& msg = *wrapper.msg;
+
 
 	switch (msg.type()) {
 		case MsgType::AUTH: 
@@ -21,33 +63,28 @@ void ServerLobby::LobbyHandle(PlayerSession& currentClient, BaseMsg& msg) {
 			// authorize();
 			break;
 		case MsgType::JOIN_ROOM:
-			{
-				int joiningRoom = static_cast<JoinRoomMsg&>(msg).roomID;
+		{
+			JoinRoomMsg& joinmsg = static_cast<JoinRoomMsg&>(msg);
+			joinmsg.addr = clientAddress;
 
-				auto it = allRooms.find(joiningRoom);
-			    if (it != allRooms.end()) {
-			        // Key exists, access the value
-			        currentClient.inRoom = it->second;
-			        // TODO: broadcast, conenct it to room???
-			    } else {
-			    	DEBUG_PRINT("Room doesn't exist");
-			    }
-				break;
+			auto it = this->allRooms.find(joinmsg.roomID);
+			if (it != this->allRooms.end()) {
+				// Room exists, access the value
+				currentClient.inRoom = it->second;
+				joinmsg.addr = clientAddress;
+				joinmsg.name = currentClient.account->name;
+
+				currentClient.inRoom->msgQueue.push(wrapper);	// Also push this new thing to room
+			} else {
+				DEBUG_PRINT("Room doesn't exist");
 			}
+			break;
+		}
 		case MsgType::CREATE_ROOM:
-			{	// Room count as roomID
-				auto result = this->allRooms.emplace(this->roomCount, new RoomHandler(this->sockfd));
-				if (result.second) {
-					DEBUG_PRINT("Lobby: Joined successful!");
-					RoomHandler * newRoom = result.first->second;
-					currentClient.inRoom = newRoom;
-					newRoom->host = currentClient.account->playerID;	// Add host to room 
-					this->roomCount++;
-				} else {
-					DEBUG_PRINT("Lobby: Create room failed for some reason???");
-				}
-				break;
-			}
+		{
+			createRoom(currentClient, clientAddress);
+			break;
+		}
 		default:
 			break;
 	}
@@ -65,11 +102,11 @@ void ServerLobby::run() {
 	PlayerAccount oneAccount;
 	oneAccount.playerID = 1;
 
+	MsgWrapper oneWrapper;
 	int timeout_counter = 0;
 				// currentClient.account = &oneAccount;
 	while(keepAlive) {
 		// - wait for client to connect
-		MsgWrapper oneWrapper;
 		unique_ptr<BaseMsg> testMsg;
 		
 		testMsg = recvMsg(sockfd, (struct sockaddr*)&clientAddress, &clientAddrLen);
@@ -84,24 +121,9 @@ void ServerLobby::run() {
 			}
 		}
 
-		if (testMsg->type() == MsgType::JOIN_ROOM) {
-			static_cast<JoinRoomMsg&>(*testMsg).addr = clientAddress;	// Add a field not normally included in payload
-		}
 		oneWrapper.msg = std::move(testMsg);
-
-		addSession(clientAddress);
-		PlayerSession& currentClient = sessionRoomMap.at(clientAddress);
-
-		if (currentClient.inRoom != nullptr) { 
-			// Only push to room if is in room
-			oneWrapper.playerID = currentClient.account->playerID;
-			currentClient.inRoom->msgQueue.push(oneWrapper);
-		} else {
-			// Else handle with lobby state
-			LobbyHandle(currentClient, *oneWrapper.msg);
-		}
+		LobbyHandle(oneWrapper, clientAddress);
 	}
-
 
 	// Only delete if stopped
 	for (const auto& pair : allRooms) {

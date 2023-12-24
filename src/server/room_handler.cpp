@@ -1,6 +1,8 @@
+#include <string>
+
 #include "room_handler.hpp"
 
-#include <string>
+#include "msg/msg_sendrecv.h"
 #include "debugging.h"
 
 // roomThread related
@@ -63,10 +65,23 @@ void RoomHandler::setState(ServerState* newState) {
 	currentState->setHandler(this);	// Backref
 }
 
+// broadcasting
+void RoomHandler::broadCast(BaseMsg& msg) const {
+	for (const auto& pair : playerMap) {
+		sendMsg(this->sockfd, (struct sockaddr*)&pair.second.currentAddr, sizeof(pair.second.currentAddr), msg);
+	}
+}
+void RoomHandler::broadCastExcept(BaseMsg& msg, int playerID) const {
+	for (const auto& pair : playerMap) {
+		if (pair.first != playerID) {
+			sendMsg(this->sockfd, (struct sockaddr*)&pair.second.currentAddr, sizeof(pair.second.currentAddr), msg);
+		}
+	}
+}
 
 // playerMap
-void RoomHandler::addPlayer(int playerID, const sockaddr_in& addr) {
-	std::string playerName = "Player " + std::to_string(playerID);
+void RoomHandler::addPlayer(int playerID, const char * inputName, const sockaddr_in& addr) {
+	std::string playerName = std::to_string(inputName);
 
 	Player newPlayer;
 	newPlayer.currentScore = 0;
@@ -75,7 +90,7 @@ void RoomHandler::addPlayer(int playerID, const sockaddr_in& addr) {
 	// If exist, will skip
 	auto result = playerMap.emplace(playerID, newPlayer);
 	if (result.second) {
-		DEBUG_PRINT("(Room) " + playerName + " joined successful!");
+		DEBUG_PRINT("(Room) '" + playerName + "' joined successful!");
 
 		if (playerMap.size() == 1) {
 			host = playerID;			// Make host if there's 1 player

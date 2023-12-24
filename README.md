@@ -39,7 +39,7 @@ For building on other operating systems, please refer to the [webview repo][webv
 
 Debian-based system:
 ```
-sudo apt-get install pkg-config
+sudo apt-get install pkg-config build-essential
 ```
 
 ### 3. Install npm

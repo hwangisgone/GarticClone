@@ -23,7 +23,19 @@ void startGame(const StartMsg& msg, int playerID, RoomHandler * room) {
 
 void handleConnect(const JoinRoomMsg& msg, int playerID, RoomHandler * room) {
 	DEBUG_PRINT("  (StateRoom) Connection from " + formatSockAddrIn(msg.addr));
+
+	for (const auto& pair : room->playerMap) {	// Send all players in the room to client
+		PlayerConnectMsg othermsg;
+		othermsg.playerID = pair.first;
+		othermsg.name = pair.second.name;
+		sendMsg(room->sockfd, (struct sockaddr*)&msg.addr, sizeof(msg.addr), othermsg);
+	}
+
 	room->addPlayer(playerID, msg.addr);
+
+	PlayerConnectMsg thisplayermsg;
+	thisplayermsg.playerID = playerID;
+	room->broadcastExcept(thisplayermsg, playerID);
 	// TODO: broadcast
 }
 
