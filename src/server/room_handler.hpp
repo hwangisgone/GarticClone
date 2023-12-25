@@ -82,7 +82,7 @@ public:
 	void threadRun();
 	void threadKill();
 
-	void addPlayer(int playerID, const sockaddr_in& addr);
+	void addPlayer(int playerID, const char * inputName, const sockaddr_in& addr);
 	void removePlayer(int playerID);
 
 	void broadCast(BaseMsg& msg) const;	// Cannot use const for BaseMsg because sendMsg needs to calculate msgLength

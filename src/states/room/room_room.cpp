@@ -35,6 +35,7 @@ void handleConnect(const JoinRoomMsg& msg, int playerID, RoomHandler * room) {
 
 	PlayerConnectMsg thisplayermsg;
 	thisplayermsg.playerID = playerID;
+	strcpy(thisplayermsg.name, );
 	room->broadcastExcept(thisplayermsg, playerID);
 	// TODO: broadcast
 }

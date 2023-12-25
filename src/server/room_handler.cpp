@@ -81,16 +81,21 @@ void RoomHandler::broadCastExcept(BaseMsg& msg, int playerID) const {
 
 // playerMap
 void RoomHandler::addPlayer(int playerID, const char * inputName, const sockaddr_in& addr) {
-	std::string playerName = std::to_string(inputName);
+	std::string playerName(inputName);
 
 	Player newPlayer;
-	newPlayer.currentScore = 0;
-	newPlayer.currentAddr = addr;
+
 
 	// If exist, will skip
 	auto result = playerMap.emplace(playerID, newPlayer);
 	if (result.second) {
 		DEBUG_PRINT("(Room) '" + playerName + "' joined successful!");
+		
+		Player * newPlayerPtr = &result.first->second;
+		newPlayerPtr->currentScore = 0;
+		newPlayerPtr->currentAddr = addr;
+		// TODO: Optimize / Profile this strcpy (maybe we can use reference?)
+		strcpy(newPlayerPtr->name, inputName);
 
 		if (playerMap.size() == 1) {
 			host = playerID;			// Make host if there's 1 player

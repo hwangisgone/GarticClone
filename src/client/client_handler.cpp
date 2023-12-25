@@ -103,16 +103,18 @@ void ClientHandler::setState(ClientState* newState) {
 
 // playerMap
 void ClientHandler::addPlayer(int playerID, const char * inputName) {
-	std::string playerName = std::to_string(inputName);
+	std::string playerName(inputName);
 
 	DisplayPlayer newPlayer;
-	strcpy(newPlayer.name, inputName);
-	newPlayer.currentScore = 0;
 
 	// If exist, will skip
 	auto result = playerMap.emplace(playerID, newPlayer);
 	if (result.second) {
 		DEBUG_PRINT("(Client) " + playerName + " joined successful!");
+
+		DisplayPlayer * newPlayerPtr = &result.first->second;
+		newPlayerPtr->currentScore = 0;
+		strcpy(newPlayerPtr->name, inputName);
 	} else {
 		DEBUG_PRINT("(Client) Joined failed. " + playerName + " already exists.");
 	}

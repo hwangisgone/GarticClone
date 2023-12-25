@@ -2,6 +2,7 @@
   import svelteLogo from './assets/svelte.svg'
   import viteLogo from './assets/vite.svg'
   import Counter from './lib/Counter.svelte'
+  import "./app.css";
 
   let num = 0;
   let num2 = 0;
@@ -36,7 +37,7 @@
       <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
     </a>
   </div>
-  <h1>Vite + Svelte</h1>
+  <button class="btn btn-primary">Vite + Svelte</button>
 
   <div class="card">
     <Counter />

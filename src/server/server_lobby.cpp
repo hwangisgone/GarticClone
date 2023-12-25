@@ -12,7 +12,25 @@
 
 using namespace std;
 
-void ServerLobby::createRoom(PlayerSession& creator, const sockaddr_in& addr) {
+bool ServerLobby::joinRoom(PlayerSession& client, MsgWrapper& wrapper) {
+	JoinRoomMsg& joinmsg = static_cast<JoinRoomMsg&>(msg);
+
+	auto it = this->allRooms.find(joinmsg.roomID);
+	if (it != this->allRooms.end()) {
+		// Room exists, access the value
+		joinmsg.addr = client.addr;
+		joinmsg.name = client.account->name;
+		client.inRoom = it->second;
+
+		client.inRoom->msgQueue.push(wrapper);	// Also push this new thing to room
+		return 0;
+	} else {
+		DEBUG_PRINT("Room doesn't exist");
+		return 1;
+	}
+}
+
+void ServerLobby::createRoom(PlayerSession& creator, const sockaddr_in& in_addr) {
 	// Room count as roomID
 	auto result = this->allRooms.emplace(this->roomCount, new RoomHandler(this->sockfd));
 	if (result.second) {
@@ -20,14 +38,14 @@ void ServerLobby::createRoom(PlayerSession& creator, const sockaddr_in& addr) {
 		RoomHandler * newRoom = result.first->second;
 
 		creator.inRoom = newRoom;
-		newRoom->addPlayer(creator.account->playerID, creator.account->playerName, addr);	// Add host to room 
+		newRoom->addPlayer(creator.account->playerID, creator.account->playerName, in_addr);	// Add host to room 
 		this->roomCount++;
 	} else {
 		DEBUG_PRINT("Lobby: Create room failed for some reason???");
 	}	
 }
 
-void ServerLobby::LobbyHandle(MsgWrapper& wrapper, sockaddr_in& clientAddress) {
+void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddress) {
 	BaseMsg& msg = *wrapper.msg;
 
 	auto it = sessionRoomMap.find(clientAddress);
@@ -35,10 +53,10 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, sockaddr_in& clientAddress) {
 		// No such session exist yet
 		if (msg.type() == MsgType::AUTH) {
 			// Only process AUTH, any other unauthorized session will be dismissed
-			authorize(); // addSession(clientAddress); currentClient.account
+			// authorize(); // addSession(clientAddress); currentClient.account
 			//  = sessionRoomMap.at(clientAddress);
 		} else {
-			PRINT_ERROR("Dismissing message (not registered session)");
+			DEBUG_PRINT("Dismissing message (not registered session)");
 		}
 	} else {
 		PlayerSession& currentClient = it->second;
@@ -64,20 +82,7 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, sockaddr_in& clientAddress) {
 			break;
 		case MsgType::JOIN_ROOM:
 		{
-			JoinRoomMsg& joinmsg = static_cast<JoinRoomMsg&>(msg);
-			joinmsg.addr = clientAddress;
 
-			auto it = this->allRooms.find(joinmsg.roomID);
-			if (it != this->allRooms.end()) {
-				// Room exists, access the value
-				currentClient.inRoom = it->second;
-				joinmsg.addr = clientAddress;
-				joinmsg.name = currentClient.account->name;
-
-				currentClient.inRoom->msgQueue.push(wrapper);	// Also push this new thing to room
-			} else {
-				DEBUG_PRINT("Room doesn't exist");
-			}
 			break;
 		}
 		case MsgType::CREATE_ROOM:
@@ -140,6 +145,7 @@ void ServerLobby::kill() {
 // Adding entries to online joined
 void ServerLobby::addSession(const sockaddr_in& addr) {
 	PlayerSession newSession;
+	newSession.addr = addr;
 
 	// If exist, will skip
 	auto result = sessionRoomMap.emplace(addr, newSession);
