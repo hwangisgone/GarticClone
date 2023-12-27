@@ -7,21 +7,36 @@
 #include <arpa/inet.h>
 #include <thread>
 #include <atomic>
-
+#include <cstring>
 #include "msg/msg_format.hpp"
 
 class RoomHandler;
+
+struct Statistic{
+	int totalCount;
+	int successCount;
+};
 
 // State interface
 class ServerState {
 protected:
 	RoomHandler * room;	// This backreference can be used by States to transition the * RoomHandler to another State.
+
 public:
+	std::unordered_map<std::string, Statistic> statisticWord;
+
 	virtual void handle(const BaseMsg& msg, int playerID) = 0;
 
 	void setHandler(RoomHandler * handler) {
 		room = handler;
 	}
+
+	int percentageWord(char *word){
+		std::string wordString(word);
+		Statistic st  = statisticWord[wordString];
+		return st.successCount*100/st.totalCount;
+	}
+
 };
 
 // Concrete States
@@ -72,13 +87,13 @@ public:
 	int sockfd;
 	int host;	// playerID
 	int modeGame;
-	std::unordered_map<int, Player> playerMap;	// Map (playerID, Player)
+	std::unordered_map<int, Player> playerMap;	// Map (playerID, Player)	
 
 	RoomHandler(int sockfd);
 	~RoomHandler();
 
 	void setState(ServerState* newState);
-	void setMode( int modeGame);
+	void setMode(int modeGame);
 	
 	bool isDead();
 	void threadRun();
