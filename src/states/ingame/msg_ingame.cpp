@@ -9,12 +9,23 @@ using namespace std;
 // ************
 // TODO: finish draw msg
 // TODO: formalize all the serialize (since there's only 3 types: short, int and char[])
-void DrawMsg::serializeBody(MsgBuffer& buff) const {}
 
-void DrawMsg::deserializeBody(MsgBuffer& buff) {}
+uint32_t AnswerMsg::bodySize() const { 
+	return sizeof(uint32_t) + strlen(this->answer); // TODO: strlen or just plain 900
+}
+
+void DrawMsg::serializeBody(MsgBuffer& buff) const {
+	buff.serializeField(this->playerID);
+	buff.serializeField(this->clr, 3);
+}
+
+void DrawMsg::deserializeBody(MsgBuffer& buff) {
+	buff.serializeField(this->playerID);
+	buff.serializeField(this->clr, 3);
+}
 
 string DrawMsg::debugPrint() const {
-	return "";
+	return "drawnotimplmentened";
 }
 
 // **************

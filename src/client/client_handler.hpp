@@ -45,7 +45,7 @@ public:
 	void handleRecv(const BaseMsg& msg) override;
 };
 
-// enum GameState {
+// GameState {
 // 	LOBBY,
 // 	ROOM,
 // 	INGAME,

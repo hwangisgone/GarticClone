@@ -114,7 +114,7 @@ void ClientHandler::addPlayer(int playerID, const char * inputName) {
 
 		DisplayPlayer * newPlayerPtr = &result.first->second;
 		newPlayerPtr->currentScore = 0;
-		strcpy(newPlayerPtr->name, inputName);
+		strncpy(newPlayerPtr->name, inputName, 50);
 	} else {
 		DEBUG_PRINT("(Client) Joined failed. " + playerName + " already exists.");
 	}
