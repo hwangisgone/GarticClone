@@ -1,6 +1,8 @@
 <script>
 	// "export let state" allows everything outside to bind to this value
 	export let state = 1;
+
+	import { PlayerID } from '../store/store.ts';
 	// 0 is Login
 	// 1 is Lobby
 	// 2 is Room
@@ -8,7 +10,7 @@
 
 
 <button class="btn btn-accent" type="button" on:click={ () => state = 0 }>
-	Back
+	Back {$PlayerID}
 </button>
 
 <div>
@@ -20,6 +22,6 @@
 </div>
 
 
-<button class="btn btn-secondary" type="button" on:click={ () => state = 2 }>
+<button class="btn btn-secondary" type="button" on:click={ () => { window.getInRoom(roomID); state = 2; } }>
 	Go to a room
 </button>
