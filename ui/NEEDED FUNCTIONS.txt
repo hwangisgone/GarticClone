@@ -3,6 +3,7 @@
 window.getInRoom(roomID); 										-> client -> join room server
 
 // C++ goi Javascript
+endRoom(): ket thuc phong neu afk
 listUpdate(in_name, in_score);
 
 ROOM: them ten
