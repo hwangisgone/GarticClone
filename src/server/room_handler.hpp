@@ -45,7 +45,7 @@ public:
 	void handle(const BaseMsg& msg, int playerID) override;
 };
 
-// enum GameState {
+// GameState {
 // 	LOBBY,
 // 	ROOM,
 // 	INGAME,
@@ -85,8 +85,8 @@ public:
 	void addPlayer(int playerID, const char * inputName, const sockaddr_in& addr);
 	void removePlayer(int playerID);
 
-	void broadCast(BaseMsg& msg) const;	// Cannot use const for BaseMsg because sendMsg needs to calculate msgLength
-	void broadCastExcept(BaseMsg& msg, int playerID) const;
+	void broadcast(BaseMsg& msg) const;	// Cannot use const for BaseMsg because sendMsg needs to calculate msgLength
+	void broadcastExcept(BaseMsg& msg, int playerID) const;
 };
 
 #endif

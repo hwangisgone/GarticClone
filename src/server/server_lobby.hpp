@@ -1,9 +1,11 @@
 #ifndef SERVER_LOBBY_H
 #define SERVER_LOBBY_H
 
+#include <string>
+
 #include "sockaddr_in/sockaddr_in_functions.h"
 #include "room_handler.hpp"
-#include <string>
+#include "states/lobby/msg_lobby.hpp"
 
 struct PlayerAccount {
 	int playerID;
@@ -32,8 +34,10 @@ private:
 	int accountCount = 0;
 	std::vector<PlayerAccount> allAccounts;
 
-	
-	void createRoom(PlayerSession& creator, const sockaddr_in& addr);
+	bool joinRoom(PlayerSession& client, JoinRoomMsg& joinmsg);
+	void createRoom(PlayerSession& creator);
+	bool authorize(AuthMsg& authmsg);
+
 	void LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddress);
 
 	void addSession(const sockaddr_in& addr);
