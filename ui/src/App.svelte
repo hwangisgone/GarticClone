@@ -1,8 +1,7 @@
-<script>
+<!-- <script>
   import svelteLogo from './assets/svelte.svg'
   import viteLogo from './assets/vite.svg'
   import Counter from './lib/Counter.svelte'
-  import "./app.css";
 
   let num = 0;
   let num2 = 0;
@@ -26,7 +25,12 @@
       resole = result;
     })
   }
+
+
+  
+  let state = 0;
 </script>
+
 
 <main>
   <div>
@@ -37,7 +41,7 @@
       <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
     </a>
   </div>
-  <button class="btn btn-primary">Vite + Svelte</button>
+  <h1>Vite + Svelte</h1>
 
   <div class="card">
     <Counter />
@@ -72,4 +76,69 @@
   .read-the-docs {
     color: #888;
   }
+</style> -->
+<script>
+// @ts-nocheck
+
+
+import SignUp from "./SignUp.svelte";
+import Lobby from "./Lobby.svelte";
+// @ts-nocheck
+  //export let state = 0;
+  let username;
+  let password;
+  let error = 0;
+  function checkSignIn(username, password){
+    if ( username == '1' && password == '1') {
+      windowState = 1;
+    }
+    else{
+      error = 1;
+    }
+  }
+  function checkSignUp(){
+    windowState = 2;
+  }
+
+  let windowState = 0;
+</script>
+
+{#if windowState == 1}
+  <Lobby />
+{:else if windowState == 0}
+  <div class="grid items-center h-100 ">
+    <h1> Sign up</h1>
+    <h3> Username </h3>
+
+    <input bind:value = {username} />
+    <h3> Password </h3>
+    <input bind:value = {password} />
+  </div>
+  <div>
+    <button on:click={checkSignIn(username, password)}>
+      Play
+    </button>
+  
+    <button on:click={checkSignUp}> 
+      Sign Up
+    </button>
+  </div>
+  {#if error == 1}
+    <label> Incorrect account </label>
+  {/if}
+  
+{:else}
+  <SignUp />
+{/if}
+
+
+
+
+<style>
+	main {
+		/* display: grid; */
+		/* place-items: center; */
+		height: 100%;
+		background: url(./wood.svg);
+	}
 </style>
