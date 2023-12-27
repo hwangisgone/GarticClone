@@ -22,6 +22,6 @@
 </div>
 
 
-<button class="btn btn-secondary" type="button" on:click={ () => { window.getInRoom(roomID); state = 2; } }>
+<button class="btn btn-secondary" type="button" on:click={ () => { /*window.getInRoom(roomID);*/ state = 2; } }>
 	Go to a room
 </button>
