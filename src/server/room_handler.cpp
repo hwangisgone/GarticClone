@@ -66,12 +66,12 @@ void RoomHandler::setState(ServerState* newState) {
 }
 
 // broadcasting
-void RoomHandler::broadCast(BaseMsg& msg) const {
+void RoomHandler::broadcast(BaseMsg& msg) const {
 	for (const auto& pair : playerMap) {
 		sendMsg(this->sockfd, (struct sockaddr*)&pair.second.currentAddr, sizeof(pair.second.currentAddr), msg);
 	}
 }
-void RoomHandler::broadCastExcept(BaseMsg& msg, int playerID) const {
+void RoomHandler::broadcastExcept(BaseMsg& msg, int playerID) const {
 	for (const auto& pair : playerMap) {
 		if (pair.first != playerID) {
 			sendMsg(this->sockfd, (struct sockaddr*)&pair.second.currentAddr, sizeof(pair.second.currentAddr), msg);
@@ -94,8 +94,8 @@ void RoomHandler::addPlayer(int playerID, const char * inputName, const sockaddr
 		Player * newPlayerPtr = &result.first->second;
 		newPlayerPtr->currentScore = 0;
 		newPlayerPtr->currentAddr = addr;
-		// TODO: Optimize / Profile this strcpy (maybe we can use reference?)
-		strcpy(newPlayerPtr->name, inputName);
+		// TODO: Optimize / Profile this strncpy (maybe we can use reference?)
+		strncpy(newPlayerPtr->name, inputName, 50);
 
 		if (playerMap.size() == 1) {
 			host = playerID;			// Make host if there's 1 player

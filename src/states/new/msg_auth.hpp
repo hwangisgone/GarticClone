@@ -4,10 +4,16 @@
 #include <arpa/inet.h>
 #include "msg/msg_format.hpp"
 
+enum class AuthType : char
+{
+
+}
+
 class AuthMsg: public BaseMsg {
 private:
 	uint32_t bodySize() const override;
 public:
+	char auth_type;
 	char username[50];
 	char password[100];
 

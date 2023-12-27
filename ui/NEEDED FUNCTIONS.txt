@@ -1,0 +1,51 @@
+### NEEDED FUNCTIONS
+// Goi client C++
+window.getInRoom(roomID); 										-> client -> join room server
+
+// C++ goi Javascript
+endRoom(): ket thuc phong neu afk
+listUpdate(in_name, in_score);
+
+ROOM: them ten
+### NEEDED FUNCTIONS
+
+
+N rounds -> Leaderboard
+Time limit each round
+
+TODO: Time end -> Leaderboard
+TODO: different theme.
+
+https://learn.svelte.dev/tutorial/writable-stores
+
+
+LOBBY
+-> chon Phong
+let roomList = []
+
+let state = 0;
+
+{#each roomList as room (roomID)}
+<button on:click={() => {window.getInRoom(roomID); state = 2; } }> Join Room </button>
+
+
+UI ROOM
+let playerList = [
+	{
+		name: "ABC",
+		score: 0,
+	}
+]
+
+function listUpdate(in_name, in_score) {
+	playerList.add({ name: name, })
+}
+
+
+<html>
+
+{#each playerList as player}
+
+
+
+client update

@@ -15,6 +15,8 @@ private:
 	uint32_t bodySize() const override;
 public:
 	uint32_t roomID;
+
+	char name[50];		// Assigned during recv
 	sockaddr_in addr;	// Assigned during recv
 
 	JoinRoomMsg(): BaseMsg(MsgType::JOIN_ROOM) {}
