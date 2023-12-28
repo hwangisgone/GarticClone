@@ -4,7 +4,6 @@
 
 	export let state = 2;
 	export let roomState = 1;
-
 </script>
 
 <RoomLayout>
@@ -23,9 +22,7 @@
 		</button>
 	</div>
 
-	<div slot="draw">
-		<Canvas />
-	</div>
+	<Canvas slot="draw"/>
 
 	<div slot="interact">
 		Chatting chatty chat chat me chat with who?

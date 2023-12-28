@@ -2,8 +2,6 @@
 	import { onMount } from "svelte";
 
 	import { drawSettings } from '../store/store.ts';
-	// export let color;
-	// export let size;
 
 	export function clear() {
 		context.clearRect(0, 0, canvas.width, canvas.height);
@@ -11,7 +9,6 @@
 
 	let canvas;
 	let context;
-	let previous;
 
 	function get_coords(e) {
 		const { clientX, clientY } = e;
@@ -21,16 +18,30 @@
 		return { x, y };
 	}
 
+	function draw_circle(x, y, size, clr) {
+			context.fillStyle = clr;
+			context.beginPath();
+			context.arc(x, y, size, 0, 2 * Math.PI);
+			context.fill();
+	}
+	window.ingame_draw_circle = draw_circle;	// Assign 4
+
 	onMount(() => {
 		context = canvas.getContext('2d');
 
 		function resize() {
-			canvas.width = window.innerWidth;
-			canvas.height = window.innerHeight;
+			canvas.width = canvas.parentElement.clientWidth - 32;
+			canvas.height = canvas.parentElement.clientHeight - 32;
 		}
 
+		window.canvas = canvas;
+
 		window.addEventListener('resize', resize);
-		resize();
+
+		setTimeout(() => {
+			resize();
+		}, 1000);
+		
 
 		return () => {
 			window.removeEventListener('resize', resize);
@@ -38,11 +49,13 @@
 	});
 
 	let holding;
+	let canvasDisabled = false;
 </script>
 
 
 
 <canvas
+	width="15" height="10"
 	bind:this={canvas}
 	on:pointerdown={(e) => {
 		holding = true;
@@ -54,15 +67,10 @@
 		holding = false;
 	}}
 	on:pointermove={(e) => {
-		if (holding) {
+		if (holding && !canvasDisabled) {
 			const coords = get_coords(e);
-
-			context.fillStyle = $drawSettings.color;
-			context.beginPath();
-			context.arc(coords.x, coords.y, $drawSettings.size / 2, 0, 2 * Math.PI);
-			context.fill();
-
-			// window.requestDraw(coords.x, coords.y, size, color);
+			draw_circle(coords.x, coords.y, $drawSettings.size, $drawSettings.color);
+			window.requestDraw(coords.x, coords.y, $drawSettings.size, $drawSettings.color);
 		}
 
 		// if (e.buttons === 1) {
