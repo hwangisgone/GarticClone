@@ -5,22 +5,19 @@ project(GarticPhone VERSION 1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Include subdirectories
-add_subdirectory(src)
-
-
 
 # GUI
 # Read the content of the HTML file and generate a C++ source file
 file(READ "ui/dist/index.html" HTML_CONTENT)
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/html_const.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/html_const.cpp" @ONLY)
-
 message(STATUS "Read the HTML file")
 
-# Add your main C++ source file
+# Append HTML to file
 add_executable(CharadeioClient src/bind.cc "${CMAKE_CURRENT_BINARY_DIR}/html_const.cpp")
-
 target_include_directories(CharadeioClient PRIVATE "libs/webview/")
+
+# Find required packages
+find_package(SQLite3 REQUIRED)
 
 # Check the target system
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
@@ -40,3 +37,7 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 else()
 	message(FATAL_ERROR "Unsupported operating system: ${CMAKE_SYSTEM_NAME}")
 endif()
+
+
+# Include subdirectories
+add_subdirectory(src)

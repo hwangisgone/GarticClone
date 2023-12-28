@@ -91,8 +91,8 @@ void ServerLobby::run() {
 	// allRooms.push_back(new RoomHandler(this->sockfd));
 	// RoomHandler * theOnlyOneRoom = allRooms.back();
 
-	PlayerAccount oneAccount;
-	oneAccount.playerID = 1;
+	// PlayerAccount oneAccount;
+	// oneAccount.playerID = 1;
 
 	MsgWrapper oneWrapper;
 	int timeout_counter = 0;
