@@ -10,7 +10,7 @@ static int callback(void* NotUsed, int argc, char** argv, char** azColName);
 static int insertData(const char* s, const char* username, const char* password, const char* fullname, const char* emaiorphone);
 
 int main() {
-    const char* dir = "C:\\Users\\ADMIN\\Desktop\\database\\data.db";
+    const char* dir = "./data.db";
 
     char UserName[50];
     char Password[50];

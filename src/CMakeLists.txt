@@ -2,6 +2,8 @@
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # Include subdirectories
+add_subdirectory(database)
+
 add_subdirectory(sockaddr_in)
 add_subdirectory(msg)
 add_subdirectory(states)
