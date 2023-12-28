@@ -140,7 +140,6 @@ void RoomHandler::removePlayer(int playerID) {
 void RoomHandler::setMode(int modeGame){
 	// get mode game and push to collection in game in game 
 
-	ServerState *svs = this->currentState;
 
 	if(modeGame == 1){
 		// 6 word | 3 easy, 2 medium, 1 hard
@@ -148,43 +147,42 @@ void RoomHandler::setMode(int modeGame){
 		for( int i = 1 ; i<= 3 ; i++){
 			// get i random word
 			// push to vector collection
-
-			getRandomString(svs->easy);
+			wordCollection.push_back(getRandomString(easy));
 		}
 
 		for( int i = 1 ; i<= 2; i++){
-
+			wordCollection.push_back(getRandomString(medium));
 		}
 
+		wordCollection.push_back(getRandomString(hard));
 
 	}
 	else if(modeGame == 2){	
 		// 8 word | 2 easy, 3 medium, 3 hard
 		for( int i = 1 ; i<= 2 ; i++){
-
+			wordCollection.push_back(getRandomString(easy));
 		}
 
 		for ( int i = 1 ; i<= 3 ; i++){
-
+			wordCollection.push_back(getRandomString(medium));
 		}
 
 		for( int i = 1 ; i <= 3 ; i++){
-
+			wordCollection.push_back(getRandomString(hard));
 		}
 
 	}else {
 		// 10 word | 2 easy, 3 medium, 5 hard
-
 		for( int i = 1 ; i<= 2 ; i++){
-
+			wordCollection.push_back(getRandomString(easy));
 		}
 
 		for ( int i = 1 ; i<= 3 ; i++){
-
+			wordCollection.push_back(getRandomString(medium));
 		}
 
 		for( int i = 1 ; i <= 5 ; i++){
-
+			wordCollection.push_back(getRandomString(hard));
 		}
 	}	
 }

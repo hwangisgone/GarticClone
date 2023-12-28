@@ -8,6 +8,8 @@
 
 std::string getRandomString(const std::vector<std::string>& vec);
 
+std::string getStringCollection(const std::vector<std::string>& vec);
+
 std::vector<std::string> hard;
 
 std::vector<std::string> medium;

@@ -9,6 +9,7 @@
 #include "msg_ingame.hpp"
 #include "msg_next_end.hpp"
 #include "debugging.h"
+#include "word_list.hpp"
 
 using namespace std;
 
@@ -83,14 +84,17 @@ void handleAnswer(const BaseMsg &msg, int playerID, char *correct_ans, RoomHandl
 	}
 }
 
-void startGame(const BaseMsg &msg)
+void startGame(const BaseMsg &msg, string wordChoose, char *ans)
 {
 	// msg -> answer
 	// strcmp(answer, answer);
 	// change Word;
-	
 	// maybe get word from the queue
+	int length = wordChoose.length();
+	ans = new char[length+1];
+	strcpy(ans, wordChoose.c_str());
 }
+
 
 void InGameState::handle(const BaseMsg &msg, int playerID)
 {
@@ -100,12 +104,16 @@ void InGameState::handle(const BaseMsg &msg, int playerID)
 	state_playerMap = room->playerMap;
 	auto index = state_playerMap.find(playerID);
 
+	vector<string> wordCollection = room->wordCollection;
+
 	int statisticPercent = percentageWord(answer);
 
 	switch (msg.type())
 	{
 	case MsgType::START_GAME:
-		startGame(static_cast<const StartMsg &>(msg));
+		// start game with word choose from word collection
+		startGame(static_cast<const StartMsg &>(msg), getRandomString(room->wordCollection), answer);
+		break;
 	case MsgType::ANSWER:
 		handleAnswer(static_cast<const AnswerMsg &>(msg), playerID, answer, room, statisticWord, statisticPercent);
 		break;
@@ -113,7 +121,9 @@ void InGameState::handle(const BaseMsg &msg, int playerID)
 		handleScore(static_cast<const ScoreMsg &>(msg), playerID, answer, room, statisticPercent);
 		break;
 	case MsgType::NEXT_ROUND:
-
+		// next_round with word choose from word collection
+		startGame(static_cast<const NextRoundMsg &>(msg) , getRandomString(room->wordCollection), answer);
+		break;
 	default:
 		cerr << "SERVER ROOM: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;
 	}

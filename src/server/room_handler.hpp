@@ -71,6 +71,7 @@ public:
 struct Player {
 	int currentScore;
 	char name[50];
+	// Account * 
 	sockaddr_in currentAddr;
 };
 
@@ -84,7 +85,7 @@ private:
 public:
 	TSQueue<MsgWrapper> msgQueue;				// Exchanging data between threads
 	
-	std::vector<string> wordCollection;
+	std::vector<std::string> wordCollection;
 	
 	int sockfd;
 	int host;	// playerID
