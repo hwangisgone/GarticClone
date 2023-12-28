@@ -12,18 +12,16 @@ struct Word{
 	int successCount;
 };
 
-std::vector<Word> wordsGlobal;
+extern std::vector<Word> wordsGlobal;
+extern std::vector<Word> hard;
+extern std::vector<Word> medium;
+extern std::vector<Word> easy;
+
 // get random from a vector Collection word 
 Word getRandomWord(std::vector<Word>& words);
 
 // get random stirng from vector and remove it from this vector
 Word getRandomAndRemove(std::vector<Word>& words);
-
-std::vector<Word> hard;
-
-std::vector<Word> medium;
-
-std::vector<Word> easy;
 
 int getLevel(char *word);
 

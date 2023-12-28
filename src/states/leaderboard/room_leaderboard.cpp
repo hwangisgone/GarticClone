@@ -26,12 +26,12 @@ using namespace std;
 //     return inputMap;
 // }
 
-Player getPlayerWin(unordered_map<int, Player>& inputMap){
+// Player getPlayerWin(unordered_map<int, Player>& inputMap){
 
-	unordered_map<int, Player> map_sort = getSortedPlayerMap(inputMap);
-	auto first_one = map_sort.begin();
-	return first_one->second;
-}
+// 	unordered_map<int, Player> map_sort = getSortedPlayerMap(inputMap);
+// 	auto first_one = map_sort.begin();
+// 	return first_one->second;
+// }
 
 // // for saving player (account) statistic point
 // int getPlayerPoint(unordered_map<int, Player>& inputMap, int playerID){

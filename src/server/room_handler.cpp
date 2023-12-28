@@ -4,7 +4,7 @@
 
 #include "msg/msg_sendrecv.h"
 #include "debugging.h"
-#include "word_list.hpp"
+#include "database/word_list.hpp"
 
 #include "database/textdatabase.hpp"
 
@@ -136,7 +136,7 @@ void RoomHandler::removePlayer(int playerID) {
 	}
 }
 
-
+void RoomHandler::setMode(int modeGame){
 	Word randomWord ;
 	if(modeGame == 1){
 		// 6 word | 3 easy, 2 medium, 1 hard

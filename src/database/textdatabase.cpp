@@ -1,7 +1,9 @@
 #include <unordered_map>
-#include <textdatabase.hpp>
+
 #include <fstream>
 #include <iostream>
+
+#include "textdatabase.hpp"
 
 std::unordered_map<int, PlayerAccount> allAccounts;
 int accountCount = 0;
@@ -66,7 +68,7 @@ std::vector<PlayerAccount>::iterator findPlayer(std::vector<PlayerAccount> &acco
         if( it->playerID == playerID)
             return it;
     }
-    return account.end(); // Word not found
+    return accounts.end(); // Word not found
 }
 
 void updatePlayer(std::vector<PlayerAccount> &accounts, int playerID, int plusScore, bool win){
