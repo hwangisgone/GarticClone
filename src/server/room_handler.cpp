@@ -137,54 +137,58 @@ void RoomHandler::removePlayer(int playerID) {
 }
 
 
-// void RoomHandler::setMode(int modeGame){
-// 	// get mode game and push to collection in game in game 
+	Word randomWord ;
+	if(modeGame == 1){
+		// 6 word | 3 easy, 2 medium, 1 hard
 
-// 	ServerState *svs = this->currentState;
+		for( int i = 1 ; i<= 3 ; i++){
+			// get i random word
+			// push to vector collection
+			randomWord = getRandomWord(easy);
+			wordCollection.push_back(randomWord);
+		}
 
-// 	if(modeGame == 1){
-// 		// 6 word | 3 easy, 2 medium, 1 hard
+		for( int i = 1 ; i<= 2; i++){
+			randomWord = getRandomWord(medium);
+			wordCollection.push_back(randomWord);
+		}
 
-// 		for( int i = 1 ; i<= 3 ; i++){
-// 			// get i random word
-// 			// push to vector collection
+		randomWord = getRandomWord(hard);
+		wordCollection.push_back(randomWord);
 
-// 			getRandomString(svs->easy);
-// 		}
+	}
+	else if(modeGame == 2){	
+		// 8 word | 2 easy, 3 medium, 3 hard
+		for( int i = 1 ; i<= 2 ; i++){
+			randomWord = getRandomWord(easy);
+			wordCollection.push_back(randomWord);
+		}
 
-// 		for( int i = 1 ; i<= 2; i++){
+		for ( int i = 1 ; i<= 3 ; i++){
+			randomWord = getRandomWord(medium);
+			wordCollection.push_back(randomWord);
+		}
 
-// 		}
+		for( int i = 1 ; i <= 3 ; i++){
+			randomWord = getRandomWord(hard);
+			wordCollection.push_back(randomWord);
+		}
 
+	}else {
+		// 10 word | 2 easy, 3 medium, 5 hard
+		for( int i = 1 ; i<= 2 ; i++){
+			randomWord = getRandomWord(easy);
+			wordCollection.push_back(randomWord);
+		}
 
-// 	}
-// 	else if(modeGame == 2){	
-// 		// 8 word | 2 easy, 3 medium, 3 hard
-// 		for( int i = 1 ; i<= 2 ; i++){
+		for ( int i = 1 ; i<= 3 ; i++){
+			randomWord = getRandomWord(medium);
+			wordCollection.push_back(randomWord);
+		}
 
-// 		}
-
-// 		for ( int i = 1 ; i<= 3 ; i++){
-
-// 		}
-
-// 		for( int i = 1 ; i <= 3 ; i++){
-
-// 		}
-
-// 	}else {
-// 		// 10 word | 2 easy, 3 medium, 5 hard
-
-// 		for( int i = 1 ; i<= 2 ; i++){
-
-// 		}
-
-// 		for ( int i = 1 ; i<= 3 ; i++){
-
-// 		}
-
-// 		for( int i = 1 ; i <= 5 ; i++){
-
-// 		}
-// 	}	
-// }
+		for( int i = 1 ; i <= 5 ; i++){
+			randomWord = getRandomWord(hard);
+			wordCollection.push_back(randomWord);
+		}
+	}	
+}

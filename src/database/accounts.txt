@@ -1,3 +1,3 @@
-playerID username password gamesplayed numfirst
-1 abcd 1234 0 0
-2 iiii ieme 1 2
+playerID username password gamesplayed numfirst totalscore
+1 abcd 1234 0 0 100
+2 iiii ieme 1 2 1500

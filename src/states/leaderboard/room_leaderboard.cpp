@@ -26,10 +26,12 @@ using namespace std;
 //     return inputMap;
 // }
 
-// int getPlayerWin(unordered_map<int, Player>& inputMap){
-// 	auto first_one = inputMap.begin();
-// 	return first_one->first;
-// }
+Player getPlayerWin(unordered_map<int, Player>& inputMap){
+
+	unordered_map<int, Player> map_sort = getSortedPlayerMap(inputMap);
+	auto first_one = map_sort.begin();
+	return first_one->second;
+}
 
 // // for saving player (account) statistic point
 // int getPlayerPoint(unordered_map<int, Player>& inputMap, int playerID){
@@ -62,10 +64,13 @@ using namespace std;
 void LeaderboardState::handle(const BaseMsg& msg, int playerID) {
 	DEBUG_PRINT("  (LeaderboardState) " + msg.toString());
 
+	//unordered_map<int,Player> sort_playerMap;
+	// sort_playerMap = room->playerMap;
+
 	switch (msg.type())
 	{
 	case MsgType::END_GAME:
-
+		//sort_playerMap = getSortedPlayerMap(sort_playerMap);
 		break;
 	default:
 		cerr << "SERVER ROOM: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;
