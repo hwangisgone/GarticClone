@@ -10,13 +10,10 @@
 #include <cstring>
 #include "msg/msg_format.hpp"
 #include "database/textdatabase.hpp"
+#include "word_list.hpp";
 
 class RoomHandler;
 
-struct Statistic{
-	int totalCount;
-	int successCount;
-};
 
 // State interface
 class ServerState {
@@ -24,18 +21,11 @@ protected:
 	RoomHandler * room;	// This backreference can be used by States to transition the * RoomHandler to another State.
 
 public:
-	std::unordered_map<std::string, Statistic> statisticWord;
 
 	virtual void handle(const BaseMsg& msg, int playerID) = 0;
 
 	void setHandler(RoomHandler * handler) {
 		room = handler;
-	}
-
-	int percentageWord(char *word){
-		std::string wordString(word);
-		Statistic st  = statisticWord[wordString];
-		return st.successCount*100/st.totalCount;
 	}
 
 };
@@ -85,7 +75,7 @@ private:
 public:
 	TSQueue<MsgWrapper> msgQueue;				// Exchanging data between threads
 	
-	std::vector<std::string> wordCollection;
+	std::vector<Word> wordCollection;
 	
 	int sockfd;
 	int host;	// playerID

@@ -96,7 +96,7 @@ void RoomHandler::addPlayer(int playerID, const char * inputName, const sockaddr
 		newPlayerPtr->currentScore = 0;
 		newPlayerPtr->currentAddr = addr;
 		// TODO: Optimize / Profile this strncpy (maybe we can use reference?)
-		strncpy(newPlayerPtr->name, inputName, 50);
+		strncpy(newPlayerPtr->account->playerName, inputName, 50);
 
 		if (playerMap.size() == 1) {
 			host = playerID;			// Make host if there's 1 player
@@ -140,49 +140,58 @@ void RoomHandler::removePlayer(int playerID) {
 void RoomHandler::setMode(int modeGame){
 	// get mode game and push to collection in game in game 
 
-
+	Word randomWord ;
 	if(modeGame == 1){
 		// 6 word | 3 easy, 2 medium, 1 hard
 
 		for( int i = 1 ; i<= 3 ; i++){
 			// get i random word
 			// push to vector collection
-			wordCollection.push_back(getRandomString(easy));
+			randomWord = getRandomWord(easy);
+			wordCollection.push_back(randomWord);
 		}
 
 		for( int i = 1 ; i<= 2; i++){
-			wordCollection.push_back(getRandomString(medium));
+			randomWord = getRandomWord(medium);
+			wordCollection.push_back(randomWord);
 		}
 
-		wordCollection.push_back(getRandomString(hard));
+		randomWord = getRandomWord(hard);
+		wordCollection.push_back(randomWord);
 
 	}
 	else if(modeGame == 2){	
 		// 8 word | 2 easy, 3 medium, 3 hard
 		for( int i = 1 ; i<= 2 ; i++){
-			wordCollection.push_back(getRandomString(easy));
+			randomWord = getRandomWord(easy);
+			wordCollection.push_back(randomWord);
 		}
 
 		for ( int i = 1 ; i<= 3 ; i++){
-			wordCollection.push_back(getRandomString(medium));
+			randomWord = getRandomWord(medium);
+			wordCollection.push_back(randomWord);
 		}
 
 		for( int i = 1 ; i <= 3 ; i++){
-			wordCollection.push_back(getRandomString(hard));
+			randomWord = getRandomWord(hard);
+			wordCollection.push_back(randomWord);
 		}
 
 	}else {
 		// 10 word | 2 easy, 3 medium, 5 hard
 		for( int i = 1 ; i<= 2 ; i++){
-			wordCollection.push_back(getRandomString(easy));
+			randomWord = getRandomWord(easy);
+			wordCollection.push_back(randomWord);
 		}
 
 		for ( int i = 1 ; i<= 3 ; i++){
-			wordCollection.push_back(getRandomString(medium));
+			randomWord = getRandomWord(medium);
+			wordCollection.push_back(randomWord);
 		}
 
 		for( int i = 1 ; i <= 5 ; i++){
-			wordCollection.push_back(getRandomString(hard));
+			randomWord = getRandomWord(hard);
+			wordCollection.push_back(randomWord);
 		}
 	}	
 }
