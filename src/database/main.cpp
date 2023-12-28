@@ -112,6 +112,7 @@ static int insertData(const char* s, const char* username, const char* password,
 
     if (exit != SQLITE_OK) {
         cerr << "Error in insertData function." << endl;
+        cerr << messageError << endl;
         sqlite3_free(messageError);
     }
     else {
@@ -132,6 +133,32 @@ static int callback(void* NotUsed, int argc, char** argv, char** azColName) {
     }
 
     cout << endl;
+
+    return 0;
+}
+
+
+static int createTable(const char* s)
+{
+    sqlite3* DB;
+    char* messageError;
+
+    string sql = "INSERT INTO Player(Username, Password, Fullname, EmailOrPhone) ";
+
+    int exit = sqlite3_open(s, &DB);
+    /* An open database, SQL to be evaluated, Callback function, 1st argument to callback, Error msg written here */
+    exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
+
+    if (exit != SQLITE_OK) {
+        cerr << "Error in insertData function." << endl;
+        cerr << messageError << endl;
+        sqlite3_free(messageError);
+    }
+    else {
+        cout << "Records inserted successfully!" << endl;
+    }
+
+    sqlite3_close(DB); // Close the connection after use
 
     return 0;
 }
