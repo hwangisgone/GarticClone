@@ -133,7 +133,7 @@ static int createTable(const char* s)
     char* messageError;
     cout << "Hello from create table!\n";
    
-    string sql = R"(CREATE TABLE Player2 (
+    string sql = R"(CREATE TABLE Player (
         ID	INTEGER,
         Username	TEXT UNIQUE,
         Password	TEXT,
