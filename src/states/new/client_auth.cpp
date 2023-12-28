@@ -21,10 +21,10 @@ void AuthState::handleRecv(const BaseMsg& msg) {
 	DEBUG_PRINT("  (StateAuth) " + msg.toString());
 
 	switch (msg.type()) {
-		// case MsgType::FAILURE: 
-		// break;
-		// case MsgType::ROOM_LIST: 
-		// break;
+		case MsgType::FAILURE: 
+		break;
+		case MsgType::ROOM_LIST:
+		break;
 		default:
 			cerr << "CLIENT AUTH: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;
 	}

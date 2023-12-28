@@ -7,11 +7,7 @@
 #include "room_handler.hpp"
 #include "states/lobby/msg_lobby.hpp"
 
-struct PlayerAccount {
-	int playerID;
-	int multiGameScore;
-	char playerName[50];
-};
+#include "database/textdatabase.hpp"
 
 struct PlayerSession {
 	PlayerAccount * account = nullptr;
@@ -30,9 +26,6 @@ private:
 	// Map roomID with room
 	int roomCount = 0;
 	std::unordered_map<int, RoomHandler *> allRooms;
-
-	int accountCount = 0;
-	std::vector<PlayerAccount> allAccounts;
 
 	bool joinRoom(PlayerSession& client, JoinRoomMsg& joinmsg);
 	void createRoom(PlayerSession& creator);

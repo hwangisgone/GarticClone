@@ -20,13 +20,13 @@ int sendMsg(int socket, struct sockaddr * targetAddr, socklen_t targetAddrLen, B
 	// Need refactoring
 	ssize_t sentBytes = sendto(socket, sendrecvBuffer.onceBuffer, msg.length(), 0, targetAddr, targetAddrLen);
 	if (sentBytes < 0) {
-		std::cerr << "Error sending data" << std::endl;
+		DEBUG_PRINT("Error sending data");
 		return -1;
 	}
 
 	// Need checking??
 	if (sentBytes != msg.length()) {
-		std::cerr << "ERROR: SEND BYTES != MSG LENGTH: " << sentBytes << " != " << msg.length() << "\n";
+		DEBUG_PRINT("ERROR: SEND BYTES != MSG LENGTH: " + std::to_string(sentBytes) + " != " + std::to_string(msg.length()) );
 	}
 
 	return 0;
@@ -47,7 +47,7 @@ std::unique_ptr<BaseMsg> recvMsg(int socket, struct sockaddr * targetAddr, sockl
 	if (msg) {
 		DEBUG_PRINT(msg->toString());
 		if (receivedBytes != msg->length()) {
-			std::cerr << "ERROR: RECEIVED BYTES != MSG LENGTH: " << receivedBytes << " != " << msg->length() << "\n";
+			DEBUG_PRINT("ERROR: RECEIVED BYTES != MSG LENGTH: " + std::to_string(receivedBytes) + " != " + std::to_string(msg->length()) );
 		}
 	}
 

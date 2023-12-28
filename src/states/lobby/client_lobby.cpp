@@ -1,7 +1,5 @@
 #include <iostream>
 
-#include <iostream>
-
 #include "client/client_handler.hpp"
 
 #include "msg_lobby.hpp"
@@ -9,6 +7,12 @@
 
 using namespace std;
 
+void LobbyState::requestJoinRoom(int roomID) {
+	JoinRoomMsg msg;
+	msg.roomID = roomID;
+
+	ClientHandler::clientSendMsg(msg);
+}
 
 void LobbyState::handleRecv(const BaseMsg &msg)
 {

@@ -140,9 +140,9 @@ void ServerLobby::addSession(const sockaddr_in& addr) {
 	// If exist, will skip
 	auto result = sessionRoomMap.emplace(addr, newSession);
 	if (result.second) {
-		std::cout << "Lobby: Joined successful!" << std::endl;
+		DEBUG_PRINT("Lobby: Joined successful!");
 	} else {
-		std::cout << "(Address mapped)" << std::endl;
+		DEBUG_PRINT("(Address mapped)");
 	}
 }
 
@@ -152,8 +152,8 @@ void ServerLobby::removeSession(const sockaddr_in& addr) {
 	auto result = sessionRoomMap.erase(addr);
 	// Check if the removal was successful
 	if (result == 1) {
-		std::cout << "Lobby: Remove successful!" << std::endl;
+		DEBUG_PRINT("Lobby: Remove successful!");
 	} else {
-		std::cout << "Lobby: Remove player failed. Address not found." << std::endl;
+		DEBUG_PRINT("Lobby: Remove player failed. Address not found.");
 	}
 }

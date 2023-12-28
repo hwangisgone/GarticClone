@@ -1,43 +1,19 @@
 #include <iostream>
-#include <thread>
-
-#include <sys/socket.h>
-#include <arpa/inet.h>
 
 #include "network_const.h"
-#include "client/client_init.hpp"
 
-#include "states/new/msg_auth.hpp"
+#include "client/client_init.hpp"
+#include "states/test_input.hpp"
 
 using namespace std;
 
 int inputThread() {
-	string input, username, password;
-	char auth_type = 0;
-	cout << "Input? (reg | login)" << endl;
+	string input; 
+	cout << "Input? ( auth )" << endl;
 	cin >> input;
 
 	if (input == "reg" || input == "login") {
-		if (input == "reg") {
-			auth_type = 0;
-		} else {
-			auth_type = 1;
-		}
-
-		// TODO: limit it in the UI
-		cout << "Username: "; cin >> username;
-		while (username.length() >= 50) {
-			cout << "Username (<50 characters):";
-			cin >> username;
-		}
-
-		cout << "Password: "; cin >> password;
-		while (password.length() >= 100) {
-			cout << "Password (<100 characters):";
-			cin >> password;
-		}
-
-		AuthState::requestLogin(auth_type, username.c_str(), password.c_str());
+		authInput();
 
 		return 0;
 	} else {

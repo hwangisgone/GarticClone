@@ -33,7 +33,7 @@ int initialize_server(int port) {
 		return -1;
 	}
 
-	std::cout << "Server is listening on port " << port << std::endl;
+	printf("Server is listening on port %d\n", port);
 	return serverSocket;
 }
 
