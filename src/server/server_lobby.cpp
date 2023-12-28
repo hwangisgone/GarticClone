@@ -53,6 +53,19 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 			if (loggedacc != nullptr) {
 				// If auth success
 				this->addSession(clientAddress, *loggedacc);
+
+				// Send success msg first
+				AuthMsg successmsg;
+				sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), successmsg);
+
+				// Send all room present
+				for (const auto& pair : this->allRooms) {
+					RoomListMsg msg;
+					msg.roomID = pair.first;
+					strncpy(msg.roomName, pair.second->roomName, 50);
+					
+					sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), msg);
+				}
 			}
 		} else {
 			DEBUG_PRINT("Dismissing message (not registered session)");

@@ -4,9 +4,9 @@
 #include "msg/msg_format.hpp"
 
 // TODO: Implement this?
-class DestroyRoomMsg : public BaseMsg {
-public:
-	DestroyRoomMsg() : BaseMsg(MsgType::DESTROY_ROOM) {}
-};
+// class DestroyRoomMsg : public BaseMsg {
+// public:
+// 	DestroyRoomMsg() : BaseMsg(MsgType::DESTROY_ROOM) {}
+// };
 
 #endif

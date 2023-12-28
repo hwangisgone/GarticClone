@@ -3,13 +3,13 @@
 #include "network_const.h"
 
 #include "client/client_init.hpp"
-#include "states/test_input.hpp"
+#include "in_out/test_input.hpp"
 
 using namespace std;
 
 int inputToMsg() {
 	string input;
-	cout << "Input? (auth | joinroom x)" << endl;
+	cout << "Input? ( auth | joinroom x )" << endl;
 	cin >> input;
 
 	if (input == "auth") {

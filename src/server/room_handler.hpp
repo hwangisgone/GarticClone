@@ -90,6 +90,8 @@ public:
 	
 	int sockfd;
 	int host;	// playerID
+	char roomName[50];
+
 	int modeGame;
 	std::unordered_map<int, Player> playerMap;	// Map (playerID, Player)	
 

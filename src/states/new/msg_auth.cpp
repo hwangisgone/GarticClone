@@ -4,8 +4,7 @@
 
 using namespace std;
 
-uint32_t AuthMsg::bodySize() const { return 1 + 50 + 100; } // 4 bytes
-
+ // 4 bytes
 void AuthMsg::serializeBody(MsgBuffer& buff) const {
 	buff.serializeField(&this->auth_type, 1);
 	buff.serializeField(this->username, 50);

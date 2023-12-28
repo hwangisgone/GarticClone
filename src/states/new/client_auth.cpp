@@ -22,10 +22,12 @@ void AuthState::handleRecv(const BaseMsg& msg) {
 
 	switch (msg.type()) {
 		case MsgType::FAILURE: 
-		break;
-		case MsgType::ROOM_LIST:
-			
-		break;
+			DEBUG_PRINT(" (Wrong password or username) ");
+			break;
+		case MsgType::AUTH:
+			DEBUG_PRINT(" (Login success!!!!) ");
+			this->client->setState(new LobbyState());
+			break;
 		default:
 			cerr << "CLIENT AUTH: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;
 	}
