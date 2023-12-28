@@ -1,9 +1,10 @@
-#include <string>
+#include <cstring>
 
 #include "room_handler.hpp"
 
 #include "msg/msg_sendrecv.h"
 #include "debugging.h"
+#include "word_list.hpp"
 
 // roomThread related
 void RoomHandler::threadRun() {	// This thing runs at separate thread?
@@ -137,19 +138,53 @@ void RoomHandler::removePlayer(int playerID) {
 }
 
 void RoomHandler::setMode(int modeGame){
+	// get mode game and push to collection in game in game 
 
-	std::unordered_map<std::string, Statistic> _statisticWord;
+	ServerState *svs = this->currentState;
 
-	// get mode game and push to queue in game 
 	if(modeGame == 1){
-		// get 7 easy word, 2 medium word, 1 hard word
+		// 6 word | 3 easy, 2 medium, 1 hard
+
+		for( int i = 1 ; i<= 3 ; i++){
+			// get i random word
+			// push to vector collection
+
+			getRandomString(svs->easy);
+		}
+
+		for( int i = 1 ; i<= 2; i++){
+
+		}
+
 
 	}
 	else if(modeGame == 2){	
-		// get 5 easy word, 3 medium word, 2 hard word
+		// 8 word | 2 easy, 3 medium, 3 hard
+		for( int i = 1 ; i<= 2 ; i++){
 
-	}else if(modeGame == 3){
-		// get 2 easy word, 3 medium word, 5 hard word
+		}
 
+		for ( int i = 1 ; i<= 3 ; i++){
+
+		}
+
+		for( int i = 1 ; i <= 3 ; i++){
+
+		}
+
+	}else {
+		// 10 word | 2 easy, 3 medium, 5 hard
+
+		for( int i = 1 ; i<= 2 ; i++){
+
+		}
+
+		for ( int i = 1 ; i<= 3 ; i++){
+
+		}
+
+		for( int i = 1 ; i <= 5 ; i++){
+
+		}
 	}	
 }
