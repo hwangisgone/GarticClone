@@ -85,6 +85,8 @@ private:
 public:
 	TSQueue<MsgWrapper> msgQueue;				// Exchanging data between threads
 	
+	std::vector<string> wordCollection;
+	
 	int sockfd;
 	int host;	// playerID
 	int modeGame;
