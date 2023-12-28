@@ -1,19 +1,22 @@
 <script>
+	import { UIstate } from '../store/store.ts';
+
 	import Register from './Register.svelte';
 
-	// "export let state" allows everything outside to bind to this value
-	export let state = 0;
-	// 0 is Login
-	// 1 is Lobby
-	// 2 is Room
 
 	function toLobby() {
-		state = 1;
+		$UIstate = 1;
 	}
+	window.auth_toLobby = toLobby;	// Assign 1;
+
+
 
 	let loginState = 0;
 	// 0 for default login
 	// 1 for register
+
+	let username = "";
+	let password = "";
 </script>
 
 <div class="h-screen flex flex-col gap-4 items-center justify-center">
@@ -21,7 +24,13 @@
 	{#if loginState == 0}
 		<div>You are trying to login</div>
 		<!-- on:click makes the button do something everytime the button is clicked -->
-		<button class="btn btn-primary" type="button" on:click={toLobby}>
+
+		<h3> Username </h3>
+		<input type="text" class="input input-bordered" bind:value = {username} />
+		<h3> Password</h3>
+		<input type="password" class="input input-bordered" bind:value = {password} />
+
+		<button class="btn btn-primary" type="button" on:click={() => window.requestLogin(1, username, password)}>
 			Login (go to Lobby)
 		</button>
 

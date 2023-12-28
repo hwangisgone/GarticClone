@@ -8,7 +8,7 @@
 	// 2 is Room
 
 
-	let roomState = 0;
+	let roomState = 1;
 	// 0 is Room (get ready)
 	// 1 is Game
 	// 2 is leaderboard

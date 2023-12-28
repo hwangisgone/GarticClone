@@ -1,4 +1,4 @@
-<div class="h-screen w-screen flex flex-col p-16 pt-4 gap-4">
+<div class="h-screen w-screen flex flex-col p-8 pt-4 gap-4">
 
 	<div>
 		<slot name="header">

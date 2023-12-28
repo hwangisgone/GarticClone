@@ -3,24 +3,19 @@
 	import Lobby from './lobby/Lobby.svelte';
 	import Room from './room/Room.svelte';
 
-	import { PlayerID } from './store/store.ts';
-
-	let state = 0;
-	// 0 is Login
-	// 1 is Lobby
-	// 2 is Room
+	import { PlayerID, UIstate } from './store/store.ts';
 </script>
 
 
 
-{#if state == 0}
+{#if $UIstate == 0}
 	<!-- "bind:state" allows Login to change the state (of App) -->
 	<input type="number" bind:value={$PlayerID} >
-	<Login bind:state />  
-{:else if state == 1}
-	<Lobby bind:state />
-{:else if state == 2}
-	<Room bind:state />
+	<Login />  
+{:else if $UIstate == 1}
+	<Lobby />
+{:else if $UIstate == 2}
+	<Room />
 {:else}
 	<!-- LOADING SCREEN -->
 {/if}

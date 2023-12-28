@@ -2,7 +2,7 @@
 	import RoomLayout from './RoomLayout.svelte';
 
 	export let state = 2;
-	export let roomState = 0;
+	export let roomState = 1;
 
 </script>
 

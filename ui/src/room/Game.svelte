@@ -1,5 +1,6 @@
 <script>
 	import RoomLayout from './RoomLayout.svelte';
+	import Canvas from './Canvas.svelte';
 
 	export let state = 2;
 	export let roomState = 1;
@@ -23,7 +24,7 @@
 	</div>
 
 	<div slot="draw">
-		<div>The game is fun!</div>
+		<Canvas />
 	</div>
 
 	<div slot="interact">
