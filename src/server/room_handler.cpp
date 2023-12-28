@@ -6,6 +6,8 @@
 #include "debugging.h"
 #include "word_list.hpp"
 
+#include "database/textdatabase.hpp"
+
 // roomThread related
 void RoomHandler::threadRun() {	// This thing runs at separate thread?
 	aliveThread = true;
@@ -81,10 +83,10 @@ void RoomHandler::broadcastExcept(BaseMsg& msg, int playerID) const {
 }
 
 // playerMap
-void RoomHandler::addPlayer(int playerID, const char * inputName, const sockaddr_in& addr) {
-	std::string playerName(inputName);
+void RoomHandler::addPlayer(int playerID, const sockaddr_in& addr, const PlayerAccount& account) {
+	std::string playerName(account.playerName);
 
-	Player newPlayer;
+	Player newPlayer(addr, account);
 
 
 	// If exist, will skip
@@ -94,9 +96,6 @@ void RoomHandler::addPlayer(int playerID, const char * inputName, const sockaddr
 		
 		Player * newPlayerPtr = &result.first->second;
 		newPlayerPtr->currentScore = 0;
-		newPlayerPtr->currentAddr = addr;
-		// TODO: Optimize / Profile this strncpy (maybe we can use reference?)
-		strncpy(newPlayerPtr->name, inputName, 50);
 
 		if (playerMap.size() == 1) {
 			host = playerID;			// Make host if there's 1 player
@@ -137,54 +136,55 @@ void RoomHandler::removePlayer(int playerID) {
 	}
 }
 
-void RoomHandler::setMode(int modeGame){
-	// get mode game and push to collection in game in game 
 
-	ServerState *svs = this->currentState;
+// void RoomHandler::setMode(int modeGame){
+// 	// get mode game and push to collection in game in game 
 
-	if(modeGame == 1){
-		// 6 word | 3 easy, 2 medium, 1 hard
+// 	ServerState *svs = this->currentState;
 
-		for( int i = 1 ; i<= 3 ; i++){
-			// get i random word
-			// push to vector collection
+// 	if(modeGame == 1){
+// 		// 6 word | 3 easy, 2 medium, 1 hard
 
-			getRandomString(svs->easy);
-		}
+// 		for( int i = 1 ; i<= 3 ; i++){
+// 			// get i random word
+// 			// push to vector collection
 
-		for( int i = 1 ; i<= 2; i++){
+// 			getRandomString(svs->easy);
+// 		}
 
-		}
+// 		for( int i = 1 ; i<= 2; i++){
+
+// 		}
 
 
-	}
-	else if(modeGame == 2){	
-		// 8 word | 2 easy, 3 medium, 3 hard
-		for( int i = 1 ; i<= 2 ; i++){
+// 	}
+// 	else if(modeGame == 2){	
+// 		// 8 word | 2 easy, 3 medium, 3 hard
+// 		for( int i = 1 ; i<= 2 ; i++){
 
-		}
+// 		}
 
-		for ( int i = 1 ; i<= 3 ; i++){
+// 		for ( int i = 1 ; i<= 3 ; i++){
 
-		}
+// 		}
 
-		for( int i = 1 ; i <= 3 ; i++){
+// 		for( int i = 1 ; i <= 3 ; i++){
 
-		}
+// 		}
 
-	}else {
-		// 10 word | 2 easy, 3 medium, 5 hard
+// 	}else {
+// 		// 10 word | 2 easy, 3 medium, 5 hard
 
-		for( int i = 1 ; i<= 2 ; i++){
+// 		for( int i = 1 ; i<= 2 ; i++){
 
-		}
+// 		}
 
-		for ( int i = 1 ; i<= 3 ; i++){
+// 		for ( int i = 1 ; i<= 3 ; i++){
 
-		}
+// 		}
 
-		for( int i = 1 ; i <= 5 ; i++){
+// 		for( int i = 1 ; i <= 5 ; i++){
 
-		}
-	}	
-}
+// 		}
+// 	}	
+// }

@@ -70,9 +70,10 @@ public:
 // };
 
 struct Player {
-	PlayerAccount * account;
+	const PlayerAccount& account;
+	const sockaddr_in currentAddr;
 	int currentScore;
-	sockaddr_in currentAddr;
+	Player(const sockaddr_in& in_addr, const PlayerAccount& in_acc): currentAddr(in_addr), account(in_acc) {}
 };
 
 // Context
@@ -85,7 +86,7 @@ private:
 public:
 	TSQueue<MsgWrapper> msgQueue;				// Exchanging data between threads
 	
-	std::vector<string> wordCollection;
+	std::vector<std::string> wordCollection;
 	
 	int sockfd;
 	int host;	// playerID
@@ -96,13 +97,13 @@ public:
 	~RoomHandler();
 
 	void setState(ServerState* newState);
-	void setMode(int modeGame);
+	// void setMode(int modeGame);
 	
 	bool isDead();
 	void threadRun();
 	void threadKill();
 
-	void addPlayer(int playerID, const char * inputName, const sockaddr_in& addr);
+	void addPlayer(int playerID, const sockaddr_in& addr, const PlayerAccount& account);
 	void removePlayer(int playerID);
 
 	void broadcast(BaseMsg& msg) const;	// Cannot use const for BaseMsg because sendMsg needs to calculate msgLength

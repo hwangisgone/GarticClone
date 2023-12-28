@@ -3,7 +3,7 @@
 #include "server_auth.hpp"
 
 
-bool authenticate(AuthMsg& authmsg) {
+PlayerAccount * authenticate(AuthMsg& authmsg) {
 	if(authmsg.auth_type == 0) {
 		// Register
 		DEBUG_PRINT("Registering new account: " + std::string(authmsg.username) + " - " + std::string(authmsg.password));
@@ -12,5 +12,5 @@ bool authenticate(AuthMsg& authmsg) {
 		DEBUG_PRINT("Login into: " + std::string(authmsg.username) + " - " + std::string(authmsg.password));
 	}
 
-	return false;
+	return &allAccounts.at(1);
 }

@@ -10,9 +10,10 @@
 #include "database/textdatabase.hpp"
 
 struct PlayerSession {
-	PlayerAccount * account = nullptr;
+	const PlayerAccount& account;
+	const sockaddr_in& addr;
 	RoomHandler * inRoom = nullptr;
-	sockaddr_in addr;
+	PlayerSession(const sockaddr_in& in_addr, const PlayerAccount& in_acc) : addr(in_addr), account(in_acc) {}
 };
 
 class ServerLobby {
@@ -32,7 +33,7 @@ private:
 
 	void LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddress);
 
-	void addSession(const sockaddr_in& addr);
+	void addSession(const sockaddr_in& addr, const PlayerAccount& account);
 	void removeSession(const sockaddr_in& addr);
 public:
 	ServerLobby(int server_sock) {
