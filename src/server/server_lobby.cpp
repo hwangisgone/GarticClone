@@ -5,6 +5,8 @@
 #include "room_handler.hpp"
 #include "msg/msg_format.hpp"
 #include "msg/msg_sendrecv.h"
+
+#include "states/new/server_auth.hpp"
 #include "debugging.h"
 
 using namespace std;
@@ -47,7 +49,7 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 		// No such session exist yet
 		if (msg.type() == MsgType::AUTH) {
 			// Only process AUTH, any other unauthorized session will be dismissed
-			if (this->authorize(static_cast<AuthMsg&>(msg))) {
+			if (authenticate(static_cast<AuthMsg&>(msg))) {
 				// If auth success
 				this->addSession(clientAddress);
 			}

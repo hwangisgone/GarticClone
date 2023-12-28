@@ -7,3 +7,5 @@ add_library(client_auth_lib STATIC
 add_library(server_auth_lib STATIC
 	msg_auth.cpp
 )
+
+add_subdirectory(test)

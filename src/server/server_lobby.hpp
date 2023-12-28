@@ -36,7 +36,6 @@ private:
 
 	bool joinRoom(PlayerSession& client, JoinRoomMsg& joinmsg);
 	void createRoom(PlayerSession& creator);
-	bool authorize(AuthMsg& authmsg);
 
 	void LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddress);
 

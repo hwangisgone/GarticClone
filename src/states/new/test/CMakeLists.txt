@@ -1,0 +1,22 @@
+# Client
+add_executable(client_auth client.cpp)
+# Linking
+target_link_libraries(client_auth PRIVATE master_client_lib)
+
+
+# Server
+add_executable(server_auth server.cpp)
+# Linking
+target_link_libraries(server_auth PRIVATE master_server_lib)
+
+
+# Copy to outside
+add_custom_command(TARGET client_auth POST_BUILD 
+	COMMAND ${CMAKE_COMMAND} 
+	-E copy $<TARGET_FILE:client_auth> ${CMAKE_SOURCE_DIR}/build/client_auth
+)
+
+add_custom_command(TARGET server_auth POST_BUILD 
+	COMMAND ${CMAKE_COMMAND} 
+	-E copy $<TARGET_FILE:server_auth> ${CMAKE_SOURCE_DIR}/build/server_auth 
+)

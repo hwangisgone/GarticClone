@@ -6,12 +6,18 @@
 
 #include "client_handler.hpp"
 
-#include "states/new/client_auth.hpp"
 #include "msg/msg_sendrecv.h"
 #include "debugging.h"
 
 
 using namespace std;
+
+int ClientHandler::sockfd;
+sockaddr_in ClientHandler::serverAddress;
+
+void ClientHandler::clientSendMsg(BaseMsg& msg) {
+	sendMsg(ClientHandler::sockfd, (struct sockaddr *)&ClientHandler::serverAddress, sizeof(ClientHandler::serverAddress), msg);
+}
 
 // recvThread related
 void ClientHandler::run() {
@@ -19,10 +25,10 @@ void ClientHandler::run() {
 	int timeout_counter = 0;
 		
 	while (keepAlive) {
-		msg = recvMsg(sockfd, nullptr, nullptr);
+		msg = recvMsg(ClientHandler::sockfd, nullptr, nullptr);
 		if (!msg) {	// nullptr
 			if (errno && EAGAIN || errno && EWOULDBLOCK) {
-				DEBUG_COUT("CLIENT RECV TIMEOUT (" + to_string(timeout_counter) + ")\033[1A");
+				DEBUG_COUT("\033[s\r\t\t\t\t\tCLIENT RECV TIMEOUT (" + to_string(timeout_counter) + ")\033[u");	// Save cursor and return
 				timeout_counter++;
 				continue;
 			} else {
@@ -42,6 +48,7 @@ void ClientHandler::kill() {
 
 // FOR TESTING INPUT
 // For testing,
+int (*getInput)() = nullptr;
 
 void ClientHandler::sendInput() {
 	if (getInput == nullptr) {
@@ -49,23 +56,21 @@ void ClientHandler::sendInput() {
 		return;
 	}
 	while (keepAlive) {
-		unique_ptr<BaseMsg> msg = this->getInput();
-		if (msg != nullptr) { 
-			sendMsg(this->sockfd, (struct sockaddr *)&this->serverAddress, sizeof(this->serverAddress), *msg);
-		} else {
-			DEBUG_PRINT("input: msg is null");
+		if (getInput() == -1) { 
+			DEBUG_PRINT("Input thread ended by user.");
 			this->kill();
 		}
 	}
 }
 
 std::thread inputThread;
-void ClientHandler::initialize_input_thread(std::unique_ptr<BaseMsg> (*func)()) {
-	this->getInput = func;
+void ClientHandler::initialize_input_thread(int (*func)()) {
+	getInput = func;
 	inputThread = std::thread(&ClientHandler::sendInput, this);
 }
 
 void ClientHandler::join_input_thread() {
+	DEBUG_PRINT("Joining input thread");
 	inputThread.join();
 }
 
@@ -73,9 +78,9 @@ void ClientHandler::join_input_thread() {
 
 
 // Initializations
-ClientHandler::ClientHandler(int sockfd, sockaddr_in inputAddress) {	// Constructor
-	this->sockfd = sockfd;
-	this->serverAddress = inputAddress;
+ClientHandler::ClientHandler(int in_sockfd, sockaddr_in inputAddress) {	// Constructor
+	ClientHandler::sockfd = in_sockfd;
+	ClientHandler::serverAddress = inputAddress;
 
 	DEBUG_PRINT("{ClientHandler} created successfully.");
 	this->setState(new AuthState());	// Allocate new state
