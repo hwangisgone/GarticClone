@@ -135,3 +135,21 @@ void RoomHandler::removePlayer(int playerID) {
 		DEBUG_PRINT("(Room) Remove " + playerName + " failed. Player not found.");
 	}
 }
+
+void RoomHandler::setMode(int modeGame){
+
+	std::unordered_map<std::string, Statistic> _statisticWord;
+
+	// get mode game and push to queue in game 
+	if(modeGame == 1){
+		// get 7 easy word, 2 medium word, 1 hard word
+
+	}
+	else if(modeGame == 2){	
+		// get 5 easy word, 3 medium word, 2 hard word
+
+	}else if(modeGame == 3){
+		// get 2 easy word, 3 medium word, 5 hard word
+
+	}	
+}

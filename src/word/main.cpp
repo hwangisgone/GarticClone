@@ -14,7 +14,7 @@ string underscoreConvert(string str) {
 }
 
 int main() {
-	ifstream file("wordlist.txt");
+	ifstream file("../src/word/wordlist.txt");
 
 	// Check if the file is open
     if (!file.is_open()) {  
@@ -38,6 +38,8 @@ int main() {
     cout << "Word of the day: " << chosenWord;
     cout << " " << chosenWord.size();
     cout << " " << underscoreConvert(chosenWord) << '\n';
+    
+    printf("Success open file\n");
 
     return 0;
 }
