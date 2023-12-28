@@ -52,21 +52,6 @@ target_link_libraries(master_server_lib INTERFACE
 )
 
 
-# Client
-add_executable(client_program client/main.cpp)
-target_link_libraries(client_program PRIVATE master_client_lib)
-
-# Server
-add_executable(server_program server/main.cpp)
-target_link_libraries(server_program PRIVATE master_server_lib)
-
-
-# Copy to outside
-#add_custom_command(TARGET client_program POST_BUILD
-#	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:client_program> ${CMAKE_SOURCE_DIR}/build/client_program
-#)
-
-
 
 
 

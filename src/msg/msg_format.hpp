@@ -45,7 +45,7 @@ public:
 	}
 
 	BaseMsg(MsgType type): msg_type(type), msg_length(0) {
-		DEBUG_PRINT("BaseMsg called for type" + std::to_string(static_cast<std::underlying_type<MsgType>::type>(type)));
+		//	DEBUG_PRINT("BaseMsg called for type" + std::to_string(static_cast<std::underlying_type<MsgType>::type>(type)));
 	}	// Syntax: Constructor;
 	BaseMsg(): msg_type(MsgType::NONE), msg_length(0) {}	// Default
 

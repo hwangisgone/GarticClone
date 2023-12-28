@@ -9,6 +9,7 @@
 #include <atomic>
 #include <cstring>
 #include "msg/msg_format.hpp"
+#include "database/textdatabase.hpp"
 
 class RoomHandler;
 
@@ -69,9 +70,8 @@ public:
 // };
 
 struct Player {
+	PlayerAccount * account;
 	int currentScore;
-	char name[50];
-	// Account * 
 	sockaddr_in currentAddr;
 };
 
