@@ -1,7 +1,7 @@
 #include <string>
 
 #include "server_auth.hpp"
-#include "textdatabase.hpp"
+#include "database/textdatabase.hpp"
 
 PlayerAccount * authenticate(AuthMsg& authmsg) {
 	if(authmsg.auth_type == 0) {
