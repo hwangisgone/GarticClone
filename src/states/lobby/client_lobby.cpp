@@ -19,6 +19,10 @@ void jsAddRoom(const RoomListMsg& msg) {
 	globalJsEval("lobby_addRoom(" + to_string(msg.roomID) + ",\"" + string(msg.roomName) + "\")");
 }
 
+void jsGoToRoom() {
+	globalJsEval("lobby_toRoom()");
+}
+
 void LobbyState::handleRecv(const BaseMsg &msg)
 {
 	DEBUG_PRINT("  (LobbyState) " + msg.toString());
@@ -28,6 +32,9 @@ void LobbyState::handleRecv(const BaseMsg &msg)
 			jsAddRoom(static_cast<const RoomListMsg&>(msg));
 			break;
 		case MsgType::JOIN_ROOM:	// Success
+			DEBUG_PRINT(" (Join room success!!!!) ");
+			this->client->setState(new RoomState());
+			jsGoToRoom();
 			break;
 		default:
 			cerr << "CLIENT LOBBY: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;
