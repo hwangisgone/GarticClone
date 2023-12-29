@@ -9,6 +9,11 @@
 #include <ctime>
 #include "word_list.hpp"
 
+std::vector<Word> wordsGlobal;
+std::vector<Word> hard;
+std::vector<Word> medium;
+std::vector<Word> easy;
+
 Word getRandomWord(std::vector<Word>& words) {
     if (words.empty()) {
         return {"", 0, 0}; // Return an empty string if the vector is empty

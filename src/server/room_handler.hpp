@@ -10,7 +10,7 @@
 #include <cstring>
 #include "msg/msg_format.hpp"
 #include "database/textdatabase.hpp"
-#include "word_list.hpp";
+#include "database/word_list.hpp"
 
 class RoomHandler;
 
@@ -60,9 +60,10 @@ public:
 // };
 
 struct Player {
-	PlayerAccount * account;
+	const PlayerAccount& account;
+	const sockaddr_in currentAddr;
 	int currentScore;
-	sockaddr_in currentAddr;
+	Player(const sockaddr_in& in_addr, const PlayerAccount& in_acc): currentAddr(in_addr), account(in_acc) {}
 };
 
 // Context
@@ -75,24 +76,28 @@ private:
 public:
 	TSQueue<MsgWrapper> msgQueue;				// Exchanging data between threads
 	
-	std::vector<Word> wordCollection;
-	
 	int sockfd;
 	int host;	// playerID
-	int modeGame;
+	char roomName[50];
+
 	std::unordered_map<int, Player> playerMap;	// Map (playerID, Player)	
+
+	std::vector<Word> wordCollection;
+	void setMode(int modeGame);
+	int modeGame;
+
 
 	RoomHandler(int sockfd);
 	~RoomHandler();
 
 	void setState(ServerState* newState);
-	void setMode(int modeGame);
+
 	
 	bool isDead();
 	void threadRun();
 	void threadKill();
 
-	void addPlayer(int playerID, const char * inputName, const sockaddr_in& addr);
+	void addPlayer(int playerID, const sockaddr_in& addr, const PlayerAccount& account);
 	void removePlayer(int playerID);
 
 	void broadcast(BaseMsg& msg) const;	// Cannot use const for BaseMsg because sendMsg needs to calculate msgLength

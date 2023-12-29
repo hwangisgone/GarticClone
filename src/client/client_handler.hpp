@@ -22,6 +22,8 @@ public:
 
 // Concrete States
 class AuthState: public ClientState {
+private:
+	bool loggedIn = false;
 public:
 	void handleRecv(const BaseMsg& msg) override;
 	

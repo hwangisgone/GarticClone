@@ -3,7 +3,7 @@
 #include "network_const.h"
 
 #include "client/client_init.hpp"
-#include "states/test_input.hpp"
+#include "in_out/test_input.hpp"
 
 using namespace std;
 
@@ -14,7 +14,6 @@ int inputThread() {
 
 	if (input == "auth") {
 		authInput();
-
 		return 0;
 	} else {
 		DEBUG_PRINT("Exiting");

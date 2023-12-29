@@ -9,7 +9,8 @@
 #include "msg_ingame.hpp"
 #include "msg_next_end.hpp"
 #include "debugging.h"
-#include "word_list.hpp"
+
+#include "database/word_list.hpp"
 
 using namespace std;
 
@@ -21,7 +22,8 @@ bool checkAnswer(char *correct_ans, char *ans)
 void handleScore(const ScoreMsg &msg, int playerID, char *correct_ans, RoomHandler *room)
 {
 	auto i = room->playerMap.find(playerID);
-	int score = getPoint(correct_ans);
+	int score = 0; // TODO: fix compiler with this getPoint(correct_ans);
+
 	if (i != room->playerMap.end())
 	{
 		Player targetPlayer = i->second;

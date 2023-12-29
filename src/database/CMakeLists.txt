@@ -5,4 +5,5 @@
 
 add_library(text_db_lib STATIC
 	textdatabase.cpp
+	word_list.cpp
 )

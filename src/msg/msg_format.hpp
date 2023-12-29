@@ -15,10 +15,11 @@ enum class MsgType : uint16_t
 	AUTH,
 	SUCCESS,	// Unused
 	FAILURE,
+
 	ROOM_LIST,
 	CREATE_ROOM,
 	JOIN_ROOM,
-	DESTROY_ROOM,
+
 	CONNECT,
 	DISCONNECT,
 

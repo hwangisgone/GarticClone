@@ -36,7 +36,7 @@ unique_ptr<BaseMsg> factoryProduceMsg(MsgType type) {
 		// Leaderboard
 		// case MsgType::START_GAME: 	return make_unique<StartMsg>();
 			// TODO: Should we move this to room state?
-		case MsgType::DESTROY_ROOM:	return make_unique<DestroyRoomMsg>();
+		// case MsgType::DESTROY_ROOM:	return make_unique<DestroyRoomMsg>();
 			
 		default:	return nullptr;
 	}

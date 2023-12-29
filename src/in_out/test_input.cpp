@@ -1,7 +1,10 @@
 #include "client/client_init.hpp"
 #include "test_input.hpp"
+#include "js_output.hpp"
 
 using namespace std;
+
+void globalJsEval(const std::string& js) { return; }	// Do nothing if test by cmd
 
 void lobbyInput() {
 	int roomid;

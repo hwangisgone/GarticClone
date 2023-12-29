@@ -1,7 +1,7 @@
 # Client
 add_executable(client_auth client.cpp)
 # Linking
-target_link_libraries(client_auth PRIVATE master_client_lib input_testing_lib)
+target_link_libraries(client_auth PRIVATE master_client_lib cmd_io_lib)
 
 
 # Server

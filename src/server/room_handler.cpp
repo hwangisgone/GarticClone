@@ -4,7 +4,9 @@
 
 #include "msg/msg_sendrecv.h"
 #include "debugging.h"
-#include "word_list.hpp"
+#include "database/word_list.hpp"
+
+#include "database/textdatabase.hpp"
 
 // roomThread related
 void RoomHandler::threadRun() {	// This thing runs at separate thread?
@@ -81,10 +83,10 @@ void RoomHandler::broadcastExcept(BaseMsg& msg, int playerID) const {
 }
 
 // playerMap
-void RoomHandler::addPlayer(int playerID, const char * inputName, const sockaddr_in& addr) {
-	std::string playerName(inputName);
+void RoomHandler::addPlayer(int playerID, const sockaddr_in& addr, const PlayerAccount& account) {
+	std::string playerName(account.playerName);
 
-	Player newPlayer;
+	Player newPlayer(addr, account);
 
 
 	// If exist, will skip
@@ -94,9 +96,6 @@ void RoomHandler::addPlayer(int playerID, const char * inputName, const sockaddr
 		
 		Player * newPlayerPtr = &result.first->second;
 		newPlayerPtr->currentScore = 0;
-		newPlayerPtr->currentAddr = addr;
-		// TODO: Optimize / Profile this strncpy (maybe we can use reference?)
-		strncpy(newPlayerPtr->account->playerName, inputName, 50);
 
 		if (playerMap.size() == 1) {
 			host = playerID;			// Make host if there's 1 player
@@ -138,8 +137,6 @@ void RoomHandler::removePlayer(int playerID) {
 }
 
 void RoomHandler::setMode(int modeGame){
-	// get mode game and push to collection in game in game 
-
 	Word randomWord ;
 	if(modeGame == 1){
 		// 6 word | 3 easy, 2 medium, 1 hard

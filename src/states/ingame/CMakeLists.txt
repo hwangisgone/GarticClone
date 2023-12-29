@@ -10,3 +10,4 @@ add_library(server_ingame_lib STATIC
 	msg_next_end.cpp
 	room_ingame.cpp
 )
+# target_link_libraries(server_ingame_lib PRIVATE text_db_lib)

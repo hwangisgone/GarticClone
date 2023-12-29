@@ -1,8 +1,12 @@
 #include <unordered_map>
-#include <textdatabase.hpp>
+
 #include <fstream>
 #include <iostream>
 
+#include "textdatabase.hpp"
+
+std::unordered_map<int, PlayerAccount> allAccounts;
+int accountCount = 0;
 
 // Function to load data from a text file into a vector of structs
 bool loadFromFile(const std::string& filename, std::vector<PlayerAccount>& accounts)
@@ -28,7 +32,8 @@ bool loadFromFile(const std::string& filename, std::vector<PlayerAccount>& accou
             break;  // Break if reading fails, assuming end of file or bad format
         }
         // Add the person to the vector
-        PlayerAccount.push_back(account);
+        // ???????
+        // PlayerAccount.push_back(account);
     }
 
     // Close the file
@@ -63,7 +68,7 @@ std::vector<PlayerAccount>::iterator findPlayer(std::vector<PlayerAccount> &acco
         if( it->playerID == playerID)
             return it;
     }
-    return account.end(); // Word not found
+    return accounts.end(); // Word not found
 }
 
 void updatePlayer(std::vector<PlayerAccount> &accounts, int playerID, int plusScore, bool win){
