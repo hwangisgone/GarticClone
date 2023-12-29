@@ -73,6 +73,20 @@ std::vector<PlayerAccount>::iterator findPlayer(std::vector<PlayerAccount> &acco
     return accounts.end(); // Word not found
 }
 
+PlayerAccount * checkPassword(const char * username, const char * password) {
+    for (auto& account : allAccounts) {
+        if (strcmp(account.playerName, username) == 0) {
+            // Username match found
+            if(strcmp(account.password, password) == 0) {
+                return &account;
+            } else {
+                return nullptr;
+            }
+        }
+    }
+    return nullptr;
+}
+
 void updatePlayer(std::vector<PlayerAccount> &accounts, int playerID, int plusScore, bool win){
     auto player = findPlayer(accounts, playerID);
 
