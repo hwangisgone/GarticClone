@@ -22,7 +22,7 @@ bool checkAnswer(char *correct_ans, char *ans)
 void handleScore(const ScoreMsg &msg, int playerID, char *correct_ans, RoomHandler *room)
 {
 	auto i = room->playerMap.find(playerID);
-	int score = 0; // TODO: fix compiler with this getPoint(correct_ans);
+	int score = getPoint(correct_ans); // TODO: fix compiler with this getPoint(correct_ans);
 
 	if (i != room->playerMap.end())
 	{
@@ -32,28 +32,36 @@ void handleScore(const ScoreMsg &msg, int playerID, char *correct_ans, RoomHandl
 }
 
 
-void handleAnswer(const BaseMsg &msg, int playerID, char *correct_ans, RoomHandler *room)
+void handleAnswer(const AnswerMsg &msg, int playerID, char *correct_ans, RoomHandler *room)
 {
 	// get answer from playerID from msg
-	char *answer_from_playerID;
-
 	// how to get boardcast function of roomhandle here
 
-	// room->broadcastExcept(*msg, playerID);
+	AnswerMsg answerMsg = msg;
+	room->broadcastExcept(answerMsg, playerID);
 
-	if (checkAnswer(correct_ans, answer_from_playerID))
+	char answer_client[900];
+	strcpy(answer_client, msg.answer);
+
+	if (checkAnswer(correct_ans, answer_client))
 	{
-		handleScore(static_cast<const ScoreMsg &>(msg), playerID, correct_ans, room);
+		ScoreMsg scoreMsg;
+		scoreMsg.playerID = playerID;
+		scoreMsg.score = getPoint(correct_ans);
+		handleScore(static_cast<const ScoreMsg &>(scoreMsg), playerID, correct_ans, room);
 		updateWord(wordsGlobal, correct_ans, true);
+
 		// maybe can boardcast to all that some one correct
+		room->broadcastExcept(scoreMsg, playerID);
+		
 	}
 	else
 	{
-		//
+		// something happen ??
 	}
 }
 
-void startGame(const BaseMsg &msg, string wordChoose, char *ans)
+void startGame(const StartMsg &msg, string wordChoose, char *ans)
 {
 	// msg -> answer
 	// strcmp(answer, answer);

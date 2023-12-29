@@ -14,7 +14,7 @@ struct PlayerAccount {
 	int totalScore;
 };
 
-extern std::unordered_map<int, PlayerAccount> allAccounts;
+extern std::vector<PlayerAccount> allAccounts;
 extern int accountCount;
 
 bool loadFromFile(const std::string& filename, std::vector<PlayerAccount>& accounts);
