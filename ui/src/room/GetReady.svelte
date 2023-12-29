@@ -2,8 +2,6 @@
 	import RoomLayout from './RoomLayout.svelte';
 	import { PlayerID, UIstate, PlayerList } from '../store/store.ts';
 
-
-	export let state = 2;
 	export let roomState = 1;
 
 

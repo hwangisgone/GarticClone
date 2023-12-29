@@ -33,7 +33,7 @@
 </script>
 
 
-<button class="btn btn-accent" type="button" on:click={ () => state = 0 }>
+<button class="btn btn-accent" type="button" on:click={ () => $UIstate = 0 }>
 	Back {$PlayerID}
 </button>
 
@@ -55,8 +55,3 @@
 		</div>
 	{/each}
 </div>
-
-
-<button class="btn btn-secondary" type="button" on:click={ () => { /*window.getInRoom(roomID);*/ state = 2; } }>
-	Go to a room
-</button>

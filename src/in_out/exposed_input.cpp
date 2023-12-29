@@ -21,3 +21,10 @@ void rqJoinRoom(const string &seq, const string &req, void * /*arg*/) {
 	LobbyState::requestJoinRoom(roomID);
 }
 
+
+void rqDisconnect(const string &seq, const string &req, void * /*arg*/) {
+	auto pID = stoll(webview::detail::json_parse(req, "", 0));
+	
+	RoomState::requestDisconnect(pID);
+}
+

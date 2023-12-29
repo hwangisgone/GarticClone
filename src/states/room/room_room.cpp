@@ -32,7 +32,7 @@ void handleConnect(const JoinRoomMsg& msg, int playerID, RoomHandler * room) {
 	}
 
 	room->addPlayer(playerID, msg.addr, *msg.account);
-
+	
 	PlayerConnectMsg thisplayermsg;
 	thisplayermsg.playerID = playerID;
 	strncpy(thisplayermsg.name, msg.account->playerName, 50);
@@ -43,9 +43,8 @@ void handleDisconnect(int playerID, RoomHandler * room) {
 	DEBUG_PRINT("  (StateRoom) Disconnection.");
 	room->removePlayer(playerID);
 
-	PlayerDisConnectMsg thisplayermsg;
+	PlayerDisconnectMsg thisplayermsg;
 	thisplayermsg.playerID = playerID;
-	strncpy(thisplayermsg.name, msg.account->playerName, 50);
 	room->broadcastExcept(thisplayermsg, playerID);
 	// TODO: broadcast
 }

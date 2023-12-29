@@ -7,6 +7,8 @@
 #include "in_out/js_output.hpp"
 #include "debugging.h"
 
+using namespace std;
+
 void startGame(const StartMsg& msg, ClientHandler * client) {
 	DEBUG_PRINT("  (StateRoom) Game started!!!");
 	client->setState(new InGameState());
@@ -20,6 +22,13 @@ void handleConnect(const PlayerConnectMsg& msg, ClientHandler * client) {
 void handleDisconnect(const PlayerDisconnectMsg& msg, ClientHandler * client) {
 	DEBUG_PRINT("  (StateRoom) Disconnection.");
 	client->removePlayer(msg.playerID);
+}
+
+void RoomState::requestDisconnect(int playerID) {
+	PlayerDisconnectMsg msg;
+	msg.playerID = playerID;
+
+	ClientHandler::clientSendMsg(msg);
 }
 
 void jsAddPlayer(const PlayerConnectMsg& msg) {
