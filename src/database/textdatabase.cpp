@@ -5,9 +5,10 @@
 
 #include "textdatabase.hpp"
 
-std::unordered_map<int, PlayerAccount> allAccounts;
+// std::unordered_map<int, PlayerAccount> allAccounts;
 int accountCount = 0;
 
+std::vector<PlayerAccount> allAccounts;
 // Function to load data from a text file into a vector of structs
 bool loadFromFile(const std::string& filename, std::vector<PlayerAccount>& accounts)
 {
@@ -26,14 +27,15 @@ bool loadFromFile(const std::string& filename, std::vector<PlayerAccount>& accou
         // Assuming the file format is: name age height
         file >> account.playerID >> account.playerName >> account.password >> account.gamesPlayed >> account.gamesWin >> account.totalScore;
 
+        // accountCount++;
+        
         // Check for errors while reading
         if (file.fail())
         {
             break;  // Break if reading fails, assuming end of file or bad format
         }
         // Add the person to the vector
-        // ???????
-        // PlayerAccount.push_back(account);
+        accounts.push_back(account);
     }
 
     // Close the file
