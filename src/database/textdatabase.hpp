@@ -23,6 +23,8 @@ void writeWordsToFile(const std::string& filename, const std::vector<PlayerAccou
 
 std::vector<PlayerAccount>::iterator findPlayer(std::vector<PlayerAccount> &accounts, int playerID);
 
+PlayerAccount * checkPassword(const char * username, const char * password);
+
 void updatePlayer(std::vector<PlayerAccount> &accounts, int playerID, int plusScore, bool win);
 
 #endif
