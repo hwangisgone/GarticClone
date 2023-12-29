@@ -83,6 +83,9 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 				}
 				case MsgType::JOIN_ROOM: {
 					if (joinRoom(currentClient, static_cast<JoinRoomMsg&>(msg))) {
+						JoinRoomMsg successmsg;
+						sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), successmsg);
+
 						currentClient.inRoom->msgQueue.push(wrapper);	
 						// Also push this new thing to room	if joined success
 					}

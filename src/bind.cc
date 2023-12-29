@@ -42,6 +42,8 @@ int main() {
 
 	w.bind("requestLogin", rqLogin, nullptr);
 
+	w.bind("requestJoinRoom", rqJoinRoom, nullptr);
+
 	// A binding that increments a value and immediately returns the new value.
 	// w.bind("fuckaround", [&](const std::string & /*req*/) -> std::string {
 	// 	auto count_string = std::to_string(++count);

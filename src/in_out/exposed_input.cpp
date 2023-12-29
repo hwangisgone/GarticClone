@@ -15,3 +15,9 @@ void rqLogin(const string &seq, const string &req, void * /*arg*/) {
 	AuthState::requestLogin(type, username.c_str(), password.c_str());
 }
 
+void rqJoinRoom(const string &seq, const string &req, void * /*arg*/) {
+	auto roomID = stoll(webview::detail::json_parse(req, "", 0));
+	
+	LobbyState::requestJoinRoom(roomID);
+}
+
