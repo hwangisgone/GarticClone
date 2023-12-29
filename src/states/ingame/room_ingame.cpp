@@ -19,10 +19,10 @@ bool checkAnswer(char *correct_ans, char *ans)
 	return strcmp(correct_ans, ans) == 0;
 }
 
-void handleScore(const ScoreMsg &msg, int playerID, char *correct_ans, RoomHandler *room)
+void handleScore(const ScoreMsg &msg, int playerID, char *correct_ans, RoomHandler *room, vector<Word>&words)
 {
 	auto i = room->playerMap.find(playerID);
-	int score = getPoint(correct_ans); // TODO: fix compiler with this getPoint(correct_ans);
+	int score = getPoint(words, correct_ans); // TODO: fix compiler with this getPoint(correct_ans);
 
 	if (i != room->playerMap.end())
 	{
@@ -32,7 +32,7 @@ void handleScore(const ScoreMsg &msg, int playerID, char *correct_ans, RoomHandl
 }
 
 
-void handleAnswer(const AnswerMsg &msg, int playerID, char *correct_ans, RoomHandler *room)
+void handleAnswer(const AnswerMsg &msg, int playerID, char *correct_ans, RoomHandler *room, vector<Word>& words)
 {
 	// get answer from playerID from msg
 	// how to get boardcast function of roomhandle here
@@ -47,8 +47,8 @@ void handleAnswer(const AnswerMsg &msg, int playerID, char *correct_ans, RoomHan
 	{
 		ScoreMsg scoreMsg;
 		scoreMsg.playerID = playerID;
-		scoreMsg.score = getPoint(correct_ans);
-		handleScore(static_cast<const ScoreMsg &>(scoreMsg), playerID, correct_ans, room);
+		scoreMsg.score = getPoint(words, correct_ans);
+		handleScore(static_cast<const ScoreMsg &>(scoreMsg), playerID, correct_ans, room, words);
 		updateWord(wordsGlobal, correct_ans, true);
 
 		// maybe can boardcast to all that some one correct
@@ -91,10 +91,10 @@ void InGameState::handle(const BaseMsg &msg, int playerID)
 		startGame(static_cast<const StartMsg &>(msg), wordChoose, answer);
 		break;
 	case MsgType::ANSWER:
-		handleAnswer(static_cast<const AnswerMsg &>(msg), playerID, answer, room);
+		handleAnswer(static_cast<const AnswerMsg &>(msg), playerID, answer, room, wordsGlobal);
 		break;
 	case MsgType::SCORE:
-		handleScore(static_cast<const ScoreMsg &>(msg), playerID, answer, room);
+		handleScore(static_cast<const ScoreMsg &>(msg), playerID, answer, room, wordsGlobal);
 		break;
 	case MsgType::NEXT_ROUND:
 		// next_round with word choose from word collection
