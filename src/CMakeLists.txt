@@ -48,6 +48,8 @@ target_link_libraries(master_server_lib INTERFACE
 	server_ingame_lib
 	server_leaderboard_lib
 
+	text_db_lib
+
 	sockaddr_util_lib
 )
 

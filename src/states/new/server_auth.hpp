@@ -2,7 +2,8 @@
 #define AUTHENTICATION_H
 
 #include "msg_auth.hpp"
+#include "database/textdatabase.hpp"
 
-bool authenticate(AuthMsg& authmsg);
+PlayerAccount * authenticate(AuthMsg& authmsg);
 
 #endif

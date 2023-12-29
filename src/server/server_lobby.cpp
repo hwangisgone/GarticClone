@@ -16,7 +16,7 @@ bool ServerLobby::joinRoom(PlayerSession& client, JoinRoomMsg& joinmsg) {
 	if (it != this->allRooms.end()) {
 		// Room exists, access the value
 		joinmsg.addr = client.addr;
-		strncpy(joinmsg.name, client.account->playerName, 50);
+		joinmsg.account = &client.account;
 		client.inRoom = it->second;
 
 		return true;
@@ -34,7 +34,7 @@ void ServerLobby::createRoom(PlayerSession& creator) {
 		RoomHandler * newRoom = result.first->second;
 
 		creator.inRoom = newRoom;
-		newRoom->addPlayer(creator.account->playerID, creator.account->playerName, creator.addr);	// Add host to room 
+		newRoom->addPlayer(creator.account.playerID, creator.addr, creator.account);	// Add host to room 
 		this->roomCount++;
 	} else {
 		DEBUG_PRINT("Lobby: Create room failed for some reason???");
@@ -49,16 +49,17 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 		// No such session exist yet
 		if (msg.type() == MsgType::AUTH) {
 			// Only process AUTH, any other unauthorized session will be dismissed
-			if (authenticate(static_cast<AuthMsg&>(msg))) {
+			PlayerAccount * loggedacc = authenticate(static_cast<AuthMsg&>(msg));
+			if (loggedacc != nullptr) {
 				// If auth success
-				this->addSession(clientAddress);
+				this->addSession(clientAddress, *loggedacc);
 			}
 		} else {
 			DEBUG_PRINT("Dismissing message (not registered session)");
 		}
 	} else {
 		PlayerSession& currentClient = it->second;
-		wrapper.playerID = currentClient.account->playerID;
+		wrapper.playerID = currentClient.account.playerID;
 
 		if (currentClient.inRoom == nullptr) {
 			// In lobby
@@ -132,10 +133,10 @@ void ServerLobby::kill() {
 }
 
 // Adding entries to online joined
-void ServerLobby::addSession(const sockaddr_in& addr) {
-	PlayerSession newSession;
-	newSession.addr = addr;
-	DEBUG_PRINT("Assigned address to new session");
+void ServerLobby::addSession(const sockaddr_in& addr, const PlayerAccount& account) {
+	PlayerSession newSession(addr, account);
+
+	DEBUG_PRINT("Assigned address, account to new session");
 
 	// If exist, will skip
 	auto result = sessionRoomMap.emplace(addr, newSession);

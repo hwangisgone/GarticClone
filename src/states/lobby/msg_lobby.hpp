@@ -3,6 +3,7 @@
 
 #include <arpa/inet.h>
 #include "msg/msg_format.hpp"
+#include "database/textdatabase.hpp"
 
 // TODO: implement this?
 class CreateRoomMsg: public BaseMsg {
@@ -16,8 +17,8 @@ private:
 public:
 	uint32_t roomID;
 
-	char name[50];		// Assigned during recv
-	sockaddr_in addr;	// Assigned during recv
+	const PlayerAccount * account;	// Assigned during recv
+	sockaddr_in addr;			// Assigned during recv
 
 	JoinRoomMsg(): BaseMsg(MsgType::JOIN_ROOM) {}
 

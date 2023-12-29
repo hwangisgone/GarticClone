@@ -12,7 +12,7 @@ int inputThread() {
 	cout << "Input? ( auth )" << endl;
 	cin >> input;
 
-	if (input == "reg" || input == "login") {
+	if (input == "auth") {
 		authInput();
 
 		return 0;
