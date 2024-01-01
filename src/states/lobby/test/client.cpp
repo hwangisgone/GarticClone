@@ -1,35 +1,29 @@
 #include <iostream>
-#include <thread>
-
-#include <sys/socket.h>
-#include <arpa/inet.h>
 
 #include "network_const.h"
-#include "client/client_init.hpp"
 
-#include "states/new/msg_auth.hpp"
-#include "states/lobby/msg_lobby.hpp"
+#include "client/client_init.hpp"
+#include "in_out/test_input.hpp"
 
 using namespace std;
 
-unique_ptr<BaseMsg> inputToMsg() {
+int inputToMsg() {
 	string input;
-	cout << "Input? (auth | joinroom x | exit)" << endl;
+	cout << "Input? ( auth | joinroom x )" << endl;
 	cin >> input;
 
 	if (input == "auth") {
-		auto msg = make_unique<AuthMsg>();
-		return msg;
+		authInput();
+
 	} else if (input == "joinroom") {
-		int roomid;
-		cin >> roomid;
-		auto msg = make_unique<JoinRoomMsg>();
-		msg->roomID = roomid;
-		return msg;
+		lobbyInput();
+
 	} else {
 		DEBUG_PRINT("Exiting");
-		return nullptr;
+		return -1;
 	}
+
+	return 0;
 }
 
 int main() {
@@ -40,11 +34,11 @@ int main() {
 
 	auto client1 = get_client(client_sock);
 
-	client1.setState(new LobbyState());
+	client1->setState(new AuthState());
 
-	client1.initialize_input_thread(inputToMsg);
-	client1.run();
-	client1.join_input_thread();
+	client1->initialize_input_thread(inputToMsg);
+	client1->run();
+	client1->join_input_thread();
 
 	cleanup_client(client_sock);
 

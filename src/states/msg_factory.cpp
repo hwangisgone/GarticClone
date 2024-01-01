@@ -25,6 +25,7 @@ unique_ptr<BaseMsg> factoryProduceMsg(MsgType type) {
 
 		// Begin
 		case MsgType::AUTH:			return make_unique<AuthMsg>();
+		case MsgType::FAILURE:		return make_unique<FailMsg>();
 		case MsgType::ROOM_LIST:	return make_unique<RoomListMsg>();
 		// Lobby
 		case MsgType::CREATE_ROOM:	return make_unique<CreateRoomMsg>();
@@ -36,7 +37,7 @@ unique_ptr<BaseMsg> factoryProduceMsg(MsgType type) {
 		// Leaderboard
 		// case MsgType::START_GAME: 	return make_unique<StartMsg>();
 			// TODO: Should we move this to room state?
-		case MsgType::DESTROY_ROOM:	return make_unique<DestroyRoomMsg>();
+		// case MsgType::DESTROY_ROOM:	return make_unique<DestroyRoomMsg>();
 			
 		default:	return nullptr;
 	}

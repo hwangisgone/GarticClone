@@ -1,20 +1,19 @@
 #ifndef SERVER_LOBBY_H
 #define SERVER_LOBBY_H
 
-#include "sockaddr_in/sockaddr_in_functions.h"
-#include "room_handler.hpp"
 #include <string>
 
-struct PlayerAccount {
-	int playerID;
-	int multiGameScore;
-	char playerName[50];
-};
+#include "sockaddr_in/sockaddr_in_functions.h"
+#include "room_handler.hpp"
+#include "states/lobby/msg_lobby.hpp"
+
+#include "database/textdatabase.hpp"
 
 struct PlayerSession {
-	PlayerAccount * account = nullptr;
+	const PlayerAccount& account;
+	const sockaddr_in& addr;
 	RoomHandler * inRoom = nullptr;
-	sockaddr_in addr;
+	PlayerSession(const sockaddr_in& in_addr, const PlayerAccount& in_acc) : addr(in_addr), account(in_acc) {}
 };
 
 class ServerLobby {
@@ -29,14 +28,12 @@ private:
 	int roomCount = 0;
 	std::unordered_map<int, RoomHandler *> allRooms;
 
-	int accountCount = 0;
-	std::vector<PlayerAccount> allAccounts;
+	bool joinRoom(PlayerSession& client, JoinRoomMsg& joinmsg);
+	void createRoom(PlayerSession& creator);
 
-	
-	void createRoom(PlayerSession& creator, const sockaddr_in& addr);
 	void LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddress);
 
-	void addSession(const sockaddr_in& addr);
+	void addSession(const sockaddr_in& addr, const PlayerAccount& account);
 	void removeSession(const sockaddr_in& addr);
 public:
 	ServerLobby(int server_sock) {

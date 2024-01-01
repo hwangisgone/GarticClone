@@ -20,7 +20,7 @@ bool MsgBuffer::checkOverflow() {
 		return true;
 	}
 	return false;
-}
+}	
 
 // serialize uint32_t
 uint32_t byte4_conv;

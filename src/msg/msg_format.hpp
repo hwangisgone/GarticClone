@@ -15,10 +15,11 @@ enum class MsgType : uint16_t
 	AUTH,
 	SUCCESS,	// Unused
 	FAILURE,
+
 	ROOM_LIST,
 	CREATE_ROOM,
 	JOIN_ROOM,
-	DESTROY_ROOM,
+
 	CONNECT,
 	DISCONNECT,
 
@@ -45,7 +46,7 @@ public:
 	}
 
 	BaseMsg(MsgType type): msg_type(type), msg_length(0) {
-		DEBUG_PRINT("BaseMsg called for type" + std::to_string(static_cast<std::underlying_type<MsgType>::type>(type)));
+		//	DEBUG_PRINT("BaseMsg called for type" + std::to_string(static_cast<std::underlying_type<MsgType>::type>(type)));
 	}	// Syntax: Constructor;
 	BaseMsg(): msg_type(MsgType::NONE), msg_length(0) {}	// Default
 

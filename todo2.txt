@@ -1,0 +1,28 @@
+TODO: để ko mất điểm:
+
+- Note ra tính năng chương trình để có thể demo
+- Slide chi tiết
+- Chương trình phải giống thiết kế
+- Lỗi phải thông báo
+- Outcome?? là gì
+- Performance
+
+- Phân chia mức độ khó ntn? Xử lý tính điểm ntn?
+- Người sử dụng lưu ntn?
+
+/*
+2 min:
+Gameplay
+Objectives
+
+4-6 minutes:
+Design of your program
+Design of your application protocol
+
+2 min:
+Your timeline/tasks to finish your project
+Task assignment
+	
+2 min:
+Progress of your built program (if having)
+*/

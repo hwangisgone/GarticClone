@@ -27,22 +27,25 @@ void handleConnect(const JoinRoomMsg& msg, int playerID, RoomHandler * room) {
 	for (const auto& pair : room->playerMap) {	// Send all players in the room to client
 		PlayerConnectMsg othermsg;
 		othermsg.playerID = pair.first;
-		othermsg.name = pair.second.name;
+		strncpy(othermsg.name, pair.second.account.playerName, 50);
 		sendMsg(room->sockfd, (struct sockaddr*)&msg.addr, sizeof(msg.addr), othermsg);
 	}
 
-	room->addPlayer(playerID, msg.addr);
-
+	room->addPlayer(playerID, msg.addr, *msg.account);
+	
 	PlayerConnectMsg thisplayermsg;
 	thisplayermsg.playerID = playerID;
-	strcpy(thisplayermsg.name, );
-	room->broadcastExcept(thisplayermsg, playerID);
-	// TODO: broadcast
+	strncpy(thisplayermsg.name, msg.account->playerName, 50);
+	room->broadcast(thisplayermsg);
 }
 
 void handleDisconnect(int playerID, RoomHandler * room) {
 	DEBUG_PRINT("  (StateRoom) Disconnection.");
 	room->removePlayer(playerID);
+
+	PlayerDisconnectMsg thisplayermsg;
+	thisplayermsg.playerID = playerID;
+	room->broadcastExcept(thisplayermsg, playerID);
 	// TODO: broadcast
 }
 

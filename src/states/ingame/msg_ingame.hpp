@@ -27,7 +27,7 @@ public:
 	std::string debugPrint() const override;			// (4)	// 1,2,3 are required
 };
 
-
+    
 // AnswerMsg: [playerID 4|message 900]
 class AnswerMsg : public BaseMsg {
 private:

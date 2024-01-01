@@ -8,6 +8,8 @@
 
 #include "server_init.hpp"	// All server handles
 
+#include "database/textdatabase.hpp"
+
 /*
 * Create a new server
 * [IN] port: what port to use
@@ -24,7 +26,7 @@ int initialize_server(int port) {
 	// 2. Bind the socket to a specific address and port
 	sockaddr_in serverAddress{};
 	serverAddress.sin_family = AF_INET;
-	serverAddress.sin_addr.s_addr = INADDR_ANY;	// htonl(INADDR_ANY)??	/* INADDR_ANY puts your IP address automatically */
+	serverAddress.sin_addr.s_addr = htonl(INADDR_ANY); //??	/* INADDR_ANY puts your IP address automatically */
 	serverAddress.sin_port = htons(port);
 
 	if (bind(serverSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1) {
@@ -33,7 +35,7 @@ int initialize_server(int port) {
 		return -1;
 	}
 
-	std::cout << "Server is listening on port " << port << std::endl;
+	printf("Server is listening on port %d\n", port);
 	return serverSocket;
 }
 

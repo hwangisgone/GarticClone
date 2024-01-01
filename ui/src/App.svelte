@@ -6,28 +6,29 @@
   import { usernameCheck } from "./store.js";
   import Chat from "./chat.svelte";
 
-  import Game from "./Room/Game.svelte";
-  let username;
-  let password;
-  let error = 0;
+  // TODO: Move this to Login.svelte?
+  // let username;
+  // let password;
+  // let error = 0;
 
-  function checkSignIn(username, password) {
-    if (username == '1' && password == '1') {
-      windowState = 1;
-      console.log(windowState)
-      $usernameCheck = username;
-    } else {
-      error = 1;
-    }
-  }
+  // function checkSignIn(username, password) {
+  //   if (username == '1' && password == '1') {
+  //     windowState = 1;
+  //     console.log(windowState)
+  //     $usernameCheck = username;
+  //   } else {
+  //     error = 1;
+  //   }
+  // }
 
-  function checkSignUp() {
-    windowState = 2;
-  }
+  // function checkSignUp() {
+  //   windowState = 2;
+  // }
  
 
-  let windowState = 0 ;
+  // let windowState = 0 ;
   
+	import { PlayerID, UIstate } from './store/store.ts';
 </script>
 
 <!-- <style>
@@ -45,6 +46,7 @@
   <Chat/>
 {:else if windowState == 0}
   
+<!-- TODO: Move this to Login.svelte -->
   <div class = "myDiv "  >
     <div class="grid items-center h-200 " >
       <!-- <h class = "font-bold pb-10 " style = "font-size: px; color:darkcyan "> Welcome to Gartic Game</h> -->
@@ -74,10 +76,18 @@
   
  
 
-{#if error == 1}
+<!-- {#if error == 1}
     <label class = "text-lime-900" style="font-size:15px"> Incorrect account </label>
-  {/if}
+  {/if} -->
 </div>
+{#if $UIstate == 0}
+	<!-- "bind:state" allows Login to change the state (of App) -->
+	<!-- <input type="number" bind:value={$PlayerID} > -->
+	<Login />  
+{:else if $UIstate == 1}
+	<Lobby />
+{:else if $UIstate == 2}
+	<Room />
 {:else}
   <SignUp />
 {/if}

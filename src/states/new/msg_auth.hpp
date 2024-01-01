@@ -6,7 +6,7 @@
 
 class AuthMsg: public BaseMsg {
 private:
-	uint32_t bodySize() const override;
+	uint32_t bodySize() const override { return 1 + 50 + 100; };
 public:
 	char username[50];
 	char password[100];
@@ -18,17 +18,10 @@ public:
 	std::string debugPrint() const override;
 };
 
-class RoomListMsg: public BaseMsg {
-	// TODO:
+// Signal only
+class FailMsg: public BaseMsg {
 public:
-	uint32_t roomID;
-	char roomName[50];
-
-	RoomListMsg(): BaseMsg(MsgType::ROOM_LIST) {}
-
-	// void serializeBody(MsgBuffer& buff) const override;
-	// void deserializeBody(MsgBuffer& buff) override;
-	// std::string debugPrint() const override;
+	FailMsg(): BaseMsg(MsgType::FAILURE) {}
 };
 
 #endif

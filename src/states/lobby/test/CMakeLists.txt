@@ -1,7 +1,7 @@
 # Client
 add_executable(client_lobby client.cpp)
 # Linking
-target_link_libraries(client_lobby PRIVATE master_client_lib)
+target_link_libraries(client_lobby PRIVATE master_client_lib cmd_io_lib)
 
 
 # Server

@@ -5,11 +5,12 @@
 
 #include "sockaddr_in/sockaddr_in_functions.h"
 #include "msg/msg_sendrecv.h"
-#include "states/room/msg_connection.hpp"	// Allow other players to enter/exit in game
+#include "states/room/msg_connection.hpp" // Allow other players to enter/exit in game
 #include "msg_ingame.hpp"
 #include "msg_next_end.hpp"
 #include "debugging.h"
 
+#include "database/word_list.hpp"
 
 using namespace std;
 
@@ -18,31 +19,11 @@ bool checkAnswer(char *correct_ans, char *ans)
 	return strcmp(correct_ans, ans) == 0;
 }
 
-void boardcast(const BaseMsg &msg, int playerID, RoomHandler *room){
-
-	auto find_addr = room->playerMap.find(playerID);
-	sockaddr_in send_addr = find_addr->second.currentAddr;
-
-	for (auto& pair : room->playerMap) {
-        Player& player = pair.second;
-		sockaddr_in to_boardcast_addr = player.currentAddr;
-		if(!compareSockAddrIn(send_addr, to_boardcast_addr)){
-			// send_msg
-		}
-	}
-}
-
-int add_score(char *correct_ans)
-{
-	int score;
-	// check correct_answer in what level ( easy, middile, hard ) to add score
-	return score;
-}
-
-void handleScore(const ScoreMsg &msg, int playerID, char* correct_ans, RoomHandler *room)
+void handleScore(const ScoreMsg &msg, int playerID, char *correct_ans, RoomHandler *room, vector<Word>&words)
 {
 	auto i = room->playerMap.find(playerID);
-	int score = add_score(correct_ans);
+	int score = getPoint(words, correct_ans); // TODO: fix compiler with this getPoint(correct_ans);
+
 	if (i != room->playerMap.end())
 	{
 		Player targetPlayer = i->second;
@@ -50,22 +31,47 @@ void handleScore(const ScoreMsg &msg, int playerID, char* correct_ans, RoomHandl
 	}
 }
 
-void handleAnswer(const BaseMsg &msg, int playerID, char *correct_ans, RoomHandler *room)
+
+void handleAnswer(const AnswerMsg &msg, int playerID, char *correct_ans, RoomHandler *room, vector<Word>& words)
 {
-	char *answer;
+	// get answer from playerID from msg
+	// how to get boardcast function of roomhandle here
 
-	boardcast(msg, playerID, room);
+	AnswerMsg answerMsg = msg;
+	room->broadcastExcept(answerMsg, playerID);
 
-	if (checkAnswer(correct_ans, answer))
-		{
-			handleScore(static_cast<const ScoreMsg &>(msg), playerID, correct_ans, room);
-			// maybe can boardcast to all that some one correct
-		}
+	char answer_client[900];
+	strcpy(answer_client, msg.answer);
+
+	if (checkAnswer(correct_ans, answer_client))
+	{
+		ScoreMsg scoreMsg;
+		scoreMsg.playerID = playerID;
+		scoreMsg.score = getPoint(words, correct_ans);
+		handleScore(static_cast<const ScoreMsg &>(scoreMsg), playerID, correct_ans, room, words);
+		updateWord(wordsGlobal, correct_ans, true);
+
+		// maybe can boardcast to all that some one correct
+		room->broadcastExcept(scoreMsg, playerID);
+		
+	}
 	else
 	{
-		//
+		// something happen ??
 	}
 }
+
+void startGame(const StartMsg &msg, string wordChoose, char *ans)
+{
+	// msg -> answer
+	// strcmp(answer, answer);
+	// change Word;
+	// maybe get word from the queue
+	int length = wordChoose.length();
+	ans = new char[length+1];
+	strcpy(ans, wordChoose.c_str());
+}
+
 
 void InGameState::handle(const BaseMsg &msg, int playerID)
 {
@@ -75,13 +81,24 @@ void InGameState::handle(const BaseMsg &msg, int playerID)
 	state_playerMap = room->playerMap;
 	auto index = state_playerMap.find(playerID);
 
+	Word w = getRandomAndRemove(room->wordCollection);
+	string wordChoose = w.word;
+
 	switch (msg.type())
 	{
+	case MsgType::START_GAME:
+		// start game with word choose from word collection
+		startGame(static_cast<const StartMsg &>(msg), wordChoose, answer);
+		break;
 	case MsgType::ANSWER:
-		handleAnswer(static_cast<const AnswerMsg &>(msg), playerID, answer, room);
+		handleAnswer(static_cast<const AnswerMsg &>(msg), playerID, answer, room, wordsGlobal);
 		break;
 	case MsgType::SCORE:
-		handleScore(static_cast<const ScoreMsg &>(msg), playerID, answer, room);
+		handleScore(static_cast<const ScoreMsg &>(msg), playerID, answer, room, wordsGlobal);
+		break;
+	case MsgType::NEXT_ROUND:
+		// next_round with word choose from word collection
+		startGame(static_cast<const NextRoundMsg &>(msg) , string(getRandomAndRemove(room->wordCollection).word) , answer);
 		break;
 	default:
 		cerr << "SERVER ROOM: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;

@@ -20,18 +20,31 @@ public:
 	}
 };
 
+// Concrete States
+class AuthState: public ClientState {
+private:
+	bool loggedIn = false;
+public:
+	void handleRecv(const BaseMsg& msg) override;
+	
+	static void requestLogin(char type, const char * name, const char * pass);
 
+	// TODO:
+	// static void requestGuest(const char * name);
+};
 
 class LobbyState: public ClientState {
 public:
 	void handleRecv(const BaseMsg& msg) override;
 
-//	static void requestConnect(int roomID);
+	static void requestJoinRoom(int roomID);
 };
 
 class RoomState: public ClientState {
 public:
 	void handleRecv(const BaseMsg& msg) override;
+
+	static void requestDisconnect(int playerID);
 };
 
 class InGameState: public ClientState {

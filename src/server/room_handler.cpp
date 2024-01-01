@@ -1,9 +1,12 @@
-#include <string>
+#include <cstring>
 
 #include "room_handler.hpp"
 
 #include "msg/msg_sendrecv.h"
 #include "debugging.h"
+#include "database/word_list.hpp"
+
+#include "database/textdatabase.hpp"
 
 // roomThread related
 void RoomHandler::threadRun() {	// This thing runs at separate thread?
@@ -80,10 +83,10 @@ void RoomHandler::broadCastExcept(BaseMsg& msg, int playerID) const {
 }
 
 // playerMap
-void RoomHandler::addPlayer(int playerID, const char * inputName, const sockaddr_in& addr) {
-	std::string playerName(inputName);
+void RoomHandler::addPlayer(int playerID, const sockaddr_in& addr, const PlayerAccount& account) {
+	std::string playerName(account.playerName);
 
-	Player newPlayer;
+	Player newPlayer(addr, account);
 
 
 	// If exist, will skip
@@ -93,9 +96,6 @@ void RoomHandler::addPlayer(int playerID, const char * inputName, const sockaddr
 		
 		Player * newPlayerPtr = &result.first->second;
 		newPlayerPtr->currentScore = 0;
-		newPlayerPtr->currentAddr = addr;
-		// TODO: Optimize / Profile this strcpy (maybe we can use reference?)
-		strcpy(newPlayerPtr->name, inputName);
 
 		if (playerMap.size() == 1) {
 			host = playerID;			// Make host if there's 1 player
@@ -134,4 +134,61 @@ void RoomHandler::removePlayer(int playerID) {
 	} else {
 		DEBUG_PRINT("(Room) Remove " + playerName + " failed. Player not found.");
 	}
+}
+
+void RoomHandler::setMode(int modeGame){
+	Word randomWord ;
+	if(modeGame == 1){
+		// 6 word | 3 easy, 2 medium, 1 hard
+
+		for( int i = 1 ; i<= 3 ; i++){
+			// get i random word
+			// push to vector collection
+			randomWord = getRandomWord(easy);
+			wordCollection.push_back(randomWord);
+		}
+
+		for( int i = 1 ; i<= 2; i++){
+			randomWord = getRandomWord(medium);
+			wordCollection.push_back(randomWord);
+		}
+
+		randomWord = getRandomWord(hard);
+		wordCollection.push_back(randomWord);
+
+	}
+	else if(modeGame == 2){	
+		// 8 word | 2 easy, 3 medium, 3 hard
+		for( int i = 1 ; i<= 2 ; i++){
+			randomWord = getRandomWord(easy);
+			wordCollection.push_back(randomWord);
+		}
+
+		for ( int i = 1 ; i<= 3 ; i++){
+			randomWord = getRandomWord(medium);
+			wordCollection.push_back(randomWord);
+		}
+
+		for( int i = 1 ; i <= 3 ; i++){
+			randomWord = getRandomWord(hard);
+			wordCollection.push_back(randomWord);
+		}
+
+	}else {
+		// 10 word | 2 easy, 3 medium, 5 hard
+		for( int i = 1 ; i<= 2 ; i++){
+			randomWord = getRandomWord(easy);
+			wordCollection.push_back(randomWord);
+		}
+
+		for ( int i = 1 ; i<= 3 ; i++){
+			randomWord = getRandomWord(medium);
+			wordCollection.push_back(randomWord);
+		}
+
+		for( int i = 1 ; i <= 5 ; i++){
+			randomWord = getRandomWord(hard);
+			wordCollection.push_back(randomWord);
+		}
+	}	
 }
