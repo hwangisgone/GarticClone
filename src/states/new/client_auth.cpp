@@ -17,6 +17,10 @@ void AuthState::requestLogin(char type, const char * name, const char * pass) {
 	ClientHandler::clientSendMsg(msg);
 }
 
+void jsIncorrect() {
+	globalJsEval("auth_wrongPass()");
+}
+
 void jsGoToLobby() {
 	globalJsEval("auth_toLobby()");
 }
@@ -28,6 +32,7 @@ void AuthState::handleRecv(const BaseMsg& msg) {
 	switch (msg.type()) {
 		case MsgType::FAILURE: 
 			DEBUG_PRINT(" (Wrong password or username) ");
+			jsIncorrect();
 			break;
 		case MsgType::AUTH:
 			DEBUG_PRINT(" (Login success!!!!) ");

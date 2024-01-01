@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include <netdb.h>
 #include <arpa/inet.h>
 #include <unistd.h>		// close
 
@@ -7,7 +8,34 @@
 
 sockaddr_in serverAddress{};
 
-int initialize_client(int port, char * inputAddr) {
+std::string resolve_host(const char * hostname) {
+	struct addrinfo *result, *rp;
+
+	int err = getaddrinfo(hostname, NULL, NULL, &result);
+	if (err != 0) {
+		std::cerr << "getaddrinfo: " << gai_strerror(err) << std::endl;
+		return "";
+	}
+
+	std::string ipstring;
+
+	// Iterate through the list of addresses and use the first valid one
+	for (rp = result; rp != nullptr; rp = rp->ai_next) {
+		struct sockaddr_in *addr = (struct sockaddr_in *)rp->ai_addr;
+
+		char ipstr[INET_ADDRSTRLEN];
+		inet_ntop(AF_INET, &(addr->sin_addr), ipstr, INET_ADDRSTRLEN);
+
+		ipstring = std::string(ipstr);
+		std::cout << "Resolved IP address: " << ipstring << std::endl;
+		break;
+	}
+
+	freeaddrinfo(result); // Free the memory allocated by getaddrinfo
+	return ipstring;
+}
+
+int initialize_client(int port, const char * inputAddr) {
 	// 1. Create a UDP socket
 	int clientSocket = socket(AF_INET, SOCK_DGRAM, 0);
 	if (clientSocket == -1) {
@@ -25,6 +53,8 @@ int initialize_client(int port, char * inputAddr) {
 	serverAddress.sin_family = AF_INET;
 	serverAddress.sin_addr.s_addr = inet_addr(inputAddr); // htonl(INADDR_ANY)??  /* INADDR_ANY puts your IP address automatically */
 	serverAddress.sin_port = htons(port);
+
+	std::cout << "Client initialized at " << std::string(inputAddr) << ":" << std::to_string(port) << std::endl;
 
 	return clientSocket;
 }

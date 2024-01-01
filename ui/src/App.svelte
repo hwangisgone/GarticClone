@@ -10,7 +10,7 @@
 
 {#if $UIstate == 0}
 	<!-- "bind:state" allows Login to change the state (of App) -->
-	<input type="number" bind:value={$PlayerID} >
+	<!-- <input type="number" bind:value={$PlayerID} > -->
 	<Login />  
 {:else if $UIstate == 1}
 	<Lobby />

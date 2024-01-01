@@ -66,6 +66,11 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 					
 					sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), msg);
 				}
+			} else {
+				// auth fail
+				DEBUG_PRINT("Incorrect credentials");
+				FailMsg failmsg;
+				sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), failmsg);
 			}
 		} else {
 			DEBUG_PRINT("Dismissing message (not registered session)");

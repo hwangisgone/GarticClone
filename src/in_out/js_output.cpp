@@ -3,10 +3,14 @@
 
 extern webview::webview * globalw;
 
-void globalJsEval(const std::string& js) {
-	globalw->dispatch(
-		[&js]() {
-			globalw->eval(js);
-		}
-	);
+std::string js;
+
+void evalJs() {
+	globalw->eval(js);
+}
+
+void globalJsEval(const std::string& inputjs) {
+	js = inputjs;
+
+	globalw->dispatch(evalJs);
 }

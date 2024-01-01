@@ -4,4 +4,5 @@ add_library(server_base_lib STATIC
 	server_lobby.cpp
 	server_init.cpp
 	../states/new/server_auth.cpp
+	
 )

@@ -25,6 +25,7 @@ unique_ptr<BaseMsg> factoryProduceMsg(MsgType type) {
 
 		// Begin
 		case MsgType::AUTH:			return make_unique<AuthMsg>();
+		case MsgType::FAILURE:		return make_unique<FailMsg>();
 		case MsgType::ROOM_LIST:	return make_unique<RoomListMsg>();
 		// Lobby
 		case MsgType::CREATE_ROOM:	return make_unique<CreateRoomMsg>();

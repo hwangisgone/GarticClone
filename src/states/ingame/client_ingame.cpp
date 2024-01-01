@@ -10,6 +10,7 @@
 using namespace std;
 
 
+
 void InGameState::handleRecv(const BaseMsg &msg)
 {
 	DEBUG_PRINT("  (InGameState) " + msg.toString());
