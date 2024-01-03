@@ -1,15 +1,10 @@
 
 
  <script>
-// @ts-nocheck
-
-  
-    import App from "./App.svelte"
-    import Room from "./Room/Room.svelte"
-    import { usernameCheck, RoomID_Enter } from "./store.js";
-
-    // export const RoomID_Enter = writable();
-
+// @ts-nocheck  
+    import App from "./App.svelte";
+    import { UIstate, usernameCheck} from "./store/store.ts";
+    import Game from "./room/Game.svelte"
     let RoomList = [];
     
     // Add rooms dynamically
@@ -17,13 +12,10 @@
         RoomList.push({ RoomID: i, Players: 0 });
     }
 
-
-
-    // c
     function EnterRoom(roomIndex) {
       //  RoomList[roomIndex].Players += 1;
         RoomID_Enter.set(roomIndex);
-        lobbyState = 1;
+        $UIstate = 4;
     }
 
     function BackSignIn(){
@@ -34,15 +26,15 @@
     // come to Room
 </script>
 
-{#if lobbyState == 1}
-    <Room />
-{:else if lobbyState == 2}
-   <App/>
+{#if $UIstate == 4}
+    <Game/>
+{:else if $UIstate == 0}
+    <App/>
 {:else}
     <div >
         <div class="title">
             <div>
-                <button class="top-left-button" on:click={BackSignIn}> Back </button>
+                <button class="top-left-button" on:click={() => $UIstate = 0}> Back </button>
             </div>
             <div>
                 Username {$usernameCheck} 
@@ -58,7 +50,7 @@
                     {#each RoomList as roomNumber}
                         <div>
                             <!-- <button on:click={() => EnterRoom(roomNumber.RoomID)} class=" font-semibold  btn-outline border-4  border-base-100 btn-secondary  room-button bg-base-content" style = "" > -->
-                                <button on:click={() => EnterRoom(roomNumber.RoomID)} class=" font-semibold  btn-outline btn-info border-base-100   room-button text-neutral" style = "" >
+                                <button on:click={() => $UIstate = 4} class=" font-semibold  btn-outline btn-info border-base-100   room-button text-neutral" style = "" >
                                 <div>Room {roomNumber.RoomID}   </div>
                                 <div>Players: {roomNumber.Players}</div>
                             </button>

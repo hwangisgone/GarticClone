@@ -1,4 +1,6 @@
 <script>
+// @ts-nocheck
+
 	import RoomLayout from './RoomLayout.svelte';
 	import { PlayerID, UIstate, PlayerList } from '../store/store.ts';
 

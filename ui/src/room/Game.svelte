@@ -1,10 +1,9 @@
 <script>
 // @ts-nocheck
 
-	import RoomLayout from './RoomLayout.svelte';
+	import RoomLayout from "./RoomLayout.svelte";
 	import Lobby from "../Lobby.svelte";
-	import { usernameCheck} from "../store.js";
-	import { RoomID_Enter, GameSettings} from "../store.js";
+	import {UIstate, GameSettings} from "../store/store.ts";
 	import LeaderBoard  from '../LeaderBoard.svelte';
     // import Room from './Room.svelte';
 
@@ -14,7 +13,7 @@
 
 	let windowState = 0;
 	// for(int i = 1; i <= 10; i++)Ơ
-
+	
 	$GameSettings.PlayerList.push( {Username: 'Thuy Trinh', Point: 100})
 	$GameSettings.PlayerList.push( {Username: 'AAAAAA', Point: 60})
 	$GameSettings.PlayerList.push( {Username: 'BBBBBBBBB', Point: 80})
@@ -72,16 +71,16 @@
 
 
 </script>
-{#if windowState == 1}
+{#if $UIstate == 1}
  <Lobby/>
-{:else if  windowState == 4}
+{:else if  $UIstate == 5}
    <LeaderBoard/>
 {:else}
 
 <!-- <button class="btn btn-accent" type="button" on:click={Back}> Back Lobby </button> -->
 <RoomLayout>
 	
-	<button slot="header" class="btn btn-accent" type="button" on:click={() => windowState = 1  }>
+	<button slot="header" class="btn btn-accent" type="button" on:click={() => $UIstate = 1  }>
 		Exit room
 	</button>
 	
@@ -134,10 +133,10 @@
 				 </div>
 			  </div>
 		    </div>
-		<button class="btn btn-accent" type="button" on:click={() => roomState = 0 }>
+		<button class="btn btn-accent" type="button" on:click={() => $UIstate = 1 }>
 			End game
 		</button>
-		<button class="btn btn-accent" type="button" on:click={() => windowState = 4}>
+		<button class="btn btn-accent" type="button" on:click={() => $UIstate = 5}>
 			Go to LeaderBoard
 		</button>
 		<!-- <span></span> -->
@@ -160,8 +159,6 @@
 		  <p>This is the footer of the div.</p>
 		</div>
 	  </div> -->
-
-	
 
 	<div slot="interact" style = "background-color:aliceblue">
 		<div class="overflow-y-auto h-32">

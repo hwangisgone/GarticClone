@@ -3,101 +3,75 @@
   import SignUp from "./SignUp.svelte";
   import Lobby from "./Lobby.svelte";
   import Clock from "./Clock.svelte";
-  import { usernameCheck } from "./store.js";
   import Chat from "./chat.svelte";
-
+  import Room from "./room/Game.svelte";
+  import { PlayerID, UIstate } from './store/store.ts';
+    import { sineIn } from "svelte/easing";
+    import LeaderBoard from "./LeaderBoard.svelte";
+  
   // TODO: Move this to Login.svelte?
-  // let username;
-  // let password;
+  let username;
+  let password;
   // let error = 0;
 
-  // function checkSignIn(username, password) {
-  //   if (username == '1' && password == '1') {
-  //     windowState = 1;
-  //     console.log(windowState)
-  //     $usernameCheck = username;
-  //   } else {
-  //     error = 1;
-  //   }
-  // }
-
-  // function checkSignUp() {
-  //   windowState = 2;
-  // }
- 
-
-  // let windowState = 0 ;
-  
-	import { PlayerID, UIstate } from './store/store.ts';
-</script>
-
-<!-- <style>
-  /* Add this style block to set the background color */
-  body {
-    background-color: pink;
+  function checkSignIn(username, password) {
+    if (username == '1' && password == '1') {
+      $UIstate = 1;
+     // console.log(windowState)
+      //$usernameCheck = username;
+    } else {
+      error = 1;
+    }
   }
-</style> -->
-
-{#if windowState == 1}
-  <Lobby />
-{:else if windowState == 7}
-<Chat/>
-{:else if windowState == 5}
-  <Chat/>
-{:else if windowState == 0}
-  
-<!-- TODO: Move this to Login.svelte -->
-  <div class = "myDiv "  >
-    <div class="grid items-center h-200 " >
-      <!-- <h class = "font-bold pb-10 " style = "font-size: px; color:darkcyan "> Welcome to Gartic Game</h> -->
-      <h1 class = "font-sans font-semibold pb-10 text-primary-content" style = "font-size: 55px; "> Sign up</h1>
-      
-      <h3 class="font-sans font-semibold text-secondary-content" style="font-size: 22px; "> Username </h3>
-      <div class = "font-sans centered-input font-semibold "><input bind:value={username} class = "myInput border-4 border-neutral bg-info-content text-primary-content"/></div>
-  
-      <h3 class="font-sans font-semibold text-secondary" style="font-size: 22px; color:darkcyan"> Password </h3>
-      <div class = "font-sans centered-input font-semibold"> <input bind:value={password} class = "myInput border-4 border-neutral bg-info-content text-primary-content"  /></div>
-    </div>
-    <div >
-      <button class = "myButton btn btn-outline bg-accent text-secondary-content "  on:click={() => checkSignIn(username, password)}>
-        Play
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-      </button>
-  
-      <button class = "myButton btn btn-outline bg-secondary text-secondary-content"  on:click={checkSignUp}>
-        Sign Up
-        <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> -->
-      </button>
-      <!-- <button class = "myButton btn btn-outline btn-accent" style="background-color:chocolate;color:white" on:click={() => windowState = 5}>
-        Chat
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-      </button> -->
-    </div> 
-  
- 
-
-<!-- {#if error == 1}
-    <label class = "text-lime-900" style="font-size:15px"> Incorrect account </label>
-  {/if} -->
-</div>
-{#if $UIstate == 0}
-	<!-- "bind:state" allows Login to change the state (of App) -->
-	<!-- <input type="number" bind:value={$PlayerID} > -->
-	<Login />  
+</script>
+{#if $UIstate == 3}
+<SignUp/>
 {:else if $UIstate == 1}
-	<Lobby />
-{:else if $UIstate == 2}
-	<Room />
-{:else}
-  <SignUp />
+<Lobby/>
+{:else if $UIstate == 5}
+<LeaderBoard/>
+{:else if $UIstate == 4}
+<Room/>
+{:else if $UIstate == 0 }
+ <div class="myDiv">
+  <div class="container mx-auto">
+      <div class="max-w-md mx-auto my-10">
+          <div class="text-center">
+              <h1 class="Topic text-neutral-content font-semibold">Sign In</h1>
+              <!-- <p class="text-gray-500 dark:text-gray-400">Sign in to access your account</p> -->
+          </div>
+          <div class="m-7">
+              <form action="">
+                  <div class="mb-6">
+                      <div class="flex justify-between mb-2">
+                        <!-- svelte-ignore a11y-label-has-associated-control -->
+                        <label class="text-sm text-neutral font-semibold">USER NAME</label>
+                      </div>
+                      <input bind:value={username} placeholder="Username" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500" />
+                  </div>
+                  <div class="mb-6">
+                      <div class="flex justify-between mb-2">
+                          <label class="text-sm text-neutral font-semibold" style = "font-size:15px">PASSWORD</label>
+                           <!-- <a href="#!" class="text-sm text-gray-400 focus:outline-none focus:text-indigo-500 hover:text-indigo-500 dark:hover:text-indigo-300">Forgot password?</a> -->
+                      </div>
+                      <input bind:value={password} placeholder="Your Password" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500" />
+                  </div>
+                  <div class="mb-6">
+                      <button on:click={checkSignIn(username, password)} class="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none">Sign in</button>
+                  </div>
+                  <p class="text-sm text-center text-gray-400" style = "font-size:16px">Don&#x27;t have an account yet? <a on:click={()=> $UIstate = 3}  href="#!" class="text-indigo-400 focus:outline-none focus:underline focus:text-indigo-500 dark:focus:border-indigo-800">Sign up</a>.</p>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
 {/if}
-
 
 <style>
   /* Set the background color for the entire component */
   :global(body) {
     margin: 0;
-    /* background-color: rgb(151, 112, 157); */
+
     background-image: url('./backgr3.png'); 
     background-size: cover;
     background-position: center;
@@ -109,12 +83,13 @@
   .Topic{
     text-align: center;
     padding: 50px; /* Adjust padding as needed */
-    font-size: 30px; /* Adjust font size as needed */
-    color: white; /* Text color */
+    font-size: 50px; /* Adjust font size as needed */
+    
+    align-items: center;
   }
   .myDiv {
-      width: 700px; /* Set the width of the div */
-      height: 400px; /* Set the height of the div */
+      width: 900px; /* Set the width of the div */
+      height: 700px; /* Set the height of the div */
       background-color: rgb(242, 246, 247); /* Set the background color */
       border: 1px solid #ccc; /* Add a border for better visibility */
     }
