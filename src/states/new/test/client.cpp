@@ -23,12 +23,13 @@ int inputThread() {
 
 int main() {
 	int client_sock;
-	char funnyaddress[] = "charade.io.crabdance.com";
+	char addrstr[] = "127.0.0.1";
 
-	string addrstr = resolve_host(funnyaddress);
-	if (addrstr.empty()) return 0;
+	// string addrstr = resolve_host(funnyaddress);
+	// if (addrstr.empty()) return 0;
+	// string addrstr ="127.0.0.1";
 
-	client_sock = initialize_client(CHOSEN_PORT, addrstr.c_str());
+	client_sock = initialize_client(CHOSEN_PORT, addrstr);
 
 	auto client1 = get_client(client_sock);
 

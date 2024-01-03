@@ -16,12 +16,13 @@ webview::webview * globalw;
 
 void fuckme() {
 	int client_sock;
-	char funnyaddress[] = "charade.io.crabdance.com";
+	// char funnyaddress[] = "charade.io.crabdance.com";
 
-	std::string addrstr = resolve_host(funnyaddress);
-	if (addrstr.empty()) return;
+	// std::string addrstr = resolve_host(funnyaddress);
+	// if (addrstr.empty()) return;
+	char addrstr[] = "127.0.0.1";
 
-	client_sock = initialize_client(CHOSEN_PORT, addrstr.c_str());
+	client_sock = initialize_client(CHOSEN_PORT, addrstr);
 
 	auto client1 = get_client(client_sock);
 
