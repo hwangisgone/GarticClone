@@ -26,3 +26,5 @@ add_custom_command(TARGET ServerAuth POST_BUILD
 	COMMAND ${CMAKE_COMMAND} 
 	-E copy $<TARGET_FILE:ServerAuth> ${CMAKE_BINARY_DIR}/ServerAuth
 )
+
+configure_file("server.test.txt" "${CMAKE_BINARY_DIR}/server.test.txt" COPYONLY)

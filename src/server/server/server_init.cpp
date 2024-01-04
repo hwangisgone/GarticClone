@@ -9,6 +9,7 @@
 #include "server_init.hpp"	// All server handles
 
 #include <database/textdatabase.hpp>
+#include <printdebug/debugging.h>
 
 /*
 * Create a new server
@@ -36,6 +37,7 @@ int initialize_server(int port) {
 	}
 
 	printf("Server is listening on port %d\n", port);
+	DEBUG_PRINT("WHY");
 	return serverSocket;
 }
 
