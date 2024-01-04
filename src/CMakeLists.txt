@@ -1,63 +1,9 @@
-# Include the root directory for network_constants.h & debugging.h
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
-# Include subdirectories
-add_subdirectory(database)
-add_subdirectory(in_out)
-
-add_subdirectory(sockaddr_in)
-add_subdirectory(msg)
-add_subdirectory(states)
-add_subdirectory(server)
-add_subdirectory(client)
-
-# Generate master client and master server library
-# As stupid as it may sound, the msg_factory_lib prevent others from generating just becuase it makes the unique_ptr
-# TODO: deal with this issue?
-add_library(master_client_lib INTERFACE)
-target_link_libraries(master_client_lib INTERFACE
-	client_base_lib
-	msg_lib
-	msg_factory_lib
-
-	client_auth_lib
-	client_lobby_lib
-	client_room_lib
-	client_ingame_lib
-	client_leaderboard_lib
-
-	sockaddr_util_lib
-)
-
-# IMPORTANT NOTE: TO LINK CORRECTLY, DEPENDENCIES MUST BE LINKED LATER.
-# MUST BE LINKED IN ORDER OF FORWARD DECLARATION
-# E.G. B needs A
-#	class A; in B
-# LINKING ORDER:
-#	B_lib
-#	A_lib
-
-add_library(master_server_lib INTERFACE)
-target_link_libraries(master_server_lib INTERFACE
-	server_base_lib
-	msg_lib
-	msg_factory_lib
-
-	server_auth_lib
-	server_lobby_lib
-	server_room_lib
-	server_ingame_lib
-	server_leaderboard_lib
-
-	text_db_lib
-
-	sockaddr_util_lib
-)
-
+message(CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}")
 
 
 # GUI
-add_library(webview_lib INTERFACE ../libs/webview/webview.cc)
+add_library(webview_lib INTERFACE)
+target_include_directories(webview_lib INTERFACE ../libs/webview)
 
 # Check the target system
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
@@ -79,17 +25,12 @@ else()
 endif()
 
 
-# Read the content of the HTML file and generate a C++ source file
-file(READ "../ui/dist/index.html" HTML_CONTENT)
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/html_const.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/html_const.cpp" @ONLY)
-message(STATUS "Read the HTML file")
 
+add_subdirectory(server)
+add_subdirectory(client)
 
-# Append HTML to file
-add_executable(CharadeioClient bind.cc "${CMAKE_CURRENT_BINARY_DIR}/html_const.cpp")
-target_include_directories(CharadeioClient PRIVATE "../libs/webview/")
+add_subdirectory(js_io)
+add_subdirectory(independent)
+add_subdirectory(states)
 
-target_link_libraries(CharadeioClient PRIVATE 
-	master_client_lib
-	webview_lib
-)
+add_subdirectory(test)

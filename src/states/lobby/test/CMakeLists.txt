@@ -1,13 +1,13 @@
 # Client
 add_executable(client_lobby client.cpp)
 # Linking
-target_link_libraries(client_lobby PRIVATE master_client_lib cmd_io_lib)
+target_link_libraries(client_lobby PRIVATE debug_lib master_client_lib cmd_io_lib)
 
 
 # Server
 add_executable(server_lobby server.cpp)
 # Linking
-target_link_libraries(server_lobby PRIVATE master_server_lib)
+target_link_libraries(server_lobby PRIVATE debug_lib master_server_lib)
 
 
 # Copy to outside

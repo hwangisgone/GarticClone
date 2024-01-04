@@ -5,10 +5,10 @@
 #include <thread>
 #include <iostream>
 
-#include "network_const.h"
-#include "client/client_init.hpp"	// Client
+#include <consts/network_const.h>
+#include <client/client_init.hpp>	// Client
 
-#include "in_out/exposed_input.hpp"	// Binding
+#include <js_io/exposed_input.hpp>	// Binding
 
 extern const char* html_const;
 
