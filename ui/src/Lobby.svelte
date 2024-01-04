@@ -154,15 +154,30 @@
     import App from "./App.svelte"
     import Room from "./Room.svelte"
 
+<<<<<<< Updated upstream
     let windowState = 0;
+=======
+    function EnterRoom(roomIndex) {
+      //  RoomList[roomIndex].Players += 1;
+        RoomID_Enter.set(roomIndex);
+        $UIstate = 2;
+    }
+>>>>>>> Stashed changes
 
     function Back() {
         windowState = 1;
     }
 </script>
 
+<<<<<<< Updated upstream
 {#if windowState == 1}
     <Room />
+=======
+{#if $UIstate == 2}
+    <Game/>
+{:else if $UIstate == 0}
+    <App/>
+>>>>>>> Stashed changes
 {:else}
     <div>
         <div class="title">
@@ -176,12 +191,22 @@
 
         <div class="content of room">
             <div>
+<<<<<<< Updated upstream
                 <ul class="menu menu-horizontal lg:menu-horizontal bg-base-200 rounded-box">
                     {#each Array.from({ length: 5 }, (_, i) => i + 1) as roomNumber}
                         <li>
                             <button on:click={Back} class="room-button">
                                 <div>{roomNumber}</div>
                                 <div>Players: 0</div>
+=======
+                <div class="grid grid-cols-5 gap-4 rounded-box  p-4 border border-secondary bg-base-content" >
+                    {#each RoomList as roomNumber}
+                        <div>
+                            <!-- <button on:click={() => EnterRoom(roomNumber.RoomID)} class=" font-semibold  btn-outline border-4  border-base-100 btn-secondary  room-button bg-base-content" style = "" > -->
+                                <button on:click={() => $UIstate = 2} class=" font-semibold  btn-outline btn-info border-base-100   room-button text-neutral" style = "" >
+                                <div>Room {roomNumber.RoomID}   </div>
+                                <div>Players: {roomNumber.Players}</div>
+>>>>>>> Stashed changes
                             </button>
                         </li>
                     {/each}
