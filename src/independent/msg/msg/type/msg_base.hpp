@@ -8,7 +8,7 @@
 
 #include "msg_serialize.hpp"
 
-#include <debug/debugging.h>
+#include <printdebug/debugging.h>
 
 enum class MsgType : uint16_t
 {
