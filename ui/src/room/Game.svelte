@@ -86,39 +86,17 @@
 		
 	
 		<div slot="players">
-			<div class="text-lg">
+			<div class="text-lg text-neutral content-center">
 				Leaderboard
 				<!-- <br/>
 				Use {'{'}#each{'}'} here -->
-				<div class="overflow-y-scroll h-32 bg-primary" style="height:650px">
-					<!-- <div class="table table-xs table-pin-rows table-pin-cols">
-					  <thead style = "height:50px">
-						<tr>
-						  <th></th> 
-						  <td style = "font-size: 25px;">UserName</td> 
-						  <td style = "font-size: 25px;">Point</td> 
-						  <th></th> 
-						</tr>
-					  </thead> 
-					 <tbody>
-						{#each $GameSettings.PlayerList as player}
-						<tr>
-						  <th></th> 
-						  <td style = "font-size: 20px;">{player.Username}</td> 
-						  <td style = "font-size: 20px;">{player.Point}</td>
-						 
-						</tr>
-						{/each}
-						
-					  </tbody> 
-					  
-					 </div> -->
+				<div class="overflow-y-scroll h-32 bg-base-200" style="height:650px">
 					 <div class = "flex flex-col items-center gap-10 p-10">
 						{#each numbers as number}
 	
 							<div class = "flex flex-col text-center border-4 border-sky-500 rounded-full border-double " style = "width:300px" >
 								
-								<strong>Hello {number}</strong>
+								<strong style = 'color-font: white'>Hello {number}</strong>
 								<span>0 points</span>
 							</div>
 						{/each}
@@ -161,7 +139,7 @@
 		  </div> -->
 	
 		<div slot="interact" style = "background-color:aliceblue">
-			<div class="overflow-y-auto h-32">
+			<div class="overflow-y-auto h-32" style = 'height: cover'>
 				{#each messages as mess}
 				  <div class="chat chat-start">
 					<div class="chat-image avatar">
@@ -177,7 +155,7 @@
 			
 				<div class = 'content-center'>
 				  <input placeholder="Write a message"  type="text" class="input input-bordered w-full max-w-xs"bind:value={msg}/>
-				  <button on:click={EnterChat} class = 'font-size: 15px ;text-neutral'> Enter</button>
+				  <button on:click={EnterChat} class = 'font-size: 15px  text-neutral'> Enter</button>
 			    </div>
 			
 		</div>
