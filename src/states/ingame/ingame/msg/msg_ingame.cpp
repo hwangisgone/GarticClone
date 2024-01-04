@@ -9,21 +9,12 @@ using namespace std;
 // ************
 // TODO: finish draw msg
 // TODO: formalize all the serialize (since there's only 3 types: short, int and char[])
+void DrawMsg::serializeBody(MsgBuffer& buff) const {}
 
-void DrawMsg::serializeBody(MsgBuffer& buff) const {
-	buff.serializeField(this->x);
-	buff.serializeField(this->y);
-	buff.serializeField(this->color, 3);
-}
-
-void DrawMsg::deserializeBody(MsgBuffer& buff) {
-	buff.deserializeField(&this->x);
-	buff.deserializeField(&this->y);
-	buff.deserializeField(this->color, 3);
-}
+void DrawMsg::deserializeBody(MsgBuffer& buff) {}
 
 string DrawMsg::debugPrint() const {
-	return "drawnotimplmentened";
+	return "";
 }
 
 // **************

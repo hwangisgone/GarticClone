@@ -62,6 +62,18 @@ void handleState() {
 }
 */
 
+/*
+serverInfo {
+	host: pointer
+	current_state: STATE_ENUM
+	playerlist (including host) [
+		playerA: {
+			addr:
+			score:
+		} 
+	]
+} */
+
 
 
 

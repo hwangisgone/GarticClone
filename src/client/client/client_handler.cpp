@@ -12,23 +12,16 @@
 
 using namespace std;
 
-int ClientHandler::sockfd;
-sockaddr_in ClientHandler::serverAddress;
-
-void ClientHandler::clientSendMsg(BaseMsg& msg) {
-	sendMsg(ClientHandler::sockfd, (struct sockaddr *)&ClientHandler::serverAddress, sizeof(ClientHandler::serverAddress), msg);
-}
-
 // recvThread related
 void ClientHandler::run() {
 	unique_ptr<BaseMsg> msg;
 	int timeout_counter = 0;
 		
 	while (keepAlive) {
-		msg = recvMsg(ClientHandler::sockfd, nullptr, nullptr);
+		msg = recvMsg(sockfd, nullptr, nullptr);
 		if (!msg) {	// nullptr
 			if (errno && EAGAIN || errno && EWOULDBLOCK) {
-				DEBUG_COUT("\033[s\r\t\t\t\t\tCLIENT RECV TIMEOUT (" + to_string(timeout_counter) + ")\033[u");	// Save cursor and return
+				DEBUG_COUT("CLIENT RECV TIMEOUT (" + to_string(timeout_counter) + ")\033[1A");
 				timeout_counter++;
 				continue;
 			} else {
@@ -48,7 +41,6 @@ void ClientHandler::kill() {
 
 // FOR TESTING INPUT
 // For testing,
-int (*getInput)() = nullptr;
 
 void ClientHandler::sendInput() {
 	if (getInput == nullptr) {
@@ -56,21 +48,23 @@ void ClientHandler::sendInput() {
 		return;
 	}
 	while (keepAlive) {
-		if (getInput() == -1) { 
-			DEBUG_PRINT("Input thread ended by user.");
+		unique_ptr<BaseMsg> msg = this->getInput();
+		if (msg != nullptr) { 
+			sendMsg(this->sockfd, (struct sockaddr *)&this->serverAddress, sizeof(this->serverAddress), *msg);
+		} else {
+			DEBUG_PRINT("input: msg is null");
 			this->kill();
 		}
 	}
 }
 
 std::thread inputThread;
-void ClientHandler::initialize_input_thread(int (*func)()) {
-	getInput = func;
+void ClientHandler::initialize_input_thread(std::unique_ptr<BaseMsg> (*func)()) {
+	this->getInput = func;
 	inputThread = std::thread(&ClientHandler::sendInput, this);
 }
 
 void ClientHandler::join_input_thread() {
-	DEBUG_PRINT("Joining input thread");
 	inputThread.join();
 }
 
@@ -78,9 +72,9 @@ void ClientHandler::join_input_thread() {
 
 
 // Initializations
-ClientHandler::ClientHandler(int in_sockfd, sockaddr_in inputAddress) {	// Constructor
-	ClientHandler::sockfd = in_sockfd;
-	ClientHandler::serverAddress = inputAddress;
+ClientHandler::ClientHandler(int sockfd, sockaddr_in inputAddress) {	// Constructor
+	this->sockfd = sockfd;
+	this->serverAddress = inputAddress;
 
 	DEBUG_PRINT("{ClientHandler} created successfully.");
 	this->setState(new AuthState());	// Allocate new state
@@ -119,7 +113,7 @@ void ClientHandler::addPlayer(int playerID, const char * inputName) {
 
 		DisplayPlayer * newPlayerPtr = &result.first->second;
 		newPlayerPtr->currentScore = 0;
-		strncpy(newPlayerPtr->name, inputName, 50);
+		strcpy(newPlayerPtr->name, inputName);
 	} else {
 		DEBUG_PRINT("(Client) Joined failed. " + playerName + " already exists.");
 	}

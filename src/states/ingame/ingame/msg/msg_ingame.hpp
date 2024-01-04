@@ -13,12 +13,12 @@ struct Color {
 class DrawMsg : public BaseMsg {
 private:
 	uint32_t bodySize() const override { 
-		return sizeof(uint32_t) + sizeof(uint32_t) + 3;
+		return 0;
 	}
 public:
 	uint32_t x;
 	uint32_t y;
-	char color[3];
+	Color color;
 
 	DrawMsg() : BaseMsg(MsgType::DRAW) {}
 

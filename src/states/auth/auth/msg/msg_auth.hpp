@@ -8,7 +8,6 @@ class AuthMsg: public BaseMsg {
 private:
 	uint32_t bodySize() const override { return 1 + 50 + 100; };
 public:
-	char auth_type;		// 1: Login, 0: Register
 	char username[50];
 	char password[100];
 
