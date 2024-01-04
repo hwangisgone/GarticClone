@@ -61,15 +61,17 @@ void handleAnswer(const AnswerMsg &msg, int playerID, char *correct_ans, RoomHan
 	}
 }
 
-void startGame(const StartMsg &msg, string wordChoose, char *ans)
+char* ansStartGame( string wordChoose)
 {
 	// msg -> answer
 	// strcmp(answer, answer);
 	// change Word;
 	// maybe get word from the queue
-	int length = wordChoose.length();
-	ans = new char[length+1];
-	strcpy(ans, wordChoose.c_str());
+
+	char* output = new char[wordChoose.size() + 1];
+    std::strcpy(output, wordChoose.c_str());
+    return output;
+
 }
 
 
@@ -88,7 +90,8 @@ void InGameState::handle(const BaseMsg &msg, int playerID)
 	{
 	case MsgType::START_GAME:
 		// start game with word choose from word collection
-		startGame(static_cast<const StartMsg &>(msg), wordChoose, answer);
+		// startGame(static_cast<const StartMsg &>(msg), wordChoose, answer);
+		answer = ansStartGame(wordChoose);
 		break;
 	case MsgType::ANSWER:
 		handleAnswer(static_cast<const AnswerMsg &>(msg), playerID, answer, room, wordsGlobal);
@@ -97,8 +100,9 @@ void InGameState::handle(const BaseMsg &msg, int playerID)
 		handleScore(static_cast<const ScoreMsg &>(msg), playerID, answer, room, wordsGlobal);
 		break;
 	case MsgType::NEXT_ROUND:
-		// next_round with word choose from word collection
-		startGame(static_cast<const NextRoundMsg &>(msg) , string(getRandomAndRemove(room->wordCollection).word) , answer);
+		// next_round with word choose from word collectionstartGame
+		Word w_next = getRandomAndRemove(room->wordCollection);
+		answer = ansStartGame(w_next.word);
 		break;
 	default:
 		cerr << "SERVER ROOM: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;

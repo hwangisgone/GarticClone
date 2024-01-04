@@ -18,7 +18,7 @@ private:
 public:
 	uint32_t x;
 	uint32_t y;
-	char color[3];
+	char color[7];
 
 	DrawMsg() : BaseMsg(MsgType::DRAW) {}
 

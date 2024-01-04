@@ -42,7 +42,7 @@ int main() {
 	webview::webview w(false, nullptr);
 	globalw = &w;
 	w.set_title("Charade.io");
-	w.set_size(480, 320, WEBVIEW_HINT_NONE);
+	w.set_size(500, 500, WEBVIEW_HINT_NONE);
 
 	w.bind("requestLogin", rqLogin, nullptr);
 
