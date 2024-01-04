@@ -1,6 +1,4 @@
 <script>
-// @ts-nocheck
-
 	import Game from './Game.svelte';
 	import GetReady from './GetReady.svelte';
 

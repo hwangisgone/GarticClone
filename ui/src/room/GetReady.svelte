@@ -1,6 +1,4 @@
 <script>
-// @ts-nocheck
-
 	import RoomLayout from './RoomLayout.svelte';
 	import { PlayerID, UIstate, PlayerList } from '../store/store.ts';
 
@@ -23,7 +21,7 @@
 	window.room_addPlayer = addPlayer;
 	window.room_removePlayer = removePlayer;
 </script>
-{#if state == 2}
+
 <RoomLayout>
 	<button slot="header" class="btn btn-accent" type="button" on:click={() => $UIstate = 1 }>
 		Exit room
@@ -36,6 +34,3 @@
 		</button>
 	</div>
 </RoomLayout>
-{:else}
-  <Lobby/>
-{/if}

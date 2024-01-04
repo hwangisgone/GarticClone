@@ -10,6 +10,6 @@ void run_client_from_state(int client_sock, ClientState * state);
 void run_client(int client_sock);
 void cleanup_client(int sockfd);
 
-ClientHandler& get_client(int client_sock);
+std::unique_ptr<ClientHandler> get_client(int client_sock);
 
 #endif

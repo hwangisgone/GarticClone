@@ -58,7 +58,7 @@ public:
 	void handleRecv(const BaseMsg& msg) override;
 };
 
-// enum GameState {
+// GameState {
 // 	LOBBY,
 // 	ROOM,
 // 	INGAME,
@@ -76,11 +76,10 @@ class ClientHandler {
 private:
 	ClientState* currentState = nullptr;
 	bool keepAlive = true;
-
-	std::unique_ptr<BaseMsg> (*getInput)() = nullptr;
 public:
-	int sockfd;
-	sockaddr_in serverAddress;
+	static int sockfd;
+	static sockaddr_in serverAddress;
+	static void clientSendMsg(BaseMsg& msg);
 
 	std::unordered_map<int, DisplayPlayer> playerMap;	// Map (playerID, Player)
 
@@ -96,7 +95,7 @@ public:
 	void removePlayer(int playerID);
 
 	void sendInput();
-	void initialize_input_thread(std::unique_ptr<BaseMsg> (*getInput)());
+	void initialize_input_thread(int (*func)());
 	void join_input_thread();
 };
 

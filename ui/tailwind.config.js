@@ -4,9 +4,10 @@ export default {
   theme: {
     extend: {},
   },
-  
   plugins: [require("daisyui")],
+
   daisyui: {
-    themes: ["light", "cupcake", "lemonade", "aqua"],
+    themes: ["cupcake"],
   }
 }
+

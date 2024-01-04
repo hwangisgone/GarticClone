@@ -76,7 +76,6 @@ void run_client(int client_sock) {
 	client1.run();
 }
 
-ClientHandler& get_client(int client_sock) {
-	static ClientHandler client1(client_sock, serverAddress);
-	return client1;
+std::unique_ptr<ClientHandler> get_client(int client_sock) {
+	return std::make_unique<ClientHandler>(client_sock, serverAddress);
 }

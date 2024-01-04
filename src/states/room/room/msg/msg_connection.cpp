@@ -9,12 +9,12 @@ uint32_t PlayerConnectMsg::bodySize() const { return sizeof(uint32_t); }	// 4 by
 
 void PlayerConnectMsg::serializeBody(MsgBuffer& buff) const {
 	buff.serializeField(this->playerID);
-	buff.serializeField(this->name, 100);
+	buff.serializeField(this->name, 50);
 }
 
 void PlayerConnectMsg::deserializeBody(MsgBuffer& buff) {
 	buff.deserializeField(&this->playerID);
-	buff.deserializeField(this->name, 100);
+	buff.deserializeField(this->name, 50);
 }
 
 string PlayerConnectMsg::debugPrint() const {

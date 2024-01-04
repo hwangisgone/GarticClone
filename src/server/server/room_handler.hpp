@@ -55,7 +55,7 @@ public:
 	void handle(const BaseMsg& msg, int playerID) override;
 };
 
-// enum GameState {
+// GameState {
 // 	LOBBY,
 // 	ROOM,
 // 	INGAME,

@@ -69,12 +69,12 @@ void RoomHandler::setState(ServerState* newState) {
 }
 
 // broadcasting
-void RoomHandler::broadCast(BaseMsg& msg) const {
+void RoomHandler::broadcast(BaseMsg& msg) const {
 	for (const auto& pair : playerMap) {
 		sendMsg(this->sockfd, (struct sockaddr*)&pair.second.currentAddr, sizeof(pair.second.currentAddr), msg);
 	}
 }
-void RoomHandler::broadCastExcept(BaseMsg& msg, int playerID) const {
+void RoomHandler::broadcastExcept(BaseMsg& msg, int playerID) const {
 	for (const auto& pair : playerMap) {
 		if (pair.first != playerID) {
 			sendMsg(this->sockfd, (struct sockaddr*)&pair.second.currentAddr, sizeof(pair.second.currentAddr), msg);
