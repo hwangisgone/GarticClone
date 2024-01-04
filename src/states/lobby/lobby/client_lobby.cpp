@@ -4,7 +4,7 @@
 
 #include <lobby/msg/msg_lobby.hpp>
 #include <js_io/js_output.hpp>
-#include <debug/debugging.h>
+#include <printdebug/debugging.h>
 
 using namespace std;
 

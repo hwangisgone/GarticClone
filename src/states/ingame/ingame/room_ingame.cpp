@@ -9,7 +9,7 @@
 #include <msg/msg_sendrecv.h>
 
 #include <room/msg/msg_connection.hpp> // Allow other players to enter/exit in game
-#include <debug/debugging.h>
+#include <printdebug/debugging.h>
 #include <database/word_list.hpp>
 
 using namespace std;
