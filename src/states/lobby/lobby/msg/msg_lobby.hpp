@@ -21,7 +21,6 @@ public:
 };
 
 
-// TODO: implement this?
 class CreateRoomMsg: public BaseMsg {
 private:
 	uint32_t bodySize() const override { return 50; };

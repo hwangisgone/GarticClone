@@ -8,7 +8,6 @@
 
 #include "server_init.hpp"	// All server handles
 
-#include <database/textdatabase.hpp>
 #include <printdebug/debugging.h>
 
 /*

@@ -1,5 +1,8 @@
 START
 recv 3:7:
-(StateAuth) 3:7:
 -> (Wrong password or username)
+recv 3:7:
+-> (Wrong password or username)
+recv 1:158:[][]
+-> (Login success!!!!)
 END

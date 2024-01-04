@@ -36,6 +36,7 @@ void run_test_input(const string& filePath) {
 // 	_ SCORE,
 
 	string query;
+	string input = "";
 	while(inputFile >> query) {
 		if (query == "login") {
 			cout << "\033[96m RUN: " << query << "\033[0m" << endl;
@@ -47,20 +48,32 @@ void run_test_input(const string& filePath) {
 			string name, pass;
 			inputFile >> name >> pass;
 			AuthState::requestLogin(0, name.c_str(), pass.c_str());
+		} else if (query == "createroom") {
+			cout << "\033[96m RUN: " << query << "\033[0m" << endl;
+			inputFile >> input;
+			LobbyState::requestCreateRoom(input.c_str());
+		} else if (query == "joinroom") {
+			cout << "\033[96m RUN: " << query << "\033[0m" << endl;
+			int roomID;
+			inputFile >> roomID;
+			LobbyState::requestJoinRoom(roomID);		
 		// } else if () {
-			
 		// } else if () {
-			
 		// } else if () {
-			
+		// } else if () {			
 		// } else if () {
+		// } else if () {
+		} else if (query == "pause!") {
+			cout << "\033[96m   (Type anything) \033[0m";
+				cin >> input; input = "";
+		} else {		
+			if (query != "//") {	// Comments are skipped
+				cout << "\033[96m COMMAND NOT FOUND: " << query << "\033[0m" << endl;		
+			}
 
-		} else {
-			cout << "\033[96m COMMAND NOT FOUND: " << query << "\033[0m" << endl;
 			inputFile.ignore(numeric_limits<streamsize>::max(), '\r');
 		}
 	}
-
 
 	inputFile.close();
 }

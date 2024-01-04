@@ -1,7 +1,23 @@
-login nametest passtest
-register abcd 1234
-weofi
-register abcd 1234
+register fuck 5678
 
-fuck 
-whtateh hell
+login abcd 1234
+
+createroom Fuckers
+
+pause!
+
+joinroom 1
+joinroom 7
+
+// EDGE CASES:
+// login abcd 1234		// test login 		after login
+// register 1234 abcd	// test registered	after login
+
+// joinroom 1 			// joinroom			after createroom
+// joinroom 3 			// joinroom			after joinroom
+
+// PASSED:
+// login nametest passtest	// incorrect login
+// register abcd 1234		// test register for registered account
+
+// joinroom 666			// join nonexistent room	

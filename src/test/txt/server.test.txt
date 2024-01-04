@@ -1,7 +1,10 @@
 START
-recv 1:158:[nametest][passtest]
-Login into: nametest - passtest
-Incorrect credentials
 recv 1:158:[abcd][1234]
 Registering new account: abcd - 1234
-Incorrect credentials
+Register fail.
+recv 1:158:[fuck][5678]
+Registering new account: fuck - 5678
+Register success! Player #3
+recv 1:158:[abcd][1234]
+Login into: abcd - 1234
+Lobby: Joined successful!
