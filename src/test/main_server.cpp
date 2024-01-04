@@ -6,7 +6,8 @@
 int main(){
 	int server_sock; /* file descriptors */
 
-	load_test_file("server.test.txt");
+	load_test_file("txt/server.test.txt");
+	TEST_PRINT("START");
 
 	server_sock = initialize_server(CHOSEN_PORT);
 	if (server_sock < 0) return 0;
@@ -15,6 +16,9 @@ int main(){
 	server1->run();
 
 	cleanup_server(server_sock);
-	
+
+	TEST_PRINT("END");
+	TEST_PRINT("?");	// Last message to trigger the calculation of test
+
 	return 0;
 }

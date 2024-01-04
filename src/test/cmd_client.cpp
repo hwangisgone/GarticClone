@@ -4,23 +4,13 @@
 
 #include <client/client_init.hpp>
 #include <js_io/test_input.hpp>
+#include <printdebug/debugging.h>
 
 using namespace std;
 
 int inputThread() {
-	run_test_input("input.test.txt");
-
-	string input; 
-	cout << "Input? ( auth )" << endl;
-	cin >> input;
-
-	if (input == "auth") {
-		authInput();
-		return 0;
-	} else {
-		DEBUG_PRINT("Exiting");
-		return -1;
-	}
+	run_test_input("txt/input.test.txt");
+	return -1;
 }
 
 int main() {
@@ -30,6 +20,8 @@ int main() {
 	// string addrstr = resolve_host(funnyaddress);
 	// if (addrstr.empty()) return 0;
 	// string addrstr ="127.0.0.1";
+	load_test_file("txt/client.test.txt");
+	TEST_PRINT("START");
 
 	client_sock = initialize_client(CHOSEN_PORT, addrstr);
 
@@ -42,6 +34,9 @@ int main() {
 	client1->join_input_thread();
 
 	cleanup_client(client_sock);
+
+	TEST_PRINT("END");
+	TEST_PRINT("?");	// Last message to trigger the calculation of test
 
 	return 0;
 }

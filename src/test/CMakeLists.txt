@@ -1,4 +1,4 @@
-add_executable(FuckClient main_client.cpp)
+add_executable(FuckClient cmd_client.cpp)
 target_link_libraries(FuckClient PRIVATE 
 	consts_lib
 	client_base_lib
@@ -9,6 +9,8 @@ target_link_libraries(FuckClient PRIVATE
 	client_ingame_lib
 	client_leaderboard_lib
 	debug_lib
+
+	auto_io_lib
 )
 
 add_executable(ServerAuth main_server.cpp)
@@ -27,4 +29,12 @@ add_custom_command(TARGET ServerAuth POST_BUILD
 	-E copy $<TARGET_FILE:ServerAuth> ${CMAKE_BINARY_DIR}/ServerAuth
 )
 
-configure_file("server.test.txt" "${CMAKE_BINARY_DIR}/server.test.txt" COPYONLY)
+add_custom_command(TARGET FuckClient POST_BUILD 
+	COMMAND ${CMAKE_COMMAND} 
+	-E copy $<TARGET_FILE:FuckClient> ${CMAKE_BINARY_DIR}/FuckClient
+)
+
+# Copy every .test.txt file to binary for use
+add_custom_target(copy-runtime-files ALL
+	COMMAND ${CMAKE_COMMAND} 
+	-E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/txt ${CMAKE_BINARY_DIR}/txt)

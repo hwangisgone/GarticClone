@@ -39,7 +39,7 @@ void ClientHandler::run() {
 		currentState->handleRecv(*msg);	// This might kill the thread
 	}
 
-	DEBUG_PRINT("Finish???");
+	std::cerr << "Recv thread ended." << std::endl;
 }
 
 void ClientHandler::kill() {
@@ -57,7 +57,7 @@ void ClientHandler::sendInput() {
 	}
 	while (keepAlive) {
 		if (getInput() == -1) { 
-			DEBUG_PRINT("Input thread ended by user.");
+			std::cerr << "Input thread ended by user." << std::endl;
 			this->kill();
 		}
 	}

@@ -27,15 +27,15 @@ void jsGoToLobby() {
 
 void AuthState::handleRecv(const BaseMsg& msg) {
 	// - wait for host to start
-	DEBUG_PRINT("  (StateAuth) " + msg.toString());
+	TEST_PRINT("(StateAuth) " + msg.toString());
 
 	switch (msg.type()) {
 		case MsgType::FAILURE: 
-			DEBUG_PRINT(" (Wrong password or username) ");
+			TEST_PRINT("-> (Wrong password or username)");
 			jsIncorrect();
 			break;
 		case MsgType::AUTH:
-			DEBUG_PRINT(" (Login success!!!!) ");
+			TEST_PRINT("-> (Login success!!!!) ");
 			this->client->setState(new LobbyState());
 			jsGoToLobby();
 			break;

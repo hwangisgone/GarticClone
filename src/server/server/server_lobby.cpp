@@ -68,12 +68,12 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 				}
 			} else {
 				// auth fail
-				DEBUG_PRINT("Incorrect credentials");
+				TEST_PRINT("Incorrect credentials");
 				FailMsg failmsg;
 				sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), failmsg);
 			}
 		} else {
-			DEBUG_PRINT("Dismissing message (not registered session)");
+			TEST_PRINT("Dismissing message (not registered session)");
 		}
 	} else {
 		PlayerSession& currentClient = it->second;

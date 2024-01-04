@@ -37,12 +37,12 @@ int initialize_server(int port) {
 	}
 
 	printf("Server is listening on port %d\n", port);
-	DEBUG_PRINT("WHY");
 	return serverSocket;
 }
 
 
 void cleanup_server(int sockfd) {
+
 	close(sockfd);
 }
 

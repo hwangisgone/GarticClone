@@ -1,1 +1,1 @@
-set -x ; cd ui && npm run build && cd ../build ; rm debug/src/html_const.cpp ; cmake -S .. -B debug/ -DCMAKE_BUILD_TYPE=Debug && cmake --build debug/
+set -x ; cd ui && npm run build && cd ../build ; rm debug/src/html_const.cpp ; cmake -S .. -B debug/ -DCMAKE_BUILD_TYPE=Testing && cmake --build debug/

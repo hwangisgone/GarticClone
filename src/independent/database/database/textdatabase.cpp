@@ -20,6 +20,7 @@ bool loadFromFile(const std::string& filename, std::vector<PlayerAccount>& accou
         std::cerr << "Error opening file: " << filename << std::endl;
         return false;
     }
+    std::cerr << "Reading accounts from " + filename << std::endl;
 
     // Read data from each line in the file
     while (!file.eof())
@@ -75,6 +76,7 @@ std::vector<PlayerAccount>::iterator findPlayer(std::vector<PlayerAccount> &acco
 }
 
 PlayerAccount * checkPassword(const char * username, const char * password) {
+    std::cerr << "Acc counts: " << allAccounts.size() << std::endl;
     for (auto& account : allAccounts) {
         if (strcmp(account.playerName, username) == 0) {
             // Username match found

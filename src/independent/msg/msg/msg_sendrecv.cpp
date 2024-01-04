@@ -45,7 +45,7 @@ std::unique_ptr<BaseMsg> recvMsg(int socket, struct sockaddr * targetAddr, sockl
 
 	// Need checking??
 	if (msg) {
-		DEBUG_PRINT(msg->toString());
+		TEST_PRINT("recv " + msg->toString());
 		if (receivedBytes != msg->length()) {
 			DEBUG_PRINT("ERROR: RECEIVED BYTES != MSG LENGTH: " + std::to_string(receivedBytes) + " != " + std::to_string(msg->length()) );
 		}

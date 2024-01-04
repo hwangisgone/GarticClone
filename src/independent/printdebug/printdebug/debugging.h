@@ -7,6 +7,7 @@ void load_test_file(const std::string& filePath);
 
 
 #ifdef NDEBUG
+	#define TEST_PRINT(x)
 	#define DEBUG_PRINT(x) 
 	#define DEBUG_COUT(x)
 	#pragma message("DEBUG DISABLED FOR RELEASE")
@@ -20,7 +21,8 @@ void load_test_file(const std::string& filePath);
 
 
 	#include <iostream>
-	#define DEBUG_PRINT(x) do { std::cerr << "DEBUG: " << TEST_CHECK(x) << std::endl; } while (0)
+	#define TEST_PRINT(x) do { std::cerr << "\033[96mTEST: \033[0m" << TEST_CHECK(x) << std::endl; } while (0)
+	#define DEBUG_PRINT(x) do { std::cerr << "DEBUG: " << x << std::endl; } while (0)
 	#define DEBUG_COUT(x) do { std::cerr << x; } while (0)
 #endif
 

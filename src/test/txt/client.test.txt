@@ -1,0 +1,5 @@
+START
+recv 3:7:
+(StateAuth) 3:7:
+-> (Wrong password or username)
+END
