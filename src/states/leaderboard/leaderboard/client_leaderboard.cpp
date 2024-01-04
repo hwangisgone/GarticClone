@@ -4,7 +4,7 @@
 
 #include "msg/msg_leaderboard.hpp"
 
-#include <printdebug/debugging.h>
+#include <debug/debugging.h>
 
 using namespace std;
 

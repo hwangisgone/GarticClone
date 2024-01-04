@@ -6,7 +6,7 @@
 #include "msg/msg_start.hpp"
 
 #include <js_io/js_output.hpp>
-#include <printdebug/debugging.h>
+#include <debug/debugging.h>
 
 using namespace std;
 

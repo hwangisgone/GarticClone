@@ -1,4 +1,4 @@
-add_subdirectory(printdebug)
+add_subdirectory(debug)
 add_subdirectory(aheaderonly)
 add_subdirectory(sockaddr_in)
 

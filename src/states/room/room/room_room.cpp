@@ -9,7 +9,7 @@
 #include <lobby/msg/msg_lobby.hpp>
 #include <sockaddr_in/sockaddr_in_functions.hpp>
 #include <msg/msg_sendrecv.h>
-#include <printdebug/debugging.h>
+#include <debug/debugging.h>
 
 
 

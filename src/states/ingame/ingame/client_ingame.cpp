@@ -6,7 +6,7 @@
 #include "msg/msg_next_end.hpp"
 
 #include <room/msg/msg_connection.hpp>	// Allow other players to enter/exit in game
-#include <printdebug/debugging.h>
+#include <debug/debugging.h>
 
 using namespace std;
 

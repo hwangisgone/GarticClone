@@ -21,8 +21,3 @@ target_link_libraries(ServerAuth PRIVATE
 	server_leaderboard_lib
 	debug_lib
 )
-
-add_custom_command(TARGET ServerAuth POST_BUILD 
-	COMMAND ${CMAKE_COMMAND} 
-	-E copy $<TARGET_FILE:ServerAuth> ${CMAKE_BINARY_DIR}/ServerAuth
-)

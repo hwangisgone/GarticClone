@@ -7,7 +7,7 @@
 #include <msg/msg_sendrecv.h>
 
 #include <auth/server_auth.hpp>
-#include <printdebug/debugging.h>
+#include <debug/debugging.h>
 
 using namespace std;
 
