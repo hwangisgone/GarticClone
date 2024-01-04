@@ -22,7 +22,7 @@ bool ServerLobby::joinRoom(PlayerSession& client, JoinRoomMsg& joinmsg) {
 
 		return true;
 	} else {
-		DEBUG_PRINT("Room doesn't exist");
+		TEST_PRINT("Lobby: Room doesn't exist");
 		return false;
 	}
 }
@@ -31,7 +31,7 @@ void ServerLobby::createRoom(PlayerSession& creator, const char * in_roomName) {
 	// Room count as roomID
 	auto result = this->allRooms.emplace(this->roomCount, new RoomHandler(this->sockfd));
 	if (result.second) {
-		DEBUG_PRINT("Lobby: Created room #" + to_string(result.first->first) + " successfully!");
+		TEST_PRINT("Lobby: Created room #" + to_string(result.first->first) + " successfully!");
 		RoomHandler * newRoom = result.first->second;
 
 		strncpy(newRoom->roomName, in_roomName, 50);
@@ -105,6 +105,10 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 					break;
 			}	
 		} else {
+			if (msg.type() == MsgType::JOIN_ROOM) {
+				TEST_PRINT("Lobby: Aready in room! This shouldn't happen.");
+				return;
+			}
 			// In room/game
 			currentClient.inRoom->msgQueue.push(wrapper);
 		}

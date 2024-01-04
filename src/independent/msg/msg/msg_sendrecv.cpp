@@ -15,7 +15,7 @@ int sendMsg(int socket, struct sockaddr * targetAddr, socklen_t targetAddrLen, B
 	msg.calcLengthFromBody();
 	sendrecvBuffer.serializeMsg(msg);
 
-	DEBUG_PRINT(msg.toString());
+	DEBUG_PRINT("send " + msg.toString());
 
 	// Need refactoring
 	ssize_t sentBytes = sendto(socket, sendrecvBuffer.onceBuffer, msg.length(), 0, targetAddr, targetAddrLen);

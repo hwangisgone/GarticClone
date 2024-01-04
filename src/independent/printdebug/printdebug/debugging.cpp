@@ -44,7 +44,7 @@ void load_test_file(const std::string& filePath) {
 	std::ifstream inputFile(filePath);
 
 	if (!inputFile.is_open()) {
-		std::cerr << "Error opening the file." << std::endl;
+		std::cerr << "Error opening the file: " << filePath << std::endl;
 		return;
 	}
 

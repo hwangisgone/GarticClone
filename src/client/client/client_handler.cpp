@@ -115,13 +115,13 @@ void ClientHandler::addPlayer(int playerID, const char * inputName) {
 	// If exist, will skip
 	auto result = playerMap.emplace(playerID, newPlayer);
 	if (result.second) {
-		DEBUG_PRINT("(Client) " + playerName + " joined successful!");
+		TEST_PRINT("(Client) " + playerName + " joined successful!");
 
 		DisplayPlayer * newPlayerPtr = &result.first->second;
 		newPlayerPtr->currentScore = 0;
 		strncpy(newPlayerPtr->name, inputName, 50);
 	} else {
-		DEBUG_PRINT("(Client) Joined failed. " + playerName + " already exists.");
+		TEST_PRINT("(Client) Joined failed. " + playerName + " already exists.");
 	}
 }
 
