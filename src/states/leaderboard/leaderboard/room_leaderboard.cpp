@@ -63,8 +63,8 @@ int plusPlayerPoint(unordered_map<int, Player>& inputMap, int playerID, int plus
 void LeaderboardState::handle(const BaseMsg& msg, int playerID) {
 	DEBUG_PRINT("  (LeaderboardState) " + msg.toString());
 
-	//unordered_map<int,Player> sort_playerMap;
-	// sort_playerMap = room->playerMap;
+	unordered_map<int,Player> sort_playerMap;
+	sort_playerMap = room->playerMap;
 
 	switch (msg.type())
 	{
