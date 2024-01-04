@@ -10,12 +10,12 @@
 
 using namespace std;
 
-void handleConnect(const PlayerConnectMsg& msg, ClientHandler * client) {
+void handleConnect_client(const PlayerConnectMsg& msg, ClientHandler * client) {
 	DEBUG_PRINT("  (StateRoom) Connection from " + std::string(msg.name));
 	client->addPlayer(msg.playerID, msg.name);
 }
 
-void handleDisconnect(const PlayerDisconnectMsg& msg, ClientHandler * client) {
+void handleDisconnect_client(const PlayerDisconnectMsg& msg, ClientHandler * client) {
 	DEBUG_PRINT("  (StateRoom) Disconnection.");
 	client->removePlayer(msg.playerID);
 }
@@ -60,10 +60,10 @@ void InGameState::handleRecv(const BaseMsg &msg)
 		case MsgType::SCORE: 
 			break;
 		case MsgType::CONNECT:
-			handleConnect(static_cast<const PlayerConnectMsg&>(msg), client);
+			handleConnect_client(static_cast<const PlayerConnectMsg&>(msg), client);
 			break;
 		case MsgType::DISCONNECT:
-			handleDisconnect(static_cast<const PlayerDisconnectMsg&>(msg) , client);
+			handleDisconnect_client(static_cast<const PlayerDisconnectMsg&>(msg) , client);
 			break;
 	default:
 		cerr << "CLIENT INGAME: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;

@@ -99,11 +99,12 @@ void InGameState::handle(const BaseMsg &msg, int playerID)
 	case MsgType::SCORE:
 		handleScore(static_cast<const ScoreMsg &>(msg), playerID, answer, room, wordsGlobal);
 		break;
-	case MsgType::NEXT_ROUND:
-		// next_round with word choose from word collectionstartGame
+	case MsgType::NEXT_ROUND: {
 		Word w_next = getRandomAndRemove(room->wordCollection);
 		answer = ansStartGame(w_next.word);
 		break;
+	}
+		// next_round with word choose from word collectionstartGame
 	default:
 		cerr << "SERVER ROOM: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;
 	}
