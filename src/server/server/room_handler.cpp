@@ -92,7 +92,7 @@ void RoomHandler::addPlayer(int playerID, const sockaddr_in& addr, const PlayerA
 	// If exist, will skip
 	auto result = playerMap.emplace(playerID, newPlayer);
 	if (result.second) {
-		DEBUG_PRINT("(Room) '" + playerName + "' joined successful!");
+		TEST_PRINT("(Room) '" + playerName + "' joined successful!");
 		
 		Player * newPlayerPtr = &result.first->second;
 		newPlayerPtr->currentScore = 0;
@@ -101,7 +101,7 @@ void RoomHandler::addPlayer(int playerID, const sockaddr_in& addr, const PlayerA
 			host = playerID;			// Make host if there's 1 player
 		}
 	} else {
-		DEBUG_PRINT("(Room) Joined failed. " + playerName + " already exists.");
+		TEST_PRINT("(Room) Joined failed. " + playerName + " already exists.");
 	}
 }
 

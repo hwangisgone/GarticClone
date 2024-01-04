@@ -8,6 +8,13 @@
 
 using namespace std;
 
+void LobbyState::requestCreateRoom(const char * name) {
+	CreateRoomMsg msg;
+	strncpy(msg.roomName, name, 50);
+
+	ClientHandler::clientSendMsg(msg);
+}
+
 void LobbyState::requestJoinRoom(int roomID) {
 	JoinRoomMsg msg;
 	msg.roomID = roomID;
