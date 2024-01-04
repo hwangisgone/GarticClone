@@ -1,5 +1,6 @@
 #include "webview.h"
 
+#include <iostream>
 #include <chrono>
 #include <string>
 #include <thread>
@@ -14,15 +15,16 @@ extern const char* html_const;
 
 webview::webview * globalw;
 
+std::string chosenaddr = "127.0.0.1";
+
 void fuckme() {
 	int client_sock;
 	// char funnyaddress[] = "charade.io.crabdance.com";
 
 	// std::string addrstr = resolve_host(funnyaddress);
 	// if (addrstr.empty()) return;
-	char addrstr[] = "127.0.0.1";
 
-	client_sock = initialize_client(CHOSEN_PORT, addrstr);
+	client_sock = initialize_client(CHOSEN_PORT, chosenaddr.c_str());
 
 	auto client1 = get_client(client_sock);
 
@@ -36,8 +38,12 @@ void fuckme() {
 int WINAPI WinMain(HINSTANCE /*hInst*/, HINSTANCE /*hPrevInst*/,
 									 LPSTR /*lpCmdLine*/, int /*nCmdShow*/) {
 #else
-int main() {
+int main(int argc, char* argv[]) {
 #endif
+	if (argc == 2) {
+		chosenaddr = argv[1];
+	}
+
 	unsigned int count = 0;
 	webview::webview w(false, nullptr);
 	globalw = &w;
