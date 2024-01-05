@@ -21,6 +21,8 @@ public:
 
 // Signal only
 class FailMsg: public BaseMsg {
+private:
+	uint32_t bodySize() const override { return 0; };
 public:
 	FailMsg(): BaseMsg(MsgType::FAILURE) {}
 };

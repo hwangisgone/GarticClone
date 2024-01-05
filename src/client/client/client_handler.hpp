@@ -37,6 +37,7 @@ class LobbyState: public ClientState {
 public:
 	void handleRecv(const BaseMsg& msg) override;
 
+	static void requestCreateRoom(const char * name);
 	static void requestJoinRoom(int roomID);
 };
 

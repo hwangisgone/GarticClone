@@ -15,7 +15,7 @@ int sendMsg(int socket, struct sockaddr * targetAddr, socklen_t targetAddrLen, B
 	msg.calcLengthFromBody();
 	sendrecvBuffer.serializeMsg(msg);
 
-	DEBUG_PRINT(msg.toString());
+	DEBUG_PRINT("send " + msg.toString());
 
 	// Need refactoring
 	ssize_t sentBytes = sendto(socket, sendrecvBuffer.onceBuffer, msg.length(), 0, targetAddr, targetAddrLen);
@@ -45,7 +45,7 @@ std::unique_ptr<BaseMsg> recvMsg(int socket, struct sockaddr * targetAddr, sockl
 
 	// Need checking??
 	if (msg) {
-		DEBUG_PRINT(msg->toString());
+		TEST_PRINT("recv " + msg->toString());
 		if (receivedBytes != msg->length()) {
 			DEBUG_PRINT("ERROR: RECEIVED BYTES != MSG LENGTH: " + std::to_string(receivedBytes) + " != " + std::to_string(msg->length()) );
 		}
