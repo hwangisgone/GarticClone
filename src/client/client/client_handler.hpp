@@ -45,7 +45,7 @@ class RoomState: public ClientState {
 public:
 	void handleRecv(const BaseMsg& msg) override;
 
-	static void requestDisconnect(int playerID);
+	static void requestDisconnect();
 };
 
 class InGameState: public ClientState {

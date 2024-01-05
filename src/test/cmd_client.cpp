@@ -8,13 +8,14 @@
 
 using namespace std;
 
+string clienttag = "";
+
 int inputThread() {
-	run_test_input("txt/input.test.txt");
+	run_test_input("txt/input" + clienttag + ".test.txt");
 	return -1;
 }
 
 int main(int argc, char* argv[]) {
-	string clienttag = "";
 	if (argc == 2) {
 		clienttag = argv[1];
 	}

@@ -38,9 +38,9 @@
 
 		window.addEventListener('resize', resize);
 
-		setTimeout(() => {
-			resize();
-		}, 1000);
+		// setTimeout(() => {
+		// 	resize();
+		// }, 1000);
 		
 
 		return () => {
@@ -55,7 +55,7 @@
 
 
 <canvas
-	width="15" height="10"
+	width="400" height="600"
 	bind:this={canvas}
 	on:pointerdown={(e) => {
 		holding = true;

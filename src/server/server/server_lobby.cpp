@@ -27,7 +27,7 @@ bool ServerLobby::joinRoom(PlayerSession& client, JoinRoomMsg& joinmsg) {
 	}
 }
 
-void ServerLobby::createRoom(PlayerSession& creator, const char * in_roomName) {
+bool ServerLobby::createRoom(PlayerSession& creator, const char * in_roomName) {
 	// Room count as roomID
 	auto result = this->allRooms.emplace(this->roomCount, new RoomHandler(this->sockfd));
 	if (result.second) {
@@ -39,8 +39,10 @@ void ServerLobby::createRoom(PlayerSession& creator, const char * in_roomName) {
 		creator.inRoom = newRoom;
 		newRoom->addPlayer(creator.account.playerID, creator.addr, creator.account);	// Add host to room 
 		this->roomCount++;
+		return true;
 	} else {
 		DEBUG_PRINT("Lobby: Create room failed for some reason???");
+		return false;
 	}	
 }
 
@@ -88,7 +90,10 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 			// In lobby
 			switch (msg.type()) {
 				case MsgType::CREATE_ROOM: {
-					createRoom(currentClient, static_cast<CreateRoomMsg&>(msg).roomName);
+					if (createRoom(currentClient, static_cast<CreateRoomMsg&>(msg).roomName) ) {
+						sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), msg);
+					}
+
 					break;
 				}
 				case MsgType::JOIN_ROOM: {

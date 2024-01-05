@@ -5,14 +5,10 @@ login abcd 1234
 createroom Fuckers
 
 pause!
-
 joinroom 1 // Segfault
-
-lala
-lala
-lala
-lala
-lala
+pause!
+exitroom
+pause!
 
 // EDGE CASES:
 // login abcd 1234		// test login 		after login

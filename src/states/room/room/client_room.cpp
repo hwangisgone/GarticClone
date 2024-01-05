@@ -10,27 +10,28 @@
 
 using namespace std;
 
+void RoomState::requestDisconnect() {
+	PlayerDisconnectMsg msg;
+	ClientHandler::clientSendMsg(msg);
+}
+
+
+
 void startGame(const StartMsg& msg, ClientHandler * client) {
 	DEBUG_PRINT("  (StateRoom) Game started!!!");
 	client->setState(new InGameState());
 }
-
 void handleConnect(const PlayerConnectMsg& msg, ClientHandler * client) {
 	DEBUG_PRINT("  (StateRoom) Connection from " + std::string(msg.name));
 	client->addPlayer(msg.playerID, msg.name);
 }
-
 void handleDisconnect(const PlayerDisconnectMsg& msg, ClientHandler * client) {
 	DEBUG_PRINT("  (StateRoom) Disconnection.");
 	client->removePlayer(msg.playerID);
 }
 
-void RoomState::requestDisconnect(int playerID) {
-	PlayerDisconnectMsg msg;
-	msg.playerID = playerID;
 
-	ClientHandler::clientSendMsg(msg);
-}
+
 
 void jsAddPlayer(const PlayerConnectMsg& msg) {
 	globalJsEval("room_addPlayer(" + to_string(msg.playerID) + ",\"" + string(msg.name) + "\")");

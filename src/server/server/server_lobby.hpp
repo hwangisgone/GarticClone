@@ -30,7 +30,7 @@ private:
 	std::unordered_map<int, RoomHandler *> allRooms;
 
 	bool joinRoom(PlayerSession& client, JoinRoomMsg& joinmsg);
-	void createRoom(PlayerSession& creator, const char * in_roomName);
+	bool createRoom(PlayerSession& creator, const char * in_roomName);
 
 	void LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddress);
 
