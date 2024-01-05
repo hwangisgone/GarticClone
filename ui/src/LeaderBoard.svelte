@@ -34,7 +34,7 @@
       <!-- <div class = 'title'>
         <button class="top-left-button" on:click={() => $UIstate = 1}> Back Lobby</button>
       </div> -->
-      <div class = 'title font-bold text-success' style = 'font-size:xx-large'> Rank</div>
+      <div class = 'font-bold text-success' style = 'font-size:xx-large'> Rank</div>
       <div class="rank-container bg-base-content ">
         <!-- Display ranks with the highest rank centered -->
         <!-- <div class="rank">2</div> -->
@@ -43,9 +43,9 @@
         <div class="rank">{$GameSettings.PlayerList[1].Username}</div>
         <!-- <div class="rank">5</div> -->
       </div>
-      <div class = 'title'>
-        <button class="" on:click={() => $UIstate = 1}> End Game</button>
-        <button class="" on:click={() => $UIstate = 4}> Continue</button>
+      <div >
+        <button class="btn btn-accent" on:click={() => $UIstate = 1}> End Game</button>
+        <button class="btn btn-accent" on:click={() => $UIstate = 4}> Continue</button>
       </div>
     </div>
     
@@ -53,15 +53,19 @@
   {/if}
   
   <style>
+    
       /* Apply styles to the container */
       .rank-container {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 300px; /* Set height to full viewport height */
+        height: 500px; /* Set height to full viewport height */
+        width: 1000px;
         color:rgb(26, 44, 44);
       }
+      
   
+
       /* Styling for each rank */
       .rank {
         font-size: 30px;
