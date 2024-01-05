@@ -1,7 +1,7 @@
 <script>
     // @ts-nocheck
     
-        import { UIstate } from './store/store.ts';
+        import { UIstate } from '../store/store.ts';
     
     </script>
     <div class = 'myDiv'>
@@ -21,23 +21,14 @@
                                 <label for="" class="text-xs font-semibold px-1">First name</label>
                                 <div class="flex">
                                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
-                                    <input type="text" class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-neutral" placeholder="Firstname">
+                                    <input type="text" class="w-full -ml-10 pl-10 pr-2 py-5 input-sm input" placeholder="Firstname">
                                 </div>
                             </div>
                             <div class="w-1/2 px-3 mb-5">
                                 <label for="" class="text-xs font-semibold px-1">Last name</label>
                                 <div class="flex">
                                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
-                                    <input type="text" class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Last name">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex -mx-3">
-                            <div class="w-full px-3 mb-5">
-                                <label for="" class="text-xs font-semibold px-1">Email</label>
-                                <div class="flex">
-                                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-email-outline text-gray-400 text-lg"></i></div>
-                                    <input type="email" class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Your email">
+                                    <input type="text" class="w-full -ml-10 pl-10 pr-2 py-5 input-sm input" placeholder="Last name">
                                 </div>
                             </div>
                         </div>
@@ -46,7 +37,7 @@
                                 <label for="" class="text-xs font-semibold px-1">User Name</label>
                                 <div class="flex">
                                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-email-outline text-gray-400 text-lg"></i></div>
-                                    <input type="email" class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Your username">
+                                    <input type="text" class="w-full -ml-10 pl-10 pr-2 py-5 input-sm input" placeholder="Your username" required>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +46,7 @@
                                 <label for="" class="text-xs font-semibold px-1">Password</label>
                                 <div class="flex">
                                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-lock-outline text-gray-400 text-lg"></i></div>
-                                    <input type="password" class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="************">
+                                    <input type="password" class="w-full -ml-10 pl-10 pr-2 py-5 input-sm input" placeholder="************" required>
                                 </div>
                             </div>
                         </div>
