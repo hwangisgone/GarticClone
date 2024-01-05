@@ -1,6 +1,6 @@
 <script>
 	// @ts-nocheck
-	
+		import Canvas from "./Canvas.svelte"
 		import RoomLayout from "./RoomLayout.svelte";
 		import Lobby from "../Lobby.svelte";
 		import {UIstate, GameSettings} from "../store/store.ts";
@@ -86,11 +86,11 @@
 		
 	
 		<div slot="players">
-			<div class="text-lg text-neutral content-center">
+			<div class="text-lg content-center">
 				Leaderboard
 				<!-- <br/>
 				Use {'{'}#each{'}'} here -->
-				<div class="overflow-y-scroll h-32 bg-base-200" style="height:650px">
+				<div class="overflow-y-scroll bg-base-200" style="height:650px">
 					 <div class = "flex flex-col items-center gap-10 p-10">
 						{#each numbers as number}
 	
@@ -120,23 +120,15 @@
 			<!-- <span></span> -->
 		</div>
 	
-		<div slot="draw" >
-			
-			<div class="footer">
-				<progress class="progress progress-accent w-full" value={countdown} max="30"></progress>
+
+		<div slot="draw">
+			<div class="h-full w-full">
+<!-- 				<div class="footer fixed">
+					<progress class="progress progress-accent w-full" value={countdown} max="30"></progress>
+				</div> -->
+				<Canvas />
 			</div>
-			The game is fun OK!
 		</div>
-	
-		<!-- <div slot = "draw" class="container">
-			<div class="content">
-			 
-			  <p>This is the main content of the div.</p>
-			</div>
-			<div class="footer">
-			  <p>This is the footer of the div.</p>
-			</div>
-		  </div> -->
 	
 		<div slot="interact" style = "background-color:aliceblue">
 			<div class="overflow-y-auto h-32" style = 'height: cover'>

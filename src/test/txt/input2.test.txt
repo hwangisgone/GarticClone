@@ -1,0 +1,9 @@
+pause!
+
+login fuck 5678
+
+pause!
+joinroom 0
+pause!
+exitroom
+pause!

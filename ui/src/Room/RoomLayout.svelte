@@ -6,7 +6,7 @@
 		</slot>
 	</div>
 
-	<div class="grid grid-cols-4 gap-4 gap-4 grow" style="background-color:white">
+	<div class="grid grid-cols-4 gap-4 gap-4 grow bg-white">
 		<div class="col-span-1 row-span-6 border border-primary p-4">
 			<slot name="players">
 				Player list here

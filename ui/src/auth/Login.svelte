@@ -1,57 +1,44 @@
 <script>
-	import { UIstate } from '../store/store.ts';
-
-	import Register from './Register.svelte';
-
-	let notitext = "";
-
-	function wrongPass() {
-		notitext = "Wrong password";
-		setTimeout(function() {
-			notitext = "";
-		}, 5000);
-	}
-	function toLobby() {
-		$UIstate = 1;
-	}
+	// @ts-nocheck
+	import { PlayerID, UIstate } from '../store/store.ts';
 	
-	window.auth_toLobby = toLobby;	// Assign 1;
-	window.auth_wrongPass = wrongPass;
+	let username;
+	let password;
+	// let error = 0;
 
-	let loginState = 0;
-	// 0 for default login
-	// 1 for register
-
-	let username = "";
-	let password = "";
+	function checkSignIn(username, password) {
+		if (username == '1' && password == '1') {
+			$UIstate = 1;
+		 // console.log(windowState)
+			//$usernameCheck = username;
+		} else {
+			error = 1;
+		}
+	}
 </script>
 
-<div class="h-screen flex flex-col gap-4 items-center justify-center">
 
-	{#if loginState == 0}
-		<div>You are trying to login</div>
-		<!-- on:click makes the button do something everytime the button is clicked -->
-
-		<h3> Username {notitext} </h3>
-		<input type="text" class="input input-bordered" bind:value = {username} />
-		<h3> Password</h3>
-		<input type="password" class="input input-bordered" bind:value = {password} />
-
-		<span>{notitext}</span>
-
-		<button class="btn btn-primary" type="button" on:click={() => window.requestLogin(1, username, password)}>
-			Login (go to Lobby)
-		</button>
-
-		<!-- Change loginState with an inline function "(argument) => do something" -->
-		<!-- This is a javascript feature -->
-		<button class="btn btn-accent btn-xs" type="button" on:click={() => loginState = 1 }>
-			Don't have an account?
-		</button>
-
-	{:else if loginState == 1}
-		<!-- Make sure the name is the same in both .svelte files (components) -->
-		<Register bind:loginState />	
-	{/if}
-
-</div>
+				<div class="text-center ">
+						<h1 class="text-5xl text-neutral pt-24 font-semibold">Sign In</h1>
+						<!-- <p class="text-gray-500 dark:text-gray-400">Sign in to access your account</p> -->
+				</div>
+				<div class="m-7">
+					<div class="mb-6">
+						<div class="flex justify-between mb-2">
+							<!-- svelte-ignore a11y-label-has-associated-control -->
+							<label class="text-sm text-neutral font-semibold">USER NAME</label>
+						</div>
+						<input bind:value={username} placeholder="Username" class="w-full input input-primary" />
+					</div>
+					<div class="mb-6">
+							<div class="flex justify-between mb-2">
+									<label class="text-sm text-neutral font-semibold" style = "font-size:15px">PASSWORD</label>
+									 <!-- <a href="#!" class="text-sm text-gray-400 focus:outline-none focus:text-indigo-500 hover:text-indigo-500 dark:hover:text-indigo-300">Forgot password?</a> -->
+							</div>
+							<input bind:value={password} placeholder="Your Password" class="w-full input input-primary"/>
+					</div>
+					<div class="mb-6">
+							<button on:click={checkSignIn(username, password)} class="w-full btn btn-primary">Sign in</button>
+					</div>
+					<p class="text-sm text-center text-gray-400" style = "font-size:16px">Don&#x27;t have an account yet? <a on:click={()=> $UIstate = 3}  href="#!" class="text-primary focus:underline ">Sign up</a>.</p>
+				</div>

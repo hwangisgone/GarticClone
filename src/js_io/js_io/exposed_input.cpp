@@ -23,8 +23,6 @@ void rqJoinRoom(const string &seq, const string &req, void * /*arg*/) {
 
 
 void rqDisconnect(const string &seq, const string &req, void * /*arg*/) {
-	auto pID = stoll(webview::detail::json_parse(req, "", 0));
-	
-	RoomState::requestDisconnect(pID);
+	RoomState::requestDisconnect();
 }
 

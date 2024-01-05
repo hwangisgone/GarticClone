@@ -5,7 +5,7 @@
 using namespace std;
 
 // CONNECT 
-uint32_t PlayerConnectMsg::bodySize() const { return sizeof(uint32_t); }	// 4 bytes
+uint32_t PlayerConnectMsg::bodySize() const { return sizeof(uint32_t) + 50; }	// 4 bytes
 
 void PlayerConnectMsg::serializeBody(MsgBuffer& buff) const {
 	buff.serializeField(this->playerID);

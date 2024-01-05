@@ -8,6 +8,13 @@
 
 using namespace std;
 
+void LobbyState::requestCreateRoom(const char * name) {
+	CreateRoomMsg msg;
+	strncpy(msg.roomName, name, 50);
+
+	ClientHandler::clientSendMsg(msg);
+}
+
 void LobbyState::requestJoinRoom(int roomID) {
 	JoinRoomMsg msg;
 	msg.roomID = roomID;
@@ -16,6 +23,7 @@ void LobbyState::requestJoinRoom(int roomID) {
 }
 
 void jsAddRoom(const RoomListMsg& msg) {
+	DEBUG_PRINT(" (LobbyState) Adding room to UI: " + to_string(msg.roomID) + ":" + string(msg.roomName));
 	globalJsEval("lobby_addRoom(" + to_string(msg.roomID) + ",\"" + string(msg.roomName) + "\")");
 }
 
@@ -30,6 +38,11 @@ void LobbyState::handleRecv(const BaseMsg &msg)
 	switch (msg.type()) {
 		case MsgType::ROOM_LIST:
 			jsAddRoom(static_cast<const RoomListMsg&>(msg));
+			break;
+		case MsgType::CREATE_ROOM:
+			DEBUG_PRINT(" (Create room success. Joined!!!!) ");
+			this->client->setState(new RoomState());
+			jsGoToRoom();
 			break;
 		case MsgType::JOIN_ROOM:	// Success
 			DEBUG_PRINT(" (Join room success!!!!) ");

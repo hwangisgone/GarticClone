@@ -8,6 +8,7 @@
 
 #include <auth/server_auth.hpp>
 #include <printdebug/debugging.h>
+#include <database/textdatabase.hpp>
 
 using namespace std;
 
@@ -21,23 +22,27 @@ bool ServerLobby::joinRoom(PlayerSession& client, JoinRoomMsg& joinmsg) {
 
 		return true;
 	} else {
-		DEBUG_PRINT("Room doesn't exist");
+		TEST_PRINT("Lobby: Room doesn't exist");
 		return false;
 	}
 }
 
-void ServerLobby::createRoom(PlayerSession& creator) {
+bool ServerLobby::createRoom(PlayerSession& creator, const char * in_roomName) {
 	// Room count as roomID
 	auto result = this->allRooms.emplace(this->roomCount, new RoomHandler(this->sockfd));
 	if (result.second) {
-		DEBUG_PRINT("Lobby: Created room " + to_string(result.first->first) + " successfully!");
+		TEST_PRINT("Lobby: Created room #" + to_string(result.first->first) + " successfully!");
 		RoomHandler * newRoom = result.first->second;
+
+		strncpy(newRoom->roomName, in_roomName, 50);
 
 		creator.inRoom = newRoom;
 		newRoom->addPlayer(creator.account.playerID, creator.addr, creator.account);	// Add host to room 
 		this->roomCount++;
+		return true;
 	} else {
 		DEBUG_PRINT("Lobby: Create room failed for some reason???");
+		return false;
 	}	
 }
 
@@ -56,6 +61,8 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 
 				// Send success msg first
 				AuthMsg successmsg;
+				memset(successmsg.username, 0, sizeof(successmsg.username));
+				memset(successmsg.password, 0, sizeof(successmsg.password));
 				sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), successmsg);
 
 				// Send all room present
@@ -68,12 +75,12 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 				}
 			} else {
 				// auth fail
-				DEBUG_PRINT("Incorrect credentials");
+				// TEST_PRINT("Incorrect credentials");
 				FailMsg failmsg;
 				sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), failmsg);
 			}
 		} else {
-			DEBUG_PRINT("Dismissing message (not registered session)");
+			TEST_PRINT("Dismissing message (not registered session)");
 		}
 	} else {
 		PlayerSession& currentClient = it->second;
@@ -83,7 +90,10 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 			// In lobby
 			switch (msg.type()) {
 				case MsgType::CREATE_ROOM: {
-					createRoom(currentClient);
+					if (createRoom(currentClient, static_cast<CreateRoomMsg&>(msg).roomName) ) {
+						sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), msg);
+					}
+
 					break;
 				}
 				case MsgType::JOIN_ROOM: {
@@ -100,6 +110,10 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 					break;
 			}	
 		} else {
+			if (msg.type() == MsgType::JOIN_ROOM) {
+				TEST_PRINT("Lobby: Aready in room! This shouldn't happen.");
+				return;
+			}
 			// In room/game
 			currentClient.inRoom->msgQueue.push(wrapper);
 		}
@@ -111,16 +125,13 @@ void ServerLobby::run() {
 	sockaddr_in clientAddress{};
 	socklen_t clientAddrLen = sizeof(clientAddress);
 
-	// Create new
-	// allRooms.push_back(new RoomHandler(this->sockfd));
-	// RoomHandler * theOnlyOneRoom = allRooms.back();
-
-	// PlayerAccount oneAccount;
-	// oneAccount.playerID = 1;
+	// INITIALIZATIONGS
+	loadFromFile("txt/accounts.txt", allAccounts);
+	// DATABASE
 
 	MsgWrapper oneWrapper;
 	int timeout_counter = 0;
-				// currentClient.account = &oneAccount;
+
 	while(keepAlive) {
 		// - wait for client to connect
 		unique_ptr<BaseMsg> testMsg;
@@ -162,9 +173,9 @@ void ServerLobby::addSession(const sockaddr_in& addr, const PlayerAccount& accou
 	// If exist, will skip
 	auto result = sessionRoomMap.emplace(addr, newSession);
 	if (result.second) {
-		DEBUG_PRINT("Lobby: Joined successful!");
+		TEST_PRINT("Lobby: Joined successful!");
 	} else {
-		DEBUG_PRINT("(Address mapped)");
+		TEST_PRINT("(Address mapped)");
 	}
 }
 

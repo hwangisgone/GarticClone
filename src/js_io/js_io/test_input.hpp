@@ -1,7 +1,8 @@
 #ifndef TEST_INPUT_H
 #define TEST_INPUT_H
 
-void lobbyInput();
-void authInput();
+#include <string>
+
+void run_test_input(const std::string& filePath);
 
 #endif

@@ -22,7 +22,7 @@ class PlayerDisconnectMsg: public BaseMsg {
 private:
 	uint32_t bodySize() const override;
 public:
-	uint32_t playerID;
+	uint32_t playerID;	// Added later
 
 	PlayerDisconnectMsg(): BaseMsg(MsgType::DISCONNECT) {}
 
