@@ -12,12 +12,14 @@
 
 </script>
 
+<input type="number" bind:value={$UIstate} />
+
 {#if $UIstate == 1}
-<Lobby/>
+	<Lobby/>
+{:else if $UIstate == 2}
+	<Room/>
 {:else if $UIstate == 5}
-<LeaderBoard/>
-{:else if $UIstate == 4}
-<Room/>
+	<LeaderBoard/>
 {:else}
 <!-- <div class="myDiv"> -->
 <div class="container mx-auto py-10 max-w-[60rem]">

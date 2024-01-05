@@ -42,6 +42,7 @@ void LobbyState::handleRecv(const BaseMsg &msg)
 		case MsgType::CREATE_ROOM:
 			DEBUG_PRINT(" (Create room success. Joined!!!!) ");
 			this->client->setState(new RoomState());
+			// globalJsEval("lobby_setRoom(" + msg.roomID + ")");
 			jsGoToRoom();
 			break;
 		case MsgType::JOIN_ROOM:	// Success

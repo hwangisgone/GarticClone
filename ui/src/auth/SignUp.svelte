@@ -1,7 +1,14 @@
 <script>
     // @ts-nocheck
     
-        import { UIstate } from '../store/store.ts';
+    import { UIstate } from '../store/store.ts';
+
+    let username;
+    let password;
+
+
+    // Js Call C++
+    // window.requestLogin(0, username, password)
     
     </script>
     <div class = 'myDiv'>
