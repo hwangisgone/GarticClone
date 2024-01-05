@@ -7,7 +7,16 @@ export default {
   plugins: [require("daisyui")],
 
   daisyui: {
-    themes: ["night", "aqua"],
+    themes: [
+      {
+        nightmod: {
+          ...require("daisyui/src/theming/themes")["night"],
+          "secondary": "#4338ca",
+        }
+      }, 
+      "night",
+      "aqua"
+    ],
   }
 }
 

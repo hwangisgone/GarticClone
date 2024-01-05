@@ -2,9 +2,8 @@
 
 <script>
 	// @ts-nocheck  
-		import { UIstate, usernameCheck} from "./store/store.ts";
+		import { UIstate, usernameCheck, RoomList } from "./store/store.ts";
 		import Game from "./room/Game.svelte"
-		let RoomList = [];
 		
 		// Add rooms dynamically
 		// for (let i = 1; i <= 20; i++) {
@@ -16,17 +15,10 @@
 		// window.requestCreateRoom(name)
 		// C++ Call Js
 		window.lobby_addRoom = (id, name) => { 
-			RoomList.push({ RoomID: id, RoomName: name });
-			RoomList = RoomList;
+			$RoomList.push({ RoomID: id, RoomName: name });
+			$RoomList = $RoomList;
 		};
-		window.lobby_toRoom = () => { $UIstate = 2; };
-	
-		function EnterRoom(roomIndex) {
-		  //  RoomList[roomIndex].Players += 1;
-			RoomID_Enter.set(roomIndex);
-			$UIstate = 2;
-		}
-	
+		window.lobby_toRoom = () => { $UIstate = 2; };	
 	</script>
 	
 <!-- 	{#if $UIstate == 2}
@@ -48,7 +40,7 @@
 			<div >
 				<div>
 					<div class="grid grid-cols-5 gap-4 rounded-box  p-4 border border-secondary bg-base-content" >
-						{#each RoomList as roomNumber}
+						{#each $RoomList as roomNumber}
 							<div>
 								<!-- <button on:click={() => EnterRoom(roomNumber.RoomID)} class=" font-semibold  btn-outline border-4  border-base-100 btn-secondary  room-button bg-base-content" style = "" > -->
 									<button on:click={() => { window.requestJoinRoom(roomNumber.RoomID); }} class=" font-semibold  btn-outline btn-info border-base-100   room-button text-neutral" style = "" >

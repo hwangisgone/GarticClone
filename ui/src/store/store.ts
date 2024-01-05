@@ -11,5 +11,6 @@ export const UIstate = writable(0);
 	// 2 is Room
 	// 3 is Sign Up
 	// 4 LeaderBoard
+export const RoomList = writable([]);
 
 export const drawSettings = writable({ color: '#000000', size: 4 });

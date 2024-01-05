@@ -4,6 +4,12 @@ login abcd 1234
 
 createroom Fuckers
 
+lla
+lla
+lala
+lala
+lala
+
 pause!
 joinroom 1 // Segfault
 pause!
