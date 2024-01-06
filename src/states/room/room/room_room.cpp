@@ -53,6 +53,8 @@ void RoomState::handle(const BaseMsg& msg, int playerID) {
 	DEBUG_PRINT("  (StateRoom) " + msg.toString());
 
 	switch (msg.type()) {
+		case MsgType::START_GAME:
+			startGame(static_cast<const StartMsg&> (msg), playerID,room);
 		case MsgType::JOIN_ROOM: 
 			handleConnect(static_cast<const JoinRoomMsg&>(msg), playerID, room);
 			break;

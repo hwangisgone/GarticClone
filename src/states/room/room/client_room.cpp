@@ -25,6 +25,11 @@ void handleDisconnect(const PlayerDisconnectMsg& msg, ClientHandler * client) {
 	client->removePlayer(msg.playerID);
 }
 
+void RoomState::requestStart(){
+	StartMsg msg;
+	ClientHandler::clientSendMsg(msg);
+}
+
 void RoomState::requestDisconnect(int playerID) {
 	PlayerDisconnectMsg msg;
 	msg.playerID = playerID;

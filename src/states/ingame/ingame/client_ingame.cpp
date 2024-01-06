@@ -25,8 +25,8 @@ void InGameState::requestDraw(int playerID, int x, int y, const char* color){
 
 	msg.x = x;
 	msg.y = y;
-	strncpy(msg.color, color, sizeof(msg.color) - 1); // Copy the color
-    msg.color[sizeof(msg.color) - 1] = '\0'; // Ensure null termination
+	strncpy(msg.color, color, 7); // Copy the color
+    // msg.color[7] = '\0'; // Ensure null termination
 
 	ClientHandler::clientSendMsg(msg);
 }
@@ -43,6 +43,7 @@ void InGameState::requestAnswer(int playerID, const char *answer){
 void InGameState:: requestScore(int playerID, int score){
 	ScoreMsg msg;
 
+	msg.playerID = playerID;
 	msg.score = score;
 
 	ClientHandler::clientSendMsg(msg);

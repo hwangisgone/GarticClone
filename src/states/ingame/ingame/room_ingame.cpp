@@ -79,19 +79,21 @@ void InGameState::handle(const BaseMsg &msg, int playerID)
 {
 	DEBUG_PRINT("  (InGameState) " + msg.toString());
 
-	unordered_map<int, Player> state_playerMap;
-	state_playerMap = room->playerMap;
-	auto index = state_playerMap.find(playerID);
+	// unordered_map<int, Player> state_playerMap;
+	// state_playerMap = room->playerMap;
+	// auto index = state_playerMap.find(playerID);
 
-	Word w = getRandomAndRemove(room->wordCollection);
-	string wordChoose = w.word;
 
 	switch (msg.type())
 	{
 	case MsgType::START_GAME:
 		// start game with word choose from word collection
 		// startGame(static_cast<const StartMsg &>(msg), wordChoose, answer);
-		answer = ansStartGame(wordChoose);
+		{
+			Word w = getRandomAndRemove(room->wordCollection);
+			string wordChoose = w.word;
+			answer = ansStartGame(wordChoose);
+		}
 		break;
 	case MsgType::ANSWER:
 		handleAnswer(static_cast<const AnswerMsg &>(msg), playerID, answer, room, wordsGlobal);
@@ -106,6 +108,6 @@ void InGameState::handle(const BaseMsg &msg, int playerID)
 	}
 		// next_round with word choose from word collectionstartGame
 	default:
-		cerr << "SERVER ROOM: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;
+		cerr << "GAME ROOM: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;
 	}
 }

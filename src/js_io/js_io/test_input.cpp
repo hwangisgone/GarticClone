@@ -64,9 +64,48 @@ void run_test_input(const string& filePath) {
 		// } else if () {
 		// } else if () {
 		} else if (query == "pause!") {
-			cout << "\033[96m   (Type anything) \033[0m";
+			cout << "\033[96m   (Type anything) \033[0m" << endl;
 				cin >> input; input = "";
-		} else {		
+		} 
+		else if( query == "draw"){
+			cout << "\033[96m RUN: " << query << "\033[0m" << endl;
+			int x;
+			int y;
+			char color[7] ;
+			int playerID;
+			inputFile >> playerID >> x >> y >> color ;
+			InGameState::requestDraw(playerID,x,y,color);
+		}
+		 else if( query == "start"){
+			cout << "\033[96m RUN: ]" << query << "\033[0m" << endl;
+			
+			RoomState::requestStart();
+		}
+		else if( query == "answer" ){
+			cout << "\033[96m RUN: ]" << query << "\033[0m" << endl;
+			int playerID;
+			char ans[900];
+			inputFile >> playerID >> ans;
+			InGameState::requestAnswer(playerID, ans);
+		}
+		else if( query == "score"){
+			cout << "\033[96m RUN: " << query << "\033[0m" << endl;
+			int score;
+			int playerID;
+			inputFile >> playerID >> score ;
+			InGameState::requestScore(playerID , score);
+		}
+		// else if( query == "connect" ){
+		// 	cout << "\033[96m RUN: ]" << query << "\033[0m" << endl;
+		// 	int playerID;
+		// 	InGameState:: requestConnect(playerID);
+		// }
+		// else if( query == "disconnect"){
+		// 	cout << "\033[96m RUN: ]" << query << "\033[0m" << endl;
+		// 	int playerID;
+		// 	InGameState:: requestConnect(playerID);
+		// }
+		else {		
 			if (query != "//") {	// Comments are skipped
 				cout << "\033[96m COMMAND NOT FOUND: " << query << "\033[0m" << endl;		
 			}
@@ -79,3 +118,4 @@ void run_test_input(const string& filePath) {
 }
 
 void globalJsEval(const std::string& js) { return; }	// Do nothing if test by cmd
+
