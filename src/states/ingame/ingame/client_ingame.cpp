@@ -34,8 +34,8 @@ void InGameState::requestDraw(int playerID, int x, int y, const char* color){
 void InGameState::requestAnswer(int playerID, const char *answer){
 	AnswerMsg msg;
 	
-	strncpy(msg.answer, answer, sizeof(msg.answer) - 1); // Copy the color
-    msg.answer[sizeof(msg.answer) - 1] = '\0'; // Ensure null termination
+	strncpy(msg.answer, answer, 900); // Copy the color
+    // msg.answer[sizeof(msg.answer) - 1] = '\0'; // Ensure null termination
 
 	ClientHandler::clientSendMsg(msg);
 }

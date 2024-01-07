@@ -13,17 +13,19 @@ using namespace std;
 void DrawMsg::serializeBody(MsgBuffer& buff) const {
 	buff.serializeField(this->x);
 	buff.serializeField(this->y);
-	buff.serializeField(this->color, 3);
+	buff.serializeField(this->color, 7);
 }
 
 void DrawMsg::deserializeBody(MsgBuffer& buff) {
 	buff.deserializeField(&this->x);
 	buff.deserializeField(&this->y);
-	buff.deserializeField(this->color, 3);
+	buff.deserializeField(this->color, 7);
 }
 
 string DrawMsg::debugPrint() const {
-	return "drawnotimplmentened";
+	//return "drawnotimplmentened";
+	return to_string(this->x) + ":" + to_string(this->y) 
+		+ ":[" + string(this->color) + "]";
 }
 
 // **************

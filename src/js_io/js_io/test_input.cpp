@@ -77,16 +77,16 @@ void run_test_input(const string& filePath) {
 			InGameState::requestDraw(playerID,x,y,color);
 		}
 		 else if( query == "start"){
-			cout << "\033[96m RUN: ]" << query << "\033[0m" << endl;
-			
+			cout << "\033[96m RUN: " << query << "\033[0m" << endl;
 			RoomState::requestStart();
 		}
 		else if( query == "answer" ){
-			cout << "\033[96m RUN: ]" << query << "\033[0m" << endl;
+			cout << "\033[96m RUN: " << query << "\033[0m" << endl;
 			int playerID;
 			char ans[900];
 			inputFile >> playerID >> ans;
 			InGameState::requestAnswer(playerID, ans);
+			
 		}
 		else if( query == "score"){
 			cout << "\033[96m RUN: " << query << "\033[0m" << endl;

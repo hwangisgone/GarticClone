@@ -11,20 +11,6 @@
 
 using namespace std;
 
-// vector<pair<int, Player>> sortPlayers(const unordered_map<int, Player>& players)
-// {
-//     // Copy elements to a vector
-//     vector<pair<int, Player>> sortedPlayers(players.begin(), players.end());
-
-//     // Sort the vector by PlayerID
-//     sort(sortedPlayers.begin(), sortedPlayers.end(),
-//      [](const auto& lhs, const auto& rhs) {
-//         return lhs.second.currentScore < rhs.second.currentScore;
-//     });
-
-//     return sortedPlayers;
-// }
-
 Player getPlayerWin(unordered_map<int, Player>& inputMap)
 {
     unordered_map<int, Player>:: iterator f = inputMap.begin();
@@ -91,7 +77,6 @@ void LeaderboardState::handle(const BaseMsg& msg, int playerID) {
 	{
 	case MsgType::END_GAME:
 		{
-
 			Player win_p = getPlayerWin(room->playerMap);
 		}
 		break;

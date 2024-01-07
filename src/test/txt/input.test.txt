@@ -16,9 +16,17 @@ lala
 
 start 
 
-draw 1 3 4 #123456
+draw 1 3 4 #12345
 
-score 10 1000
+answer 0 dolpin
+
+answer 0 hello
+
+answer 0 house
+
+score 1 1000
+
+
 
 // EDGE CASES:
 // login abcd 1234		// test login 		after login
