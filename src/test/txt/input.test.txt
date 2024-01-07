@@ -16,7 +16,7 @@ lala
 
 start 
 
-draw 1 3 4 #12345
+draw 1 3 4 #123456
 
 answer 0 dolpin
 

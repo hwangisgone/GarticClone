@@ -1,1 +1,1 @@
-set -x ; cd ui && npm run build && cd ../build ; rm debug/src/html_const.cpp ; cmake -S .. -B debug/ -DCMAKE_BUILD_TYPE=Testing && cmake --build debug/
+set -x ; rootpath=$(realpath ".") ; cd ui && npm run build && cd $rootpath/build ; rm debug/src/html_const.cpp ; cmake -S $rootpath -B debug/ -DCMAKE_BUILD_TYPE=Testing && cmake --build debug/
