@@ -57,7 +57,8 @@ void run_test_input(const string& filePath) {
 			int roomID;
 			inputFile >> roomID;
 			LobbyState::requestJoinRoom(roomID);		
-		// } else if () {
+		} else if (query == "exitroom") {
+			RoomState::requestDisconnect();
 		// } else if () {
 		// } else if () {
 		// } else if () {			

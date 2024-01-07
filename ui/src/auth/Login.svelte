@@ -1,57 +1,63 @@
 <script>
-	import { UIstate } from '../store/store.ts';
-
-	import Register from './Register.svelte';
-
-	let notitext = "";
-
-	function wrongPass() {
-		notitext = "Wrong password";
-		setTimeout(function() {
-			notitext = "";
-		}, 5000);
-	}
-	function toLobby() {
-		$UIstate = 1;
-	}
+	// @ts-nocheck
+	import { PlayerID, UIstate } from '../store/store.ts';
 	
-	window.auth_toLobby = toLobby;	// Assign 1;
-	window.auth_wrongPass = wrongPass;
+	let username;
+	let password;
+	let wrongPassword = false;
 
-	let loginState = 0;
-	// 0 for default login
-	// 1 for register
-
-	let username = "";
-	let password = "";
+	// Js Call C++
+	// window.requestLogin(1, username, password)
+	// C++ Call Js
+	window.auth_wrongPass = () => { wrongPassword = true; };
+	window.auth_toLobby = () => { $UIstate = 1; };
 </script>
 
-<div class="h-screen flex flex-col gap-4 items-center justify-center">
 
-	{#if loginState == 0}
-		<div>You are trying to login</div>
-		<!-- on:click makes the button do something everytime the button is clicked -->
 
-		<h3> Username {notitext} </h3>
-		<input type="text" class="input input-bordered" bind:value = {username} />
-		<h3> Password</h3>
-		<input type="password" class="input input-bordered" bind:value = {password} />
+<div class="w-full max-w-sm lg:max-w-md ">
 
-		<span>{notitext}</span>
+	<div class="fixed">
+		<button class="btn" on:click={window.auth_toLobby}>To Lobby</button>
+		<button class="btn" on:click={window.auth_wrongPass}>Wrong pass</button>
+	</div>
 
-		<button class="btn btn-primary" type="button" on:click={() => window.requestLogin(1, username, password)}>
-			Login (go to Lobby)
-		</button>
+	<h1 class="text-5xl lg:text-6xl text-neutral pt-24 font-semibold">Sign In {$UIstate}</h1>
+	<p class="text-gray-400 mt-1">Sign in to access your account</p>
 
-		<!-- Change loginState with an inline function "(argument) => do something" -->
-		<!-- This is a javascript feature -->
-		<button class="btn btn-accent btn-xs" type="button" on:click={() => loginState = 1 }>
-			Don't have an account?
-		</button>
+	<div class="m-7 space-y-6">
+		<div>
+			<div class="flex justify-between mb-1">
+				<!-- svelte-ignore a11y-label-has-associated-control -->
+				<label class="text-gray-500 font-semibold">Username</label>
+			</div>
+			<input bind:value={username} required
+				placeholder="Your username" 
+				class="w-full input lg:input-lg input-primary text-neutral-content" />
+		</div>
+		<div>
+			<div class="flex justify-between mb-1">
+				<label class="text-gray-500 font-semibold">Password</label>
+			</div>
+			<input 
+				bind:value={password} type="password" required
+				placeholder="Your Password" 
+				class="w-full input lg:input-lg input-primary text-neutral-content"/>
+			{#if wrongPassword}
+				<span class="text-error">Wrong password</span>
+			{/if}
+		</div>
 
-	{:else if loginState == 1}
-		<!-- Make sure the name is the same in both .svelte files (components) -->
-		<Register bind:loginState />	
-	{/if}
-
+		<div class="grid grid-cols-3 gap-2">
+				<button 
+					on:click={() => window.requestLogin(1, username, password)} class="btn lg:btn-lg btn-primary w-full col-span-2">
+					Sign in
+				</button>
+				<button on:click={() => window.requestLogin(1, username, password)} class="btn lg:btn-lg hover:bg-secondary focus:bg-secondary w-full">
+					Play as guest
+				</button>
+		</div>
+		<p class="text-md text-gray-400">Don't have an account yet? 
+			<a on:click|preventDefault={()=> $UIstate = 3} href="/" class="text-primary hover:underline focus:underline">Sign up</a>.</p>
+	</div>
 </div>

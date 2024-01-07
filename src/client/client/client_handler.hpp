@@ -46,7 +46,7 @@ public:
 	void handleRecv(const BaseMsg& msg) override;
 
 	static void requestStart();
-	static void requestDisconnect(int playerID);
+	static void requestDisconnect();
 };
 
 class InGameState: public ClientState {
@@ -59,7 +59,7 @@ public:
 
 	static void requestScore(int playerID, int score);
 
-	static void requestDisconnect(int playerID);
+	static void requestDisconnect();
 
 	static void requestConnect(int playerID);
 };

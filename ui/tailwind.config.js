@@ -7,7 +7,16 @@ export default {
   plugins: [require("daisyui")],
 
   daisyui: {
-    themes: ["cupcake"],
+    themes: [
+      {
+        nightmod: {
+          ...require("daisyui/src/theming/themes")["night"],
+          "secondary": "#4338ca",
+        }
+      }, 
+      "night",
+      "aqua"
+    ],
   }
 }
 

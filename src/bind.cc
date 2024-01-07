@@ -50,10 +50,16 @@ int main(int argc, char* argv[]) {
 	w.set_title("Charade.io");
 	w.set_size(500, 500, WEBVIEW_HINT_NONE);
 
+	// Login
 	w.bind("requestLogin", rqLogin, nullptr);
 
-	w.bind("requestJoinRoom", rqJoinRoom, nullptr);
+	// Register
 
+	// Lobby
+	w.bind("requestJoinRoom", rqJoinRoom, nullptr);
+	w.bind("requestCreateRoom", rqCreateRoom, nullptr);
+
+	// Room
 	w.bind("requestDisconnect", rqDisconnect, nullptr);
 
 	// A binding that increments a value and immediately returns the new value.
