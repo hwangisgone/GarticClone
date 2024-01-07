@@ -1,10 +1,12 @@
 START
-recv 1:158:[fuck][5678]
 Registering new account: fuck - 5678
-Register success! Player #3
-recv 1:158:[abcd][1234]
+> Register success! Player #3
 Login into: abcd - 1234
-Lobby: Joined successful!
-recv 5:57:[Fuckers]
-Lobby: Created room #0 successfully!
+> Lobby: Joined successful!
+> Lobby: Created room #0 successfully!
 (Room) 'abcd' joined successful!
+Login into: fuck - 5678
+> Lobby: Joined successful!
+> Lobby: Sent room list to #3
+(Room) 'fuck' joined successful!
+  (ServerRoom) Game started!!!

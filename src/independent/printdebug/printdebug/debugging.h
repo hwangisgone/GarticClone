@@ -19,11 +19,12 @@ void load_test_file(const std::string& filePath);
 		#define TEST_CHECK(x) x
 	#endif
 
-
 	#include <iostream>
 	#define TEST_PRINT(x) do { std::cerr << "\033[96mTEST: \033[0m" << TEST_CHECK(x) << std::endl; } while (0)
 	#define DEBUG_PRINT(x) do { std::cerr << "DEBUG: " << x << std::endl; } while (0)
 	#define DEBUG_COUT(x) do { std::cerr << x; } while (0)
 #endif
+
+
 
 #endif

@@ -22,7 +22,7 @@ bool MsgBuffer::checkOverflow() {
 	return false;
 }	
 
-// serialize uint32_t
+// serialize
 uint32_t byte4_conv;
 
 void MsgBuffer::serializeField(const uint32_t number) {
@@ -30,7 +30,6 @@ void MsgBuffer::serializeField(const uint32_t number) {
 	byte4_conv = htonl(number);
 	memcpy(currentPos, &byte4_conv, sizeof(uint32_t));
 	currentPos += sizeof(uint32_t);
-	return;
 }
 
 void MsgBuffer::deserializeField(uint32_t * numberPtr) {
@@ -42,14 +41,15 @@ void MsgBuffer::deserializeField(uint32_t * numberPtr) {
 	memcpy(&byte4_conv, currentPos, sizeof(uint32_t));
 	*numberPtr = ntohl(byte4_conv);
 	currentPos += sizeof(uint32_t);
-	return;
 }
 
-// TODO: implement this?
-uint32_t byte2_conv;
+
+uint16_t byte2_conv;
 
 void MsgBuffer::serializeField(const uint16_t number) {
 	checkOverflow();
+	byte2_conv = htons(number);
+	memcpy(currentPos, &byte2_conv, sizeof(uint16_t));
 	currentPos += sizeof(uint16_t);
 }
 void MsgBuffer::deserializeField(uint16_t * numberPtr) {
@@ -58,6 +58,8 @@ void MsgBuffer::deserializeField(uint16_t * numberPtr) {
 		std::cerr << "(uint16_t) WHAT ARE YOU DOING???: DESERIALIZE A NULL PTR ???" << std::endl;
 		return;
 	}
+	memcpy(&byte2_conv, currentPos, sizeof(uint16_t));
+	*numberPtr = ntohs(byte2_conv);
 	currentPos += sizeof(uint16_t);
 }
 

@@ -32,6 +32,12 @@ int sendMsg(int socket, struct sockaddr * targetAddr, socklen_t targetAddrLen, B
 	return 0;
 }
 
+#ifdef COLORED_MSG
+	#define MAGENTA_MSG(x) "\033[95m" + x + "\033[0m"
+#else
+	#define MAGENTA_MSG(x) x
+#endif
+
 std::unique_ptr<BaseMsg> recvMsg(int socket, struct sockaddr * targetAddr, socklen_t * targetAddrLen) {
 	// targetAddr & targetAddrLen may be nullptr
 	ssize_t receivedBytes = recvfrom(socket, sendrecvBuffer.onceBuffer, BUFFER_SIZE, 0, targetAddr, targetAddrLen);
@@ -45,7 +51,7 @@ std::unique_ptr<BaseMsg> recvMsg(int socket, struct sockaddr * targetAddr, sockl
 
 	// Need checking??
 	if (msg) {
-		TEST_PRINT("recv " + msg->toString());
+		DEBUG_PRINT(MAGENTA_MSG( "recv " + msg->toString() ));	// TODO: Make this colored?
 		if (receivedBytes != msg->length()) {
 			DEBUG_PRINT("ERROR: RECEIVED BYTES != MSG LENGTH: " + std::to_string(receivedBytes) + " != " + std::to_string(msg->length()) );
 		}

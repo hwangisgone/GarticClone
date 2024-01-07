@@ -8,9 +8,6 @@
 		// import Room from './Room.svelte';
 	
 	
-		export let state = 2;
-		export let roomState = 1;
-	
 		let windowState = 0;
 		// for(int i = 1; i <= 10; i++)
 		
@@ -184,7 +181,7 @@
 	
 	{/if}
 	
-	
+	<!-- 
 	<style>
 		/* Apply a bottom border to the element with the class "bottom-line" */
 		.container {
@@ -210,4 +207,4 @@
 		.chat{
 			
 		}
-	  </style>
+	  </style> -->

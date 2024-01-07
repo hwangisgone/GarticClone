@@ -25,7 +25,7 @@ void DrawMsg::deserializeBody(MsgBuffer& buff) {
 string DrawMsg::debugPrint() const {
 	//return "drawnotimplmentened";
 	return to_string(this->x) + ":" + to_string(this->y) 
-		+ ":[" + string(this->color) + "]";
+		+ ":#" + string(this->color) + "#";
 }
 
 // **************

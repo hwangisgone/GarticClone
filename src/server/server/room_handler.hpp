@@ -45,7 +45,9 @@ public:
 
 class InGameState: public ServerState {
 public:
-	char *answer;
+	InGameState(RoomHandler * handler);	// Initializer
+	int drawerID;
+	Word answer;
 	void handle(const BaseMsg& msg, int playerID) override;
 	
 };

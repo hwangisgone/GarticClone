@@ -4,6 +4,7 @@
 #include <auth/msg/msg_auth.hpp>
 #include <types/playeraccount.hpp>
 
-PlayerAccount * authenticate(AuthMsg& authmsg);
+PlayerAccount * authenticate(const LoginMsg& msg);
+int registeraccount(const RegisterMsg& msg);
 
 #endif

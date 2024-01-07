@@ -1,8 +1,5 @@
-pause!
-
 login fuck 5678
-
-pause!
+getrooms
 joinroom 0
 pause!
 exitroom

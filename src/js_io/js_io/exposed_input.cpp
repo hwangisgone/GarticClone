@@ -27,7 +27,9 @@ void rqCreateRoom(const string &seq, const string &req, void * /*arg*/) {
 	LobbyState::requestCreateRoom(roomName.c_str());
 }
 
-
+void rqGetRooms(const string &seq, const string &req, void * /*arg*/) {
+	LobbyState::requestGetRooms();
+}
 void rqDisconnect(const string &seq, const string &req, void * /*arg*/) {
 	RoomState::requestDisconnect();
 }

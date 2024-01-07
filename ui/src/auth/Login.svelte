@@ -1,6 +1,7 @@
 <script>
 	// @ts-nocheck
 	import { PlayerID, UIstate } from '../store/store.ts';
+	import InputContainer from './InputContainer.svelte';
 	
 	let username;
 	let password;
@@ -26,27 +27,23 @@
 	<p class="text-gray-400 mt-1">Sign in to access your account</p>
 
 	<div class="m-7 space-y-6">
-		<div>
-			<div class="flex justify-between mb-1">
-				<!-- svelte-ignore a11y-label-has-associated-control -->
-				<label class="text-gray-500 font-semibold">Username</label>
-			</div>
+		<InputContainer labelText="Username">
 			<input bind:value={username} required
-				placeholder="Your username" 
-				class="w-full input lg:input-lg input-primary text-neutral-content" />
-		</div>
-		<div>
-			<div class="flex justify-between mb-1">
-				<label class="text-gray-500 font-semibold">Password</label>
-			</div>
+			placeholder="Your username" 
+			class="w-full input lg:input-lg input-primary text-neutral-content" />		
+		</InputContainer>
+		<InputContainer labelText="Password">
 			<input 
 				bind:value={password} type="password" required
 				placeholder="Your Password" 
 				class="w-full input lg:input-lg input-primary text-neutral-content"/>
-			{#if wrongPassword}
-				<span class="text-error">Wrong password</span>
-			{/if}
-		</div>
+
+				<span class="label py-1 px-3 text-error">
+					{#if wrongPassword}
+						Wrong password
+					{/if} &nbsp;
+				</span>
+		</InputContainer>
 
 		<div class="grid grid-cols-3 gap-2">
 				<button 

@@ -2,6 +2,7 @@
 	// @ts-nocheck
 	
 	import { UIstate } from '../store/store.ts';
+	import InputContainer from './InputContainer.svelte';
 
 	let username;
 	let password;
@@ -22,31 +23,22 @@
 		<p class="text-gray-400 mt-1">Enter your information to register</p>
 
 		<div class="m-7 space-y-6">
+			<InputContainer labelText="Username">
+				<input bind:value={username} required
+				placeholder="Your username" 
+				class="w-full input input-primary pl-8 text-neutral-content" />	
+			</InputContainer>
+			<InputContainer labelText="Password">
+				<input bind:value={password} type="password" required
+				placeholder="Your password" 
+				class="w-full input input-primary pl-8 text-neutral-content" />
+			</InputContainer>
 
-			<div>
-				<div class="flex justify-between mb-1">
-					<!-- svelte-ignore a11y-label-has-associated-control -->
-					<label class="text-gray-500 font-semibold">Username</label>
-				</div>
-				<input bind:value={username} 
-					placeholder="Your username" 
-					class="w-full input input-primary pl-8 text-neutral-content" />
-			</div>
-			<div>
-				<div class="flex justify-between mb-1">
-					<!-- svelte-ignore a11y-label-has-associated-control -->
-					<label class="text-gray-500 font-semibold">Password</label>
-				</div>
-				<input bind:value={password} type="password" 
-					placeholder="Your password" 
-					class="w-full input input-primary pl-8 text-neutral-content" />
-			</div>
+			<!-- Register here -->
+			<button on:click={()=> $UIstate = 0}   class="btn hover:bg-secondary focus:bg-secondary text-white px-12 py-3 font-semibold">REGISTER NOW</button>
 
-		<!-- Register here -->
-		<button on:click={()=> $UIstate = 0}   class="btn hover:bg-secondary focus:bg-secondary text-white px-12 py-3 font-semibold">REGISTER NOW</button>
-
-		<p class="text-md text-gray-400">You have an account?
-			<a on:click|preventDefault={()=> $UIstate = 0} href="/" class="text-primary hover:underline focus:underline">Sign in here</a>.</p>
+			<p class="text-md text-gray-400">You have an account?
+				<a on:click|preventDefault={()=> $UIstate = 0} href="/" class="text-secondary hover:underline focus:underline">Sign in here</a>.</p>
 
 		</div>
 	</div>

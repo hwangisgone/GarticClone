@@ -1,36 +1,25 @@
 register fuck 5678
-
 login abcd 1234
 
 createroom Fuckers
 
 pause!
-joinroom 1 
-// Segfault
-
-lala
-lala
-lala
-lala
-lala
 
 start 
 
+pause!
+
 draw 1 3 4 #123456
-
 answer 0 dolpin
-
 answer 0 hello
-
 answer 0 house
-
 score 1 1000
 
-
+pause!
+exitroom
 
 // EDGE CASES:
-// login abcd 1234		// test login 		after login
-// register 1234 abcd	// test registered	after login
+
 
 // Multi clients: login multiple
 
@@ -38,6 +27,10 @@ score 1 1000
 // joinroom 3 			// joinroom			after joinroom
 
 // PASSED:
+// login abcd 1234
+// login abcd 1234		// test login 		after login
+// register 1234 abcd	// test registered	after login
+
 // login nametest passtest	// incorrect login
 // register abcd 1234		// test register for registered account
 

@@ -5,7 +5,7 @@
 
 class PlayerConnectMsg: public BaseMsg {
 private:
-	uint32_t bodySize() const override;
+	uint32_t bodySize() const override { return sizeof(uint32_t) + sizeof(name); };
 public:
 	uint32_t playerID;
 	char name[50];
@@ -20,7 +20,7 @@ public:
 
 class PlayerDisconnectMsg: public BaseMsg {
 private:
-	uint32_t bodySize() const override;
+	uint32_t bodySize() const override { return sizeof(uint32_t); }
 public:
 	uint32_t playerID;	// Added later
 

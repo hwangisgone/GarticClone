@@ -79,10 +79,10 @@
 		border: 1px solid #ccc;
 		cursor: pointer;
 	}*/
-	.centered-input {
+	/*.centered-input {
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				/* margin-top: 10px; Adjust margin as needed */
-		}
+				margin-top: 10px; Adjust margin as needed 
+		}*/
 </style>

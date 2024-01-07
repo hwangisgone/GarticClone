@@ -56,6 +56,7 @@ int main(int argc, char* argv[]) {
 	// Register
 
 	// Lobby
+	w.bind("requestGetRooms", rqGetRooms, nullptr);
 	w.bind("requestJoinRoom", rqJoinRoom, nullptr);
 	w.bind("requestCreateRoom", rqCreateRoom, nullptr);
 

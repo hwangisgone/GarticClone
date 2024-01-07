@@ -3,8 +3,8 @@
 
 #include <server/room_handler.hpp>
 
-#include "msg/msg_connection.hpp"
 #include "msg/msg_start.hpp"
+#include "room_connection.hpp"
 
 #include <lobby/msg/msg_lobby.hpp>
 #include <sockaddr_in/sockaddr_in_functions.hpp>
@@ -14,14 +14,22 @@
 
 
 void startGame(const StartMsg& msg, int playerID, RoomHandler * room) {
+	if (room->playerMap.size() < 2) {
+		TEST_PRINT("  (ServerRoom) Only 1 player in room. Cannot start game.");
+		return;
+	}
+
 	if (room->host == playerID) {
-		DEBUG_PRINT("  (StateRoom) Game started!!!");
-		room->setState(new InGameState());
+		TEST_PRINT("  (ServerRoom) Game started!!!");
+		StartMsg startmsg = msg;
+		room->broadcast(startmsg);
+
+		room->setState(new InGameState(room));	// Broadcast NextRoundState
 	}
 }
 
-void handleConnect(const JoinRoomMsg& msg, int playerID, RoomHandler * room) {
-	DEBUG_PRINT("  (StateRoom) Connection from " + formatSockAddrIn(msg.addr));
+void RoomConn::handleConnect(const JoinRoomMsg& msg, int playerID, RoomHandler * room) {
+	DEBUG_PRINT("  (ServerRoom) Connection from " + formatSockAddrIn(msg.addr));
 
 	for (const auto& pair : room->playerMap) {	// Send all players in the room to client
 		PlayerConnectMsg othermsg;
@@ -38,8 +46,8 @@ void handleConnect(const JoinRoomMsg& msg, int playerID, RoomHandler * room) {
 	room->broadcast(thisplayermsg);
 }
 
-void handleDisconnect(int playerID, RoomHandler * room) {
-	DEBUG_PRINT("  (StateRoom) Disconnection.");
+void RoomConn::handleDisconnect(int playerID, RoomHandler * room) {
+	DEBUG_PRINT("  (ServerRoom) Disconnection.");
 	room->removePlayer(playerID);
 
 	PlayerDisconnectMsg thisplayermsg;
@@ -53,14 +61,19 @@ void RoomState::handle(const BaseMsg& msg, int playerID) {
 	DEBUG_PRINT("  (StateRoom) " + msg.toString());
 
 	switch (msg.type()) {
-		case MsgType::START_GAME:
+		case MsgType::START_GAME: {
 			startGame(static_cast<const StartMsg&> (msg), playerID,room);
-		case MsgType::JOIN_ROOM: 
-			handleConnect(static_cast<const JoinRoomMsg&>(msg), playerID, room);
+			break;		
+		}
+		case MsgType::JOIN_ROOM: {
+			RoomConn::handleConnect(static_cast<const JoinRoomMsg&>(msg), playerID, room);
 			break;
-		case MsgType::DISCONNECT:
-			handleDisconnect(playerID, room);
-			break;
+		}
+		case MsgType::DISCONNECT: {
+			RoomConn::handleDisconnect(playerID, room);
+			break;			
+		}
+
 		default:
 			std::cerr << "SERVER ROOM: MSG TYPE NOT INFERABLE: " << msg.toString() << std::endl;
 	}

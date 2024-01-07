@@ -1,10 +1,8 @@
 START
-recv 3:7:
--> (Wrong password or username)
-recv 1:158:[][]
+-> (Register success!!!!)
 -> (Login success!!!!)
-???
-???
+-> (Create room success. Joined!!!!)
+(Client) fuck joined successful!
 ???
 ???
 END

@@ -6,25 +6,28 @@
 
 class AuthMsg: public BaseMsg {
 private:
-	uint32_t bodySize() const override { return 1 + 50 + 100; };
+	uint32_t bodySize() const override { return sizeof(username) + strlen(password); };
+	AuthMsg() = default;	// no class should use this
+protected:
+	AuthMsg(MsgType type): BaseMsg(type) {}	// Only derived class can use this. Login, Register
+
 public:
-	char auth_type;		// 1: Login, 0: Register
 	char username[50];
 	char password[100];
-
-	AuthMsg(): BaseMsg(MsgType::AUTH) {}
 
 	void serializeBody(MsgBuffer& buff) const override;
 	void deserializeBody(MsgBuffer& buff) override;
 	std::string debugPrint() const override;
 };
 
-// Signal only
-class FailMsg: public BaseMsg {
-private:
-	uint32_t bodySize() const override { return 0; };
+class LoginMsg: public AuthMsg {	// Exactly the same as auth
 public:
-	FailMsg(): BaseMsg(MsgType::FAILURE) {}
+	LoginMsg(): AuthMsg(MsgType::LOGIN) {}
+};
+
+class RegisterMsg: public AuthMsg {	// Exactly the same as auth
+public:
+	RegisterMsg(): AuthMsg(MsgType::REGISTER) {}
 };
 
 #endif
