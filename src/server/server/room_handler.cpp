@@ -16,8 +16,8 @@ void RoomHandler::threadRun() {	// This thing runs at separate thread?
 	while (aliveThread || msgQueue.size() > 0) {
 		currentMsg = msgQueue.pop();
 		if (!currentMsg.msg) {
-			DEBUG_PRINT("(Room) nullptr msg from threadKill()???");
-			continue; 
+			DEBUG_PRINT("(Room) nullptr msg from threadKill(). Thread is killed.");
+			break; 
 		}
 
 		currentState->handle(*currentMsg.msg, currentMsg.playerID);	// This might kill the thread

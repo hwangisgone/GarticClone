@@ -26,7 +26,7 @@
 	<h1 class="text-5xl lg:text-6xl text-neutral pt-24 font-semibold">Sign In {$UIstate}</h1>
 	<p class="text-gray-400 mt-1">Sign in to access your account</p>
 
-	<div class="m-7 space-y-6">
+	<div class="m-7 space-y-2 md:space-y-4">
 		<InputContainer labelText="Username">
 			<input bind:value={username} required
 			placeholder="Your username" 
