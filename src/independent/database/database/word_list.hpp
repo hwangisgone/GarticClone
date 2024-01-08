@@ -25,10 +25,10 @@ struct Word
 
 class WordHanlder {
 private:
-	static std::vector<Word> wordsGlobal;
+	// static std::vector<Word> wordsGlobal;
 	// Globals
 
-	std::vector<Word> wordCollection;
+	// std::vector<Word> wordCollection;
 	void setMode(int modeGame);
 	int modeGame;
 public:
@@ -37,16 +37,19 @@ public:
 	static void writeWordsToFile(const std::string& filename, const std::vector<Word>& words);
 
 	static int getLevel(char *word);
-	static int getPoint(const Word& word);
-	// static void updateWord(char *word, bool correct);
+	static int getPoint(char *word);
+	static void updateWord(char *word, bool correct);
 
+	static std::vector<Word> wordsGlobal;
+	std::vector<Word> wordCollection;
+	
 	// get random from a vector Collection word
 	Word getRandomWord(std::vector<Word>& words);
 
 	// get random stirng from vector and remove it from this vector
 	Word getRandomAndRemove(std::vector<Word>& words);
 
-	// std::vector<Word>::iterator findWord(std::vector<Word> &words, char *word);
+	static std::vector<Word>::iterator findWord(char *word);
 };
 
 
