@@ -6,20 +6,17 @@
 		</slot>
 	</div>
 
-	<div class="grid grid-cols-4 gap-4 gap-4 grow bg-white">
-		<div class="col-span-1 row-span-6 border border-primary p-4">
+	<div class="grid grid-cols-4 gap-4 bg-white h-full">
+		<div class="col-span-1 border border-primary p-4 h-full">
 			<slot name="players">
 				Player list here
 			</slot>
 		</div>
 
-		<div class="col-span-3 row-span-5 border border-primary p-4">
+		<div class="col-span-3 gap-4 p-4">
 			<slot name="draw">
 				Canvas thing (Hoang will do this)
 			</slot>
-		</div>
-
-		<div class="col-span-3 row-span-1 border border-primary p-4">
 			<slot name="interact">
 				Chatting here			
 			</slot>

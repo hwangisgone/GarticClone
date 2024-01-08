@@ -36,28 +36,6 @@ onMount(async () => {
 	}
 	window.ingame_draw_circle = draw_circle;	// Assign 4
 
-	// onMount(() => {
-	// 	context = canvas.getContext('2d');
-
-	// 	function resize() {
-	// 		canvas.width = canvas.parentElement.clientWidth - 32;
-	// 		canvas.height = canvas.parentElement.clientHeight - 32;
-	// 	}
-
-	// 	// window.canvas = canvas;
-
-	// 	// window.addEventListener('resize', resize);
-
-	// 	// setTimeout(() => {
-	// 	// 	resize();
-	// 	// }, 1000);
-		
-
-	// 	return () => {
-	// 		window.removeEventListener('resize', resize);
-	// 	};
-	// });
-
 	let holding;
 	let canvasDisabled = false;
 </script>
@@ -127,3 +105,5 @@ onMount(async () => {
 		pointer-events: none;
 	}
 </style> -->
+
+
