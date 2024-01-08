@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from "svelte";
+
 
 	import { drawSettings } from '../store/store.ts';
 
@@ -9,6 +9,16 @@
 
 	let canvas;
 	let context;
+
+import { onMount, tick } from 'svelte';
+
+onMount(async () => {
+  ctx = canvas.getContext("2d");
+  canvas.width = canvas.parentElement.clientWidth;
+  canvas.height = canvas.parentElement.clientHeight;
+  await tick();
+  draw();
+});
 
 	function get_coords(e) {
 		const { clientX, clientY } = e;
@@ -26,27 +36,27 @@
 	}
 	window.ingame_draw_circle = draw_circle;	// Assign 4
 
-	onMount(() => {
-		context = canvas.getContext('2d');
+	// onMount(() => {
+	// 	context = canvas.getContext('2d');
 
-		function resize() {
-			canvas.width = canvas.parentElement.clientWidth - 32;
-			canvas.height = canvas.parentElement.clientHeight - 32;
-		}
+	// 	function resize() {
+	// 		canvas.width = canvas.parentElement.clientWidth - 32;
+	// 		canvas.height = canvas.parentElement.clientHeight - 32;
+	// 	}
 
-		window.canvas = canvas;
+	// 	// window.canvas = canvas;
 
-		window.addEventListener('resize', resize);
+	// 	// window.addEventListener('resize', resize);
 
-		// setTimeout(() => {
-		// 	resize();
-		// }, 1000);
+	// 	// setTimeout(() => {
+	// 	// 	resize();
+	// 	// }, 1000);
 		
 
-		return () => {
-			window.removeEventListener('resize', resize);
-		};
-	});
+	// 	return () => {
+	// 		window.removeEventListener('resize', resize);
+	// 	};
+	// });
 
 	let holding;
 	let canvasDisabled = false;
@@ -55,7 +65,8 @@
 
 
 <canvas
-	width="400" height="600"
+	width=10
+	height=10
 	bind:this={canvas}
 	on:pointerdown={(e) => {
 		holding = true;
