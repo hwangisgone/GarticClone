@@ -143,13 +143,12 @@
 		</div>
 	
 
-		<div slot="draw">
-			<div class="h-full w-full">
+		<div slot="draw" class="h-full w-full">
+
 <!-- 				<div class="footer fixed">
 					<progress class="progress progress-accent w-full" value={countdown} max="30"></progress>
 				</div> -->
-				<Canvas />
-			</div>
+			<Canvas />
 		</div>
 	
 		<div slot="interact" style = "background-color:aliceblue">

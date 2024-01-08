@@ -40,12 +40,14 @@
 			<div >
 				<div>
 					<div class="grid grid-cols-5 gap-4 rounded-box  p-4 border border-secondary bg-base-content" >
-						{#each $RoomList as roomNumber}
+						{#each $RoomList as room}
 							<div>
 								<!-- <button on:click={() => EnterRoom(roomNumber.RoomID)} class=" font-semibold  btn-outline border-4  border-base-100 btn-secondary  room-button bg-base-content" style = "" > -->
-									<button on:click={() => { window.requestJoinRoom(roomNumber.RoomID); }} class=" font-semibold  btn-outline btn-info border-base-100   room-button text-neutral" style = "" >
-									<div>Room "{roomNumber.RoomName}"  </div>
-									<div>ID: {roomNumber.RoomID}</div>
+									<button 
+									on:click={() => { window.requestJoinRoom(room.RoomID); }} 
+									class="font-semibold btn-outline btn-info border-base-100 room-button text-neutral" style = "" >
+									<div>Room "{room.RoomName}"  </div>
+									<div>ID: {room.RoomID}</div>
 								</button>
 							</div>
 						{/each}
