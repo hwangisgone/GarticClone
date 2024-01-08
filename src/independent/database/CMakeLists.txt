@@ -9,7 +9,10 @@ add_library(text_db_lib STATIC
 )
 
 target_include_directories(text_db_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(text_db_lib PUBLIC types_lib)
+target_link_libraries(text_db_lib 
+	PRIVATE rng_lib 	# Private means only implementation needs it
+	PUBLIC types_lib
+)
 
 
 configure_file(database/accounts.txt ${CMAKE_BINARY_DIR}/txt/accounts.txt COPYONLY)

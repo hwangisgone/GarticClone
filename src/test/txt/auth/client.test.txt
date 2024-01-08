@@ -1,0 +1,6 @@
+START
+-> (Register success!!!!)
+-> (Wrong password or username)
+-> (Username already used)
+-> (Login success!!!!)
+END

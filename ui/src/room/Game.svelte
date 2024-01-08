@@ -8,29 +8,42 @@
 		// import Room from './Room.svelte';
 	
 	
-		export let state = 2;
-		export let roomState = 1;
-	
 		let windowState = 0;
-		// for(int i = 1; i <= 10; i++)Ơ
+		// for(int i = 1; i <= 10; i++)
 		
-		$GameSettings.PlayerList.push( {Username: 'Thuy Trinh', Point: 100})
-		$GameSettings.PlayerList.push( {Username: 'AAAAAA', Point: 60})
-		$GameSettings.PlayerList.push( {Username: 'BBBBBBBBB', Point: 80})
-		$GameSettings.PlayerList.push( {Username: 'CCCCCCCCC', Point: 200})
-		let i;
-		for(i = 0; i < 40; i++){
-	
-			$GameSettings.PlayerList.push( {Username: 'CCCCCCCCC', Point: i * 20})
-		}
+		$GameSettings.PlayerList.push( { id: 1, name: 'Thuy Trinh', point: 100})
+		$GameSettings.PlayerList.push( { id: 2, name: 'AAAAAA', point: 60})
+		$GameSettings.PlayerList.push( { id: 3, name: 'BBBBBBBBB', point: 80})
+		$GameSettings.PlayerList.push( { id: 4, name: 'CCCCCCCCC', point: 200})
+		// let i;
+		// for(i = 0; i < 40; i++){
+		// 	$GameSettings.PlayerList.push( {Username: 'CCCCCCCCC', Point: i * 20})
+		// }
+
+		// Js Call C++
+		// window.requestDisconnect()
+		// window.requestStartGame()
+		// window.request
+		// C++ Call Js
+		window.room_addPlayer = (playerid, playername) => { 
+			$GameSettings.PlayerList.push( { id: playerid, name: playername, point: 100})
+			$GameSettings.PlayerList = $GameSettings.PlayerList;
+		};
+		window.room_removePlayer = (playerid) => { 
+			$GameSettings.PlayerList = $GameSettings.PlayerList.filter(p => p.id != playerid);
+			console.log("Removed?", playerid);
+		};
+
+
 		let messages = [];
+
 		messages.push("Hello");
 		messages.push("My name is Thuy");
 		messages.push("My name is Thuy");
 		messages.push("My name is Thuy");
 		messages.push("My name is Thuy");
 		messages.push("My name is Thuy");
-		messages.push("My name is Thuy");
+
 		let msg;
 		function EnterChat(){
 			messages.push(msg);
@@ -73,14 +86,23 @@
 	</script>
 	{#if $UIstate == 1}
 	 <Lobby/>
-	{:else if  $UIstate == 5}
+	{:else if $UIstate == 5}
 	   <LeaderBoard/>
 	{:else}
 	
+		<input class="input" type="number" on:change={e => window.room_removePlayer(e.target.value)} />
+		<button class="btn" on:click={() => window.room_addPlayer(1, "hehe")} >Add player</button>
+		<button class="btn" on:click={window.requestDisconnect} >Disconnect</button>
 	<!-- <button class="btn btn-accent" type="button" on:click={Back}> Back Lobby </button> -->
 	<RoomLayout>
-		
-		<button slot="header" class="btn btn-accent" type="button" on:click={() => $UIstate = 1  }>
+
+
+
+		<button slot="header" class="btn btn-accent" type="button" 
+			on:click={() => {
+				window.requestDisconnect(); $UIstate = 1; 
+			}  
+		}>
 			Exit room
 		</button>
 		
@@ -92,12 +114,12 @@
 				Use {'{'}#each{'}'} here -->
 				<div class="overflow-y-scroll bg-base-200" style="height:650px">
 					 <div class = "flex flex-col items-center gap-10 p-10">
-						{#each numbers as number}
+						{#each $GameSettings.PlayerList as player}
 	
 							<div class = "flex flex-col text-center border-4 border-sky-500 rounded-full border-double " style = "width:300px" >
 								
-								<strong style = 'color-font: white'>Hello {number}</strong>
-								<span>0 points</span>
+								<strong style = 'color-font: white'>{player.name} {player.id}</strong>
+								<span>{player.point} points</span>
 							</div>
 						{/each}
 						<!-- <div class = "flex flex-col">
@@ -121,13 +143,12 @@
 		</div>
 	
 
-		<div slot="draw">
-			<div class="h-full w-full">
+		<div slot="draw" class="h-full w-full">
+
 <!-- 				<div class="footer fixed">
 					<progress class="progress progress-accent w-full" value={countdown} max="30"></progress>
 				</div> -->
-				<Canvas />
-			</div>
+			<Canvas />
 		</div>
 	
 		<div slot="interact" style = "background-color:aliceblue">
@@ -159,7 +180,7 @@
 	
 	{/if}
 	
-	
+	<!-- 
 	<style>
 		/* Apply a bottom border to the element with the class "bottom-line" */
 		.container {
@@ -185,4 +206,4 @@
 		.chat{
 			
 		}
-	  </style>
+	  </style> -->

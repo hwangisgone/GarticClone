@@ -6,13 +6,11 @@ using namespace std;
 
  // 4 bytes
 void AuthMsg::serializeBody(MsgBuffer& buff) const {
-	buff.serializeField(&this->auth_type, 1);
 	buff.serializeField(this->username, 50);
 	buff.serializeField(this->password, 100);
 }
 
 void AuthMsg::deserializeBody(MsgBuffer& buff) {
-	buff.deserializeField(&this->auth_type, 1);
 	buff.deserializeField(this->username, 50);
 	buff.deserializeField(this->password, 100);
 }

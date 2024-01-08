@@ -4,6 +4,7 @@
 
 #include "msg/msg_connection.hpp"
 #include "msg/msg_start.hpp"
+#include "client_connection.hpp"
 
 #include <js_io/js_output.hpp>
 #include <printdebug/debugging.h>
@@ -15,21 +16,27 @@ void RoomState::requestDisconnect() {
 	ClientHandler::clientSendMsg(msg);
 }
 
+void RoomState::requestStart(){
+	StartMsg msg;
+	ClientHandler::clientSendMsg(msg);
+}
 
 
-void startGame(const StartMsg& msg, ClientHandler * client) {
+
+void startTheGame(const StartMsg& msg, ClientHandler * client) {
 	DEBUG_PRINT("  (StateRoom) Game started!!!");
 	client->setState(new InGameState());
+	// Do something else here???
+	// Get timer or set role
 }
-void handleConnect(const PlayerConnectMsg& msg, ClientHandler * client) {
+void ClientConn::handleConnect(const PlayerConnectMsg& msg, ClientHandler * client) {
 	DEBUG_PRINT("  (StateRoom) Connection from " + std::string(msg.name));
 	client->addPlayer(msg.playerID, msg.name);
 }
-void handleDisconnect(const PlayerDisconnectMsg& msg, ClientHandler * client) {
+void ClientConn::handleDisconnect(const PlayerDisconnectMsg& msg, ClientHandler * client) {
 	DEBUG_PRINT("  (StateRoom) Disconnection.");
 	client->removePlayer(msg.playerID);
 }
-
 
 
 
@@ -47,10 +54,13 @@ void RoomState::handleRecv(const BaseMsg& msg) {
 
 	switch (msg.type()) {
 		case MsgType::CONNECT: 
-			handleConnect(static_cast<const PlayerConnectMsg&>(msg), client);
+			ClientConn::handleConnect(static_cast<const PlayerConnectMsg&>(msg), client);
 			break;
 		case MsgType::DISCONNECT:
-			handleDisconnect(static_cast<const PlayerDisconnectMsg&>(msg), client);
+			ClientConn::handleDisconnect(static_cast<const PlayerDisconnectMsg&>(msg), client);
+			break;
+		case MsgType::START_GAME:
+			startTheGame(static_cast<const StartMsg&>(msg), client);
 			break;
 		default:
 			std::cerr << "CLIENT ROOM: MSG TYPE NOT INFERABLE: " << msg.toString() << std::endl;

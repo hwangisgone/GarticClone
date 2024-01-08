@@ -48,12 +48,19 @@ int main(int argc, char* argv[]) {
 	webview::webview w(false, nullptr);
 	globalw = &w;
 	w.set_title("Charade.io");
-	w.set_size(480, 320, WEBVIEW_HINT_NONE);
+	w.set_size(500, 500, WEBVIEW_HINT_NONE);
 
+	// Login
 	w.bind("requestLogin", rqLogin, nullptr);
 
-	w.bind("requestJoinRoom", rqJoinRoom, nullptr);
+	// Register
 
+	// Lobby
+	w.bind("requestGetRooms", rqGetRooms, nullptr);
+	w.bind("requestJoinRoom", rqJoinRoom, nullptr);
+	w.bind("requestCreateRoom", rqCreateRoom, nullptr);
+
+	// Room
 	w.bind("requestDisconnect", rqDisconnect, nullptr);
 
 	// A binding that increments a value and immediately returns the new value.

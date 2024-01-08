@@ -34,3 +34,4 @@ add_subdirectory(independent)
 add_subdirectory(states)
 
 add_subdirectory(test)
+add_subdirectory(test2)

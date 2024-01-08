@@ -37,6 +37,7 @@ class LobbyState: public ClientState {
 public:
 	void handleRecv(const BaseMsg& msg) override;
 
+	static void requestGetRooms();
 	static void requestCreateRoom(const char * name);
 	static void requestJoinRoom(int roomID);
 };
@@ -45,6 +46,7 @@ class RoomState: public ClientState {
 public:
 	void handleRecv(const BaseMsg& msg) override;
 
+	static void requestStart();
 	static void requestDisconnect();
 };
 
@@ -52,6 +54,15 @@ class InGameState: public ClientState {
 public:
 	void handleRecv(const BaseMsg& msg) override;
 	
+	static void requestDraw(int playerID, int x, int y, const char* color);
+
+	static void requestAnswer(int playerID, const char* answer);
+
+	static void requestScore(int playerID, int score);
+
+	static void requestDisconnect();
+
+	static void requestConnect(int playerID);
 };
 
 class LeaderboardState: public ClientState {

@@ -1,12 +1,20 @@
+#include <iostream>
+
 #include <consts/network_const.h>
 #include <server/server_init.hpp>
 
 #include <printdebug/debugging.h>
 
-int main(){
+std::string serverfolder = "";
+
+int main(int argc, char* argv[]){
+	if (argc > 1) {
+		serverfolder = argv[1];
+	}
+
 	int server_sock; /* file descriptors */
 
-	load_test_file("txt/server.test.txt");
+	load_test_file("txt/" + serverfolder + "/server.test.txt");
 	TEST_PRINT("START");
 
 	server_sock = initialize_server(CHOSEN_PORT);

@@ -7,7 +7,6 @@
 
 #include <sockaddr_in/sockaddr_in_functions.hpp>
 
-#include <lobby/msg/msg_lobby.hpp>
 #include <database/textdatabase.hpp>
 
 struct PlayerSession {
@@ -29,7 +28,7 @@ private:
 	int roomCount = 0;
 	std::unordered_map<int, RoomHandler *> allRooms;
 
-	bool joinRoom(PlayerSession& client, JoinRoomMsg& joinmsg);
+	bool joinRoom(PlayerSession& client, BaseMsg& msg);
 	bool createRoom(PlayerSession& creator, const char * in_roomName);
 
 	void LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddress);

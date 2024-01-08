@@ -13,11 +13,13 @@
 enum class MsgType : uint16_t
 {
 	NONE = 0,
-	AUTH,
-	SUCCESS,	// Unused
+	SUCCESS,
 	FAILURE,
 
-	ROOM_LIST,
+	LOGIN,
+	REGISTER,
+
+	GET_ROOMS, ROOM_LIST,
 	CREATE_ROOM,
 	JOIN_ROOM,
 
@@ -64,5 +66,41 @@ public:
 };
 
 std::unique_ptr<BaseMsg> factoryProduceMsg(MsgType type);
+
+
+// Generic messages
+// Signal only
+
+class SuccessMsg: public BaseMsg {
+private:
+	uint32_t bodySize() const override { return 2; };
+	MsgType result_type;
+public:
+	MsgType successtype() const { return result_type; }
+
+	SuccessMsg(): BaseMsg(MsgType::SUCCESS) {}	// Used in factory
+	SuccessMsg(MsgType intype): BaseMsg(MsgType::SUCCESS), result_type(intype) {}
+
+	void serializeBody(MsgBuffer& buff) const override;
+	void deserializeBody(MsgBuffer& buff) override;
+	std::string debugPrint() const override;
+};
+
+class FailMsg: public BaseMsg {
+private:
+	uint32_t bodySize() const override { return 2; };
+	MsgType result_type;
+public:
+	MsgType failtype() const { return result_type; }
+
+	FailMsg(): BaseMsg(MsgType::FAILURE) {}
+	FailMsg(MsgType intype): BaseMsg(MsgType::FAILURE), result_type(intype) {}
+
+	void serializeBody(MsgBuffer& buff) const override;
+	void deserializeBody(MsgBuffer& buff) override;
+	std::string debugPrint() const override;
+};
+
+
 
 #endif

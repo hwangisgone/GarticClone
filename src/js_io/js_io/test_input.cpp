@@ -17,15 +17,16 @@ void run_test_input(const string& filePath) {
 	}
 
 // TODO:
-// 	_ AUTH,				AuthState::requestLogin(char type, const char * name, const char * pass);
+// 	x LOGIN,			AuthState::requestLogin(0, const char * name, const char * pass);
+//	x REGISTER,			AuthState::requestLogin(1, const char * name, const char * pass);
 // 	_ SUCCESS,			
 // 	_ FAILURE,
 
-// 	_ JOIN_ROOM,		LobbyState::requestJoinRoom(int roomID);
-// 	_ ROOM_LIST,		
-// 	_ CREATE_ROOM,
+// 	x JOIN_ROOM,		LobbyState::requestJoinRoom(int roomID);
+// 	_ ROOM_LIST,		LobbyState::request
+// 	x CREATE_ROOM,		LobbyState::request
 
-// 	_ CONNECT,			RoomState::requestDisconnect(int playerID);
+// 	x CONNECT,			RoomState::requestDisconnect(int playerID);
 // 	_ DISCONNECT,
 
 // 	_ START_GAME,
@@ -38,22 +39,22 @@ void run_test_input(const string& filePath) {
 	string query;
 	string input = "";
 	while(inputFile >> query) {
+		cout << "\033[96m RUN: " << query << "\033[0m" << endl;
+
 		if (query == "login") {
-			cout << "\033[96m RUN: " << query << "\033[0m" << endl;
-			string name, pass;
-			inputFile >> name >> pass;
-			AuthState::requestLogin(1, name.c_str(), pass.c_str());
-		} else if (query == "register") {
-			cout << "\033[96m RUN: " << query << "\033[0m" << endl;
 			string name, pass;
 			inputFile >> name >> pass;
 			AuthState::requestLogin(0, name.c_str(), pass.c_str());
+		} else if (query == "register") {
+			string name, pass;
+			inputFile >> name >> pass;
+			AuthState::requestLogin(1, name.c_str(), pass.c_str());
+		} else if (query == "getrooms") {
+			LobbyState::requestGetRooms();
 		} else if (query == "createroom") {
-			cout << "\033[96m RUN: " << query << "\033[0m" << endl;
 			inputFile >> input;
 			LobbyState::requestCreateRoom(input.c_str());
 		} else if (query == "joinroom") {
-			cout << "\033[96m RUN: " << query << "\033[0m" << endl;
 			int roomID;
 			inputFile >> roomID;
 			LobbyState::requestJoinRoom(roomID);		
@@ -64,12 +65,41 @@ void run_test_input(const string& filePath) {
 		// } else if () {			
 		// } else if () {
 		// } else if () {
+
+		} else if( query == "draw") {
+
+			int x;
+			int y;
+			char color[7] ;
+			int playerID;
+			inputFile >> playerID >> x >> y >> color ;
+			InGameState::requestDraw(playerID,x,y,color);
+		}
+		 else if( query == "start"){
+			RoomState::requestStart();
+		}
+		else if( query == "answer" ){
+			int playerID;
+			char ans[900];
+			inputFile >> playerID >> ans;
+			InGameState::requestAnswer(playerID, ans);
+			
+		}
+		else if( query == "score"){
+			int score;
+			int playerID;
+			inputFile >> playerID >> score ;
+			InGameState::requestScore(playerID , score);
+		
+		// } else if () {
+		// } else if () {
 		} else if (query == "pause!") {
-			cout << "\033[96m   (Type anything) \033[0m";
+			cout << "\r\033[96m   (Type anything) \033[0m" << endl;
 				cin >> input; input = "";
-		} else {		
+		} 
+		else {		
 			if (query != "//") {	// Comments are skipped
-				cout << "\033[96m COMMAND NOT FOUND: " << query << "\033[0m" << endl;		
+				cout << "\r\033[96m COMMAND NOT FOUND: " << query << "\033[0m" << endl;		
 			}
 
 			inputFile.ignore(numeric_limits<streamsize>::max(), '\r');
@@ -80,3 +110,4 @@ void run_test_input(const string& filePath) {
 }
 
 void globalJsEval(const std::string& js) { return; }	// Do nothing if test by cmd
+

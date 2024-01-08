@@ -4,39 +4,51 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
+#include <iostream>
+#include <fstream>
+#include <cctype>    // std::tolower
+#include <algorithm> // std::equal
+#include <random>		// std::shuffle
+#include <ctime>
 #include "word_list.hpp" // All server handles
 
-struct Word{
-    char word[50];
+struct Word
+{
+	char word[50];
 	int totalCount;
 	int successCount;
+	int level;
+	//	0 easy
+	//	1 medium
+	//	2 hard
 };
 
-extern std::vector<Word> wordsGlobal;
-extern std::vector<Word> hard;
-extern std::vector<Word> medium;
-extern std::vector<Word> easy;
+class WordHanlder {
+private:
+	static std::vector<Word> wordsGlobal;
+	// Globals
 
-// get random from a vector Collection word 
-Word getRandomWord(std::vector<Word>& words);
+	std::vector<Word> wordCollection;
+	void setMode(int modeGame);
+	int modeGame;
+public:
+	// can load word in file into easy vector<word> for mode easy in game
+	static bool loadFromFile(const std::string &filename, std::vector<Word> &word);
+	static void writeWordsToFile(const std::string& filename, const std::vector<Word>& words);
 
-// get random stirng from vector and remove it from this vector
-Word getRandomAndRemove(std::vector<Word>& words);
+	static int getLevel(char *word);
+	static int getPoint(const Word& word);
+	// static void updateWord(char *word, bool correct);
 
-int getLevel(char *word);
+	// get random from a vector Collection word
+	Word getRandomWord(std::vector<Word>& words);
 
-int getPoint(char *word);
+	// get random stirng from vector and remove it from this vector
+	Word getRandomAndRemove(std::vector<Word>& words);
 
-bool loadFromFile(const std::string& filename, std::vector<Word>& word);
+	// std::vector<Word>::iterator findWord(std::vector<Word> &words, char *word);
+};
 
-void writeWordsToFile(const std::string& filename, const std::vector<Word>& words);
 
-std::vector<Word>::iterator findWord(std::vector<Word> &words, char *word);
-
-int getLevel(std::vector<Word>& words, char *word);
-
-int getPoint(std::vector<Word>& words, char *word);
-
-void updateWord(std::vector<Word>& words, char *word, bool correct); 
 
 #endif

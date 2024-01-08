@@ -5,8 +5,6 @@
 using namespace std;
 
 // CONNECT 
-uint32_t PlayerConnectMsg::bodySize() const { return sizeof(uint32_t) + 50; }	// 4 bytes
-
 void PlayerConnectMsg::serializeBody(MsgBuffer& buff) const {
 	buff.serializeField(this->playerID);
 	buff.serializeField(this->name, 50);
@@ -23,8 +21,6 @@ string PlayerConnectMsg::debugPrint() const {
 
 
 // & DISCONNECT (They're the same)
-uint32_t PlayerDisconnectMsg::bodySize() const { return sizeof(uint32_t); } // 4 bytes
-
 void PlayerDisconnectMsg::serializeBody(MsgBuffer& buff) const {
 	buff.serializeField(this->playerID);
 }

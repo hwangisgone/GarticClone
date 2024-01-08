@@ -5,10 +5,16 @@
 #include <msg/msg_format.hpp>
 #include <types/playeraccount.hpp>
 
+class GetRoomsMsg: public BaseMsg {
+private:
+	uint32_t bodySize() const override { return 0; };
+public:
+	GetRoomsMsg(): BaseMsg(MsgType::GET_ROOMS) {}
+};
 
 class RoomListMsg: public BaseMsg {
 private:
-	uint32_t bodySize() const override { return sizeof(uint32_t) + 50; };
+	uint32_t bodySize() const override { return sizeof(uint32_t) + sizeof(roomName); };
 public:
 	uint32_t roomID;
 	char roomName[50];
@@ -41,7 +47,7 @@ public:
 	uint32_t roomID;
 
 	const PlayerAccount * account;	// Assigned during recv
-	sockaddr_in addr;			// Assigned during recv
+	sockaddr_in addr;				// Assigned during recv
 
 	JoinRoomMsg(): BaseMsg(MsgType::JOIN_ROOM) {}
 

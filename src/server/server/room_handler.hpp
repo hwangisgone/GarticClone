@@ -45,7 +45,9 @@ public:
 
 class InGameState: public ServerState {
 public:
-	char *answer;
+	InGameState(RoomHandler * handler);	// Initializer
+	int drawerID;
+	Word answer;
 	void handle(const BaseMsg& msg, int playerID) override;
 	
 };
@@ -101,11 +103,6 @@ public:
 
 	void broadcast(BaseMsg& msg) const;	// Cannot use const for BaseMsg because sendMsg needs to calculate msgLength
 	void broadcastExcept(BaseMsg& msg, int playerID) const;
-
-
-	std::vector<Word> wordCollection;
-	void setMode(int modeGame);
-	int modeGame;
 };
 
 #endif

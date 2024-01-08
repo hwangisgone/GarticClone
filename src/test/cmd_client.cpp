@@ -9,15 +9,22 @@
 using namespace std;
 
 string clienttag = "";
+string clientfolder = "";
 
 int inputThread() {
-	run_test_input("txt/input" + clienttag + ".test.txt");
+	run_test_input("txt/" + clientfolder + "/input" + clienttag + ".test.txt");
 	return -1;
 }
 
 int main(int argc, char* argv[]) {
-	if (argc == 2) {
-		clienttag = argv[1];
+	if (argc > 1) {
+		if (argv[1][0] != '.') {
+			clienttag = argv[1];
+		}
+	}
+
+	if (argc > 2) {
+		clientfolder = argv[2];
 	}
 
 	int client_sock;
@@ -26,7 +33,7 @@ int main(int argc, char* argv[]) {
 	// string addrstr = resolve_host(funnyaddress);
 	// if (addrstr.empty()) return 0;
 	// string addrstr ="127.0.0.1";
-	load_test_file("txt/client" + clienttag + ".test.txt");
+	load_test_file("txt/" + clientfolder + "/client" + clienttag + ".test.txt");
 	TEST_PRINT("START");
 
 	client_sock = initialize_client(CHOSEN_PORT, addrstr);

@@ -21,7 +21,15 @@ void rqJoinRoom(const string &seq, const string &req, void * /*arg*/) {
 	LobbyState::requestJoinRoom(roomID);
 }
 
+void rqCreateRoom(const string &seq, const string &req, void * /*arg*/) {
+	auto roomName = webview::detail::json_parse(req, "", 0);
+	
+	LobbyState::requestCreateRoom(roomName.c_str());
+}
 
+void rqGetRooms(const string &seq, const string &req, void * /*arg*/) {
+	LobbyState::requestGetRooms();
+}
 void rqDisconnect(const string &seq, const string &req, void * /*arg*/) {
 	RoomState::requestDisconnect();
 }

@@ -16,8 +16,8 @@ void RoomHandler::threadRun() {	// This thing runs at separate thread?
 	while (aliveThread || msgQueue.size() > 0) {
 		currentMsg = msgQueue.pop();
 		if (!currentMsg.msg) {
-			DEBUG_PRINT("(Room) nullptr msg from threadKill()???");
-			continue; 
+			DEBUG_PRINT("(Room) nullptr msg from threadKill(). Thread is killed.");
+			break; 
 		}
 
 		currentState->handle(*currentMsg.msg, currentMsg.playerID);	// This might kill the thread
@@ -134,61 +134,4 @@ void RoomHandler::removePlayer(int playerID) {
 	} else {
 		DEBUG_PRINT("(Room) Remove " + playerName + " failed. Player not found.");
 	}
-}
-
-void RoomHandler::setMode(int modeGame){
-	Word randomWord ;
-	if(modeGame == 1){
-		// 6 word | 3 easy, 2 medium, 1 hard
-
-		for( int i = 1 ; i<= 3 ; i++){
-			// get i random word
-			// push to vector collection
-			randomWord = getRandomWord(easy);
-			wordCollection.push_back(randomWord);
-		}
-
-		for( int i = 1 ; i<= 2; i++){
-			randomWord = getRandomWord(medium);
-			wordCollection.push_back(randomWord);
-		}
-
-		randomWord = getRandomWord(hard);
-		wordCollection.push_back(randomWord);
-
-	}
-	else if(modeGame == 2){	
-		// 8 word | 2 easy, 3 medium, 3 hard
-		for( int i = 1 ; i<= 2 ; i++){
-			randomWord = getRandomWord(easy);
-			wordCollection.push_back(randomWord);
-		}
-
-		for ( int i = 1 ; i<= 3 ; i++){
-			randomWord = getRandomWord(medium);
-			wordCollection.push_back(randomWord);
-		}
-
-		for( int i = 1 ; i <= 3 ; i++){
-			randomWord = getRandomWord(hard);
-			wordCollection.push_back(randomWord);
-		}
-
-	}else {
-		// 10 word | 2 easy, 3 medium, 5 hard
-		for( int i = 1 ; i<= 2 ; i++){
-			randomWord = getRandomWord(easy);
-			wordCollection.push_back(randomWord);
-		}
-
-		for ( int i = 1 ; i<= 3 ; i++){
-			randomWord = getRandomWord(medium);
-			wordCollection.push_back(randomWord);
-		}
-
-		for( int i = 1 ; i <= 5 ; i++){
-			randomWord = getRandomWord(hard);
-			wordCollection.push_back(randomWord);
-		}
-	}	
 }

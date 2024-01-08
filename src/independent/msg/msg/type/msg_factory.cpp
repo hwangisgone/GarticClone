@@ -22,10 +22,14 @@ unique_ptr<BaseMsg> factoryProduceMsg(MsgType type) {
 		case MsgType::END_GAME:		return make_unique<EndMsg>();
 
 		// Begin
-		case MsgType::AUTH:			return make_unique<AuthMsg>();
+		case MsgType::SUCCESS:		return make_unique<SuccessMsg>();
 		case MsgType::FAILURE:		return make_unique<FailMsg>();
-		case MsgType::ROOM_LIST:	return make_unique<RoomListMsg>();
+		case MsgType::LOGIN:		return make_unique<LoginMsg>();
+		case MsgType::REGISTER:		return make_unique<RegisterMsg>();
+
 		// Lobby
+		case MsgType::GET_ROOMS:	return make_unique<GetRoomsMsg>();
+		case MsgType::ROOM_LIST:	return make_unique<RoomListMsg>();
 		case MsgType::CREATE_ROOM:	return make_unique<CreateRoomMsg>();
 		case MsgType::JOIN_ROOM:	return make_unique<JoinRoomMsg>();
 		// Room
