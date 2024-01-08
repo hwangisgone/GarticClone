@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <random>
-
+#include <vector>
 #include <server/room_handler.hpp>
 
 #include "msg/msg_ingame.hpp"
@@ -19,8 +19,9 @@ using namespace std;
 InGameState::InGameState(RoomHandler * room) {	// Initialize a new game
 	this->setHandler(room);	// Required, otherwise segmentation fault
 
-	this->answer = getRandomAndRemove(room->wordCollection);
-
+	WordHandler *wh = room->handlerWord;
+	this->answer = wh->getRandomAndRemove();
+	
 	// Get random playerID from the map
 	std::uniform_int_distribution<size_t> dist(0, room->playerMap.size() - 1);
 	size_t randomIndex = dist(gameRng);		// Iterate to the random index to get the corresponding key
@@ -48,10 +49,11 @@ bool checkAnswer(const char *correct_ans, const char *ans)
 	return strcmp(correct_ans, ans) == 0;
 }
 
-void handleScore(const ScoreMsg &msg, int playerID, char *correct_ans, RoomHandler *room, vector<Word>&words)
+void handleScore(const ScoreMsg &msg, int playerID, char *correct_ans, RoomHandler *room)
 {
 	auto i = room->playerMap.find(playerID);
-	int score = getPoint(words, correct_ans); // TODO: fix compiler with this getPoint(correct_ans);
+	WordHandler *wh = room->handlerWord;
+	int score = wh->getPoint(correct_ans); // TODO: fix compiler with this getPoint(correct_ans);
 
 	if (i != room->playerMap.end())
 	{
@@ -61,7 +63,7 @@ void handleScore(const ScoreMsg &msg, int playerID, char *correct_ans, RoomHandl
 }
 
 
-void handleAnswer(const AnswerMsg &msg, int playerID, Word correct_ans, RoomHandler *room, vector<Word>& words)
+void handleAnswer(const AnswerMsg &msg, int playerID, Word correct_ans, RoomHandler *room)
 {
 
 	AnswerMsg answermsg;
@@ -125,7 +127,7 @@ void InGameState::handle(const BaseMsg &msg, int playerID) {
 		// }
 		case MsgType::ANSWER: {	// Send score here if correct
 			if (playerID != this->drawerID) {
-				handleAnswer(static_cast<const AnswerMsg &>(msg), playerID, answer, room, wordsGlobal);
+				handleAnswer(static_cast<const AnswerMsg &>(msg), playerID, answer, room);
 			} else {
 				TEST_PRINT("  (InGameState) Drawer attempted to answer????");
 			}

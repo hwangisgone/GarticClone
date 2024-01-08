@@ -6,11 +6,10 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <cctype>    // std::tolower
-#include <algorithm> // std::equal
+#include <cctype>   	// std::tolower
+#include <algorithm>	// std::equal
 #include <random>		// std::shuffle
 #include <ctime>
-#include "word_list.hpp" // All server handles
 
 struct Word
 {
@@ -23,7 +22,7 @@ struct Word
 	//	2 hard
 };
 
-class WordHanlder {
+class WordHandler {
 private:
 	static std::vector<Word> wordsGlobal;
 	// Globals
@@ -37,16 +36,16 @@ public:
 	static void writeWordsToFile(const std::string& filename, const std::vector<Word>& words);
 
 	static int getLevel(char *word);
-	static int getPoint(const Word& word);
-	// static void updateWord(char *word, bool correct);
-
+	static int getPoint(char *word);
+	static void updateWord(char *word, bool correct);
+	
 	// get random from a vector Collection word
-	Word getRandomWord(std::vector<Word>& words);
+	Word getRandomWord();
 
 	// get random stirng from vector and remove it from this vector
-	Word getRandomAndRemove(std::vector<Word>& words);
+	Word getRandomAndRemove();
 
-	// std::vector<Word>::iterator findWord(std::vector<Word> &words, char *word);
+	static std::vector<Word>::iterator findWord(char *word);
 };
 
 

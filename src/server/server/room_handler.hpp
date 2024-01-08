@@ -81,6 +81,7 @@ private:
 	std::atomic<bool> aliveThread;				// atomic for safety?	// TODO: May not be needed
 public:
 	TSQueue<MsgWrapper> msgQueue;				// Exchanging data between threads
+	WordHandler * handlerWord;
 	
 	int sockfd;
 	int host;	// playerID
