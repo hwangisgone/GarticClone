@@ -21,5 +21,10 @@ add_library(server_ingame_lib STATIC
 	ingame/room_ingame.cpp
 )
 target_link_libraries(server_ingame_lib 
-	PRIVATE server_base_lib msg_ingame_lib text_db_lib server_room_lib
+	PRIVATE 
+	server_base_lib 
+	rng_lib 
+	msg_ingame_lib 
+	text_db_lib 
+	server_room_lib
 )

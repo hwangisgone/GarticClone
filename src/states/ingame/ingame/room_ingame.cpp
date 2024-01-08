@@ -12,13 +12,9 @@
 #include <room/room_connection.hpp> // Allow other players to enter/exit in game
 #include <printdebug/debugging.h>
 #include <database/word_list.hpp>
+#include <utils/rng.hpp>
 
 using namespace std;
-
-std::random_device rd;	// Global random_device
-std::mt19937 rng(rd());	// Global Mersenne Twister engine seeded with the global random_device
-
-
 
 InGameState::InGameState(RoomHandler * room) {	// Initialize a new game
 	this->setHandler(room);	// Required, otherwise segmentation fault
@@ -27,7 +23,7 @@ InGameState::InGameState(RoomHandler * room) {	// Initialize a new game
 
 	// Get random playerID from the map
 	std::uniform_int_distribution<size_t> dist(0, room->playerMap.size() - 1);
-	size_t randomIndex = dist(rng);		// Iterate to the random index to get the corresponding key
+	size_t randomIndex = dist(gameRng);		// Iterate to the random index to get the corresponding key
 	auto it = std::next(room->playerMap.begin(), randomIndex);
 
 	DEBUG_PRINT("This round word: '" + string(this->answer.word) + "'");
