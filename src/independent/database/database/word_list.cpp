@@ -7,12 +7,18 @@
 #include <cctype>    // std::tolower
 #include <algorithm> // std::equal
 #include <ctime>
-#include "word_list.hpp"
 
+#include "word_list.hpp"
 #include <utils/rng.hpp>
 
-Word WordHanlder::getRandomWord(std::vector<Word>& words) {
-	if (words.empty()) {
+// Fixed everything
+// https://www.reddit.com/r/Cplusplus/comments/xsd64h/static_variable_undefined_reference_error/
+std::vector<Word> WordHandler::wordsGlobal;
+// initialize empty vector c++
+// "static" doesn't initialize it, it only declares
+
+Word WordHandler::getRandomWord() {
+	if (this->wordCollection.empty()) {
 		return {"", 0, 0}; // Return an empty string if the vector is empty
 	}
 
@@ -23,15 +29,15 @@ Word WordHanlder::getRandomWord(std::vector<Word>& words) {
 	std::srand(std::time(0));
 
 	// Generate a random index within the range of the vector size
-	std::size_t randomIndex = std::rand() % words.size();
+	std::size_t randomIndex = std::rand() % this->wordCollection.size();
 
 	// Return the randomly selected string
-	return words[randomIndex];
+	return this->wordCollection[randomIndex];
 }
 
 
-Word WordHanlder::getRandomAndRemove(std::vector<Word>& words) {
-	if (words.empty()) {
+Word WordHandler::getRandomAndRemove() {
+	if (this->wordCollection.empty()) {
 		// Handle the case where the vector is empty
 		return {"", 0, 0};
 	}
@@ -39,25 +45,25 @@ Word WordHanlder::getRandomAndRemove(std::vector<Word>& words) {
 	std::srand(std::time(0));
 
 	// Generate a random index within the range of the vector size
-	std::size_t randomIndex = std::rand() % words.size();
+	std::size_t randomIndex = std::rand() % this->wordCollection.size();
 
 	// Get the randomly selected word
-	Word randomWord = words[randomIndex];
+	Word randomWord = this->wordCollection[randomIndex];
 
 	// Remove the word at the random index from the vector
-	words.erase(words.begin() + randomIndex);
+	this->wordCollection.erase(this->wordCollection.begin() + randomIndex);
 
 	return randomWord;
 }
 
-void WordHanlder::setMode(int modeGame){
+void WordHandler::setMode(int modeGame){
 	Word randomWord ;
 	if(modeGame == 0){
 		// 6 word | 3 easy, 2 medium, 1 hard
 		// 6 word - easy all
 		for( int i = 1 ; i<= 6 ; i++)
 		{
-			Word w = getRandomWord(wordsGlobal);
+			Word w = this->getRandomWord();
 			wordCollection.push_back(w);
 		}
 	}
@@ -68,7 +74,7 @@ void WordHanlder::setMode(int modeGame){
 		int c = 3;
 		int sum = 0 ;
 		while(sum < 8){
-			Word w = getRandomWord(wordsGlobal);
+			Word w = this->getRandomWord();
 			if(getLevel(w.word) == 1 && a > 0)
 				{
 					wordCollection.push_back(w);
@@ -93,7 +99,7 @@ void WordHanlder::setMode(int modeGame){
 		int c = 5;
 		int sum = 0 ;
 		while(sum < 10){
-			Word w = getRandomWord(wordsGlobal);
+			Word w = this->getRandomWord();
 			if(getLevel(w.word) == 1 && a > 0)
 				{
 					wordCollection.push_back(w);
@@ -117,7 +123,7 @@ void WordHanlder::setMode(int modeGame){
 }
 
 // Function to load data from a text file into a vector of structs
-bool WordHanlder::loadFromFile(const std::string& filename, std::vector<Word>& word)
+bool WordHandler::loadFromFile(const std::string& filename, std::vector<Word>& word)
 {
 	std::ifstream file(filename);
 
@@ -148,7 +154,7 @@ bool WordHanlder::loadFromFile(const std::string& filename, std::vector<Word>& w
 	return true;
 }
 
-void WordHanlder::writeWordsToFile(const std::string& filename, const std::vector<Word>& words)
+void WordHandler::writeWordsToFile(const std::string& filename, const std::vector<Word>& words)
 {
 	std::ofstream file(filename);
 
@@ -184,7 +190,7 @@ bool caseInsensitiveStringCompare(const std::string& str1, const std::string& st
 	return true;
 }
 
-std::vector<Word>::iterator WordHanlder::findWord(char *ans)
+std::vector<Word>::iterator WordHandler::findWord(char *ans)
 {
 	std::string targetWord(ans);
 	for (auto it = wordsGlobal.begin(); it != wordsGlobal.end(); ++it)
@@ -212,7 +218,7 @@ std::vector<Word>::iterator WordHanlder::findWord(char *ans)
 // 	return wf.level;
 // }
 
-int WordHanlder::getLevel(char *word){
+int WordHandler::getLevel(char *word){
 	auto wf = findWord(word);
 	if(wf != wordsGlobal.end()){
 		return -1;
@@ -220,7 +226,7 @@ int WordHanlder::getLevel(char *word){
 	else return wf->level;
 }
 
-int WordHanlder::getPoint(char *word){
+int WordHandler::getPoint(char *word){
 	auto wf = findWord(word);
 	if(wf != wordsGlobal.end()){
 		return -1;
@@ -230,7 +236,7 @@ int WordHanlder::getPoint(char *word){
 	else return 80;
 }
 
-void WordHanlder::updateWord(char *word, bool correct){
+void WordHandler::updateWord(char *word, bool correct){
 	 auto wf = findWord(word);
 
 	 wf->totalCount++;

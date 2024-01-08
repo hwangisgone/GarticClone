@@ -19,8 +19,8 @@ using namespace std;
 InGameState::InGameState(RoomHandler * room) {	// Initialize a new game
 	this->setHandler(room);	// Required, otherwise segmentation fault
 
-	WordHanlder *wh = room->handlerWord;
-	this->answer = wh->getRandomAndRemove(wh->wordCollection);
+	WordHandler *wh = room->handlerWord;
+	this->answer = wh->getRandomAndRemove();
 	
 	// Get random playerID from the map
 	std::uniform_int_distribution<size_t> dist(0, room->playerMap.size() - 1);
@@ -52,7 +52,7 @@ bool checkAnswer(const char *correct_ans, const char *ans)
 void handleScore(const ScoreMsg &msg, int playerID, char *correct_ans, RoomHandler *room)
 {
 	auto i = room->playerMap.find(playerID);
-	WordHanlder *wh = room->handlerWord;
+	WordHandler *wh = room->handlerWord;
 	int score = wh->getPoint(correct_ans); // TODO: fix compiler with this getPoint(correct_ans);
 
 	if (i != room->playerMap.end())
