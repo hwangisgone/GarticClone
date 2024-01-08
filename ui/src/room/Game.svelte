@@ -97,54 +97,48 @@
 	<!-- <button class="btn btn-accent" type="button" on:click={Back}> Back Lobby </button> -->
 		</div>
 
-<div class="grid h-screen grid-cols-4">
-  <div class="col-span-1 flex flex-col border-r border-gray-300 overflow-hidden">
-	<div class="flex-1 overflow-y-auto p-4">
-	  <!-- Your expandable content goes here -->
-				{#each $GameSettings.PlayerList as player}
+<RoomLayout>
+	<div slot="players" class="bg-gray-900 text-neutral h-full">
+		{#each $GameSettings.PlayerList as player}
 
-					<div class = "flex flex-col text-center border-4 border-sky-500 rounded-full border-double w-full">
-						
-						<strong style = 'color-font: white'>{player.name} {player.id}</strong>
-						<span>{player.point} points</span>
-					</div>
-				{/each}
-
-
-	</div>
-	<div class="h-1/4 bg-blue-200 flex items-center justify-center">
-	  <!-- Your fixed-size bottom content goes here -->
-	  <p>Fixed-size content at the bottom</p>
-	  <!-- ... -->
-	</div>
-  </div>
-  <div class="col-span-3 flex flex-col h-screen">
-	<div class="flex-1 bg-white h-3/4">
-		<MeTest/>
-	</div>
-	<div class="h-1/4">
-	<div class="h-3/4 overflow-y-auto">
-		{#each messages as mess}
-		  <div class="chat chat-start">
-			<div class="chat-image avatar">
-			  <div class="w-10 rounded-full">
-				<img alt="Tailwind CSS chat bubble component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-			  </div>
+			<div class = "flex flex-col text-center border-4 border-sky-500 rounded-full border-double w-full">
+				
+				<strong style = 'color-font: white'>{player.name} {player.id}</strong>
+				<span>{player.point} points</span>
 			</div>
-			<div class="chat-bubble">{mess}</div>
-		  </div>
 		{/each}
 	</div>
-		
-		
-			<div class = 'content-center'>
-			  <input placeholder="Write a message"  type="text" class="input input-bordered max-w-xs"bind:value={msg}/>
-			  <button on:click={EnterChat} class = 'font-size: 15px  text-neutral'> Enter</button>
-			</div>
+
+	<div slot="draw" class="bg-white h-full">
+		<MeTest/>
 	</div>
-  </div>
-</div>
-	
+
+	<div slot="interact" class="h-full">
+		<div class="h-3/4 overflow-y-auto">
+			{#each messages as mess}
+			  <div class="chat chat-start">
+				<div class="chat-image avatar">
+				  <div class="w-10 rounded-full">
+					<img alt="Tailwind CSS chat bubble component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+				  </div>
+				</div>
+				<div class="chat-bubble">{mess}</div>
+			  </div>
+			{/each}
+		</div>
+			
+			
+		<div class='content-center'>
+		  <input placeholder="Write a message"  type="text" class="input input-bordered max-w-xs"bind:value={msg}/>
+		  <button on:click={EnterChat} class = 'font-size: 15px  text-neutral'> Enter</button>
+		</div>
+	</div>
+</RoomLayout>
+
+
+
+
+
 	
 	<!-- 
 	<style>
