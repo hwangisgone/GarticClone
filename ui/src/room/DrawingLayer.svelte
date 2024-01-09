@@ -1,6 +1,4 @@
 <script>
-
-
 	import { drawSettings } from '../store/store.ts';
 
 	export function clear() {

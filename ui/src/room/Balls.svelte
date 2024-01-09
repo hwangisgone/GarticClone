@@ -16,7 +16,7 @@
   };
 
   $: render = ({ context }) => {
-    context.globalCompositeOperation = 'screen';
+    // context.globalCompositeOperation = 'screen';
     context.fillStyle = color;
     context.lineWidth = 10;
     context.beginPath();

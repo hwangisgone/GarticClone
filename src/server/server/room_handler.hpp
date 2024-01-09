@@ -72,6 +72,29 @@ struct Player {
 	Player(const sockaddr_in& in_addr, const PlayerAccount& in_acc): currentAddr(in_addr), account(in_acc) {}
 };
 
+// Timer thread
+// static TSQueue<MsgWrapper> msgQueue;
+// static addtoQueue(5) {
+// 		msgQueue.push(currentTime + 5, func)
+// }
+
+
+// Room thread -> static addtoQueue(5, func)
+
+
+// Timer Thread 1s ->
+// while (end 1s) 
+//	-> find msgQueue(0) -> func
+//	-> msgQueue.pop
+//  -> 
+// } 
+
+
+// Client -> Server
+// Client send -> Server Lobby
+
+
+
 // Context
 class RoomHandler {
 private:
