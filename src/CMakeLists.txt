@@ -29,6 +29,8 @@ endif()
 add_subdirectory(server)
 add_subdirectory(client)
 
+add_subdirectory(timer)
+
 add_subdirectory(js_io)
 add_subdirectory(independent)
 add_subdirectory(states)

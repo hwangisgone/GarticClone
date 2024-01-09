@@ -7,9 +7,11 @@ add_library(server_base_lib STATIC
 
 target_include_directories(server_base_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(server_base_lib
+PRIVATE
+	timer_thread_lib
+	debug_lib
 PUBLIC 
 	msg_lib
-	debug_lib
 	utils_lib
 	sockaddr_util_lib
 
