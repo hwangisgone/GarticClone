@@ -15,50 +15,65 @@
 
 #include <msg/msg_format.hpp>
 
-
 class RoomHandler;
 
-
 // State interface
-class ServerState {
+class ServerState
+{
 protected:
-	RoomHandler * room;	// This backreference can be used by States to transition the * RoomHandler to another State.
+	RoomHandler *room; // This backreference can be used by States to transition the * RoomHandler to another State.
 
 public:
+	virtual void handle(const BaseMsg &msg, int playerID) = 0;
 
-	virtual void handle(const BaseMsg& msg, int playerID) = 0;
-
-	void setHandler(RoomHandler * handler) {
+	void setHandler(RoomHandler *handler)
+	{
 		room = handler;
 	}
-
 };
 
 // Concrete States
 
-class RoomState: public ServerState {
+class RoomState : public ServerState
+{
 private:
 	// bool init = false;
 public:
-	void handle(const BaseMsg& msg, int playerID) override;
+	void handle(const BaseMsg &msg, int playerID) override;
 };
 
-class InGameState: public ServerState {
+class InGameState : public ServerState
+{
 private:
-	int answerIndex;	// Must somehow point to original word
+	int answerIndex; // Must somehow point to original word
 	int drawerID;
-
+	Word roundAnswer;
 	int correctCount = 0;
-public:
-	InGameState(RoomHandler * handler);	// Initializer
 
-	void handle(const BaseMsg& msg, int playerID) override;
-	
+	std::thread t;
+	int roundIndex ;
+
+public:
+	InGameState(RoomHandler *handler, int index); // Initializer
+
+	void handle(const BaseMsg &msg, int playerID) override;
+
+	void countTime()
+	{
+		int k = 60; // 1 minutes
+		for (int i = k; i > 0; --i)
+		{
+			// cout << "\rTime remaining: " << i << flush;
+			this_thread::sleep_for(std::chrono::seconds(1));
+		}
+	}
+	void handleCountTime(RoomHandler *handler);
 };
 
-class LeaderboardState: public ServerState {
+class LeaderboardState : public ServerState
+{
 public:
-	void handle(const BaseMsg& msg, int playerID) override;
+	void handle(const BaseMsg &msg, int playerID) override;
 };
 
 // GameState {
@@ -69,44 +84,45 @@ public:
 // 	ENDSERVER,
 // };
 
-struct Player {
-	const PlayerAccount& account;
+struct Player
+{
+	const PlayerAccount &account;
 	const sockaddr_in currentAddr;
 	int currentScore;
-	Player(const sockaddr_in& in_addr, const PlayerAccount& in_acc): currentAddr(in_addr), account(in_acc) {}
+	Player(const sockaddr_in &in_addr, const PlayerAccount &in_acc) : currentAddr(in_addr), account(in_acc) {}
 };
 
 // Context
-class RoomHandler {
+class RoomHandler
+{
 private:
-	ServerState* currentState = nullptr;
+	ServerState *currentState = nullptr;
 
 	std::thread roomThread;
-	std::atomic<bool> aliveThread;				// atomic for safety?	// TODO: May not be needed
+	std::atomic<bool> aliveThread; // atomic for safety?	// TODO: May not be needed
 public:
-	TSQueue<MsgWrapper> msgQueue;				// Exchanging data between threads
-	
+	TSQueue<MsgWrapper> msgQueue; // Exchanging data between threads
+
 	int sockfd;
-	int host;	// playerID
+	int host; // playerID
 	char roomName[50];
 
-	std::unordered_map<int, Player> playerMap;	// Map (playerID, Player)	
+	std::unordered_map<int, Player> playerMap; // Map (playerID, Player)
 
 	RoomHandler(int sockfd);
 	~RoomHandler();
 
-	void setState(ServerState* newState);
+	void setState(ServerState *newState);
 
 	bool isDead();
 	void threadRun();
 	void threadKill();
 
-
-	void addPlayer(int playerID, const sockaddr_in& addr, const PlayerAccount& account);
+	void addPlayer(int playerID, const sockaddr_in &addr, const PlayerAccount &account);
 	void removePlayer(int playerID);
 
-	void broadcast(BaseMsg& msg) const;	// Cannot use const for BaseMsg because sendMsg needs to calculate msgLength
-	void broadcastExcept(BaseMsg& msg, int playerID) const;
+	void broadcast(BaseMsg &msg) const; // Cannot use const for BaseMsg because sendMsg needs to calculate msgLength
+	void broadcastExcept(BaseMsg &msg, int playerID) const;
 
 	WordHandler handlerWord;
 };
