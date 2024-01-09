@@ -50,24 +50,12 @@ private:
 	Word roundAnswer;
 	int correctCount = 0;
 
-	std::thread t;
-	int roundIndex ;
+	// std::thread t;
 
 public:
 	InGameState(RoomHandler *handler, int index); // Initializer
 
 	void handle(const BaseMsg &msg, int playerID) override;
-
-	void countTime()
-	{
-		int k = 60; // 1 minutes
-		for (int i = k; i > 0; --i)
-		{
-			// cout << "\rTime remaining: " << i << flush;
-			this_thread::sleep_for(std::chrono::seconds(1));
-		}
-	}
-	void handleCountTime(RoomHandler *handler);
 };
 
 class LeaderboardState : public ServerState
@@ -130,6 +118,8 @@ public:
 	int host; // playerID
 	char roomName[50];
 
+	int roundIndex ;
+	
 	std::unordered_map<int, Player> playerMap; // Map (playerID, Player)
 
 	RoomHandler(int sockfd);

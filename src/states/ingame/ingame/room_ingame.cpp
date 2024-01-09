@@ -21,7 +21,9 @@ InGameState::InGameState(RoomHandler *room, int index)
 	this->setHandler(room); // Required, otherwise segmentation fault
 
 	this->roundAnswer = room->handlerWord.getRandomAndRemove();
-	this->roundIndex = index;
+	
+	room->roundIndex = index;
+
 	// Get random playerID from the map
 	std::uniform_int_distribution<size_t> dist(0, room->playerMap.size() - 1);
 	size_t randomIndex = dist(gameRng); // Iterate to the random index to get the corresponding key
@@ -44,12 +46,6 @@ InGameState::InGameState(RoomHandler *room, int index)
 	sendMsg(room->sockfd, (struct sockaddr *)&drawerPlayer.currentAddr, sizeof(drawerPlayer.currentAddr), nextmsg);
 }
 
-void InGameState::handleCountTime(RoomHandler *room)
-{
-	t = std::thread(countTime);
-	t.join();
-	room->setState(new InGameState(room, this->roundIndex+1));
-}
 
 bool handleAnswer(const AnswerMsg &msg, int playerID, const Word &correct_ans, RoomHandler *room)
 {
