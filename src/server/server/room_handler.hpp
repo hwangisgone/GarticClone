@@ -45,7 +45,7 @@ public:
 
 class InGameState: public ServerState {
 private:
-	Word roundAnswer;
+	int answerIndex;	// Must somehow point to original word
 	int drawerID;
 
 	int correctCount = 0;

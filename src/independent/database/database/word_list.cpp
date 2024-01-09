@@ -227,8 +227,8 @@ int WordHandler::getLevel(char *word){
 }
 
 void WordHandler::updateWord(char *word, bool correct){
-	 auto wf = findWord(word);
+	auto wf = findWord(word);
 
-	 wf->totalCount++;
-	 if(correct) wf->successCount++;
+	wf->totalCount++;
+	if(correct) wf->successCount++;
 }
