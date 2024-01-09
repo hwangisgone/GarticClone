@@ -77,15 +77,14 @@ bool handleAnswer(const AnswerMsg &msg, int playerID, const Word& correct_ans, R
 }
 
 // TODO: Handle if the player answered correctly. (Cannot answer again)
-// TODO: TIMER???
+// TODO: TIMER??? -> room->setState(new InGameState(room));
 //
 // total = playerMap.size()
 // correct = this->correctCount		 ("this" is InGameState)
-//
 // playerDisconnect (correct) -> correctCount - 1
 //
-//		- Only update word at end of round 
-//		- Input const Word&, total, correct as arguments
+//		- Update at end of round OR update at handleAnswer
+//		- No more findWord
 // 		WordHandler::updateWord(wordsGlobal, correct_ans, true);
 //
 
