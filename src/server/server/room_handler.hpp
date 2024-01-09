@@ -44,10 +44,14 @@ public:
 };
 
 class InGameState: public ServerState {
+private:
+	Word roundAnswer;
+	int drawerID;
+
+	int correctCount = 0;
 public:
 	InGameState(RoomHandler * handler);	// Initializer
-	int drawerID;
-	Word answer;
+
 	void handle(const BaseMsg& msg, int playerID) override;
 	
 };
@@ -81,7 +85,6 @@ private:
 	std::atomic<bool> aliveThread;				// atomic for safety?	// TODO: May not be needed
 public:
 	TSQueue<MsgWrapper> msgQueue;				// Exchanging data between threads
-	WordHandler * handlerWord;
 	
 	int sockfd;
 	int host;	// playerID
@@ -104,6 +107,8 @@ public:
 
 	void broadcast(BaseMsg& msg) const;	// Cannot use const for BaseMsg because sendMsg needs to calculate msgLength
 	void broadcastExcept(BaseMsg& msg, int playerID) const;
+
+	WordHandler handlerWord;
 };
 
 #endif

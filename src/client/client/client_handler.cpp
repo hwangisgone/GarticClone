@@ -55,12 +55,10 @@ void ClientHandler::sendInput() {
 		DEBUG_PRINT("Cannot send input: getInput function not defined!!!");
 		return;
 	}
-	while (keepAlive) {
-		if (getInput() == -1) { 
-			std::cerr << "Input thread ended by user." << std::endl;
-			this->kill();
-		}
+	if (getInput() == -1) { 
+		std::cerr << "Input thread ended by user." << std::endl;
 	}
+	this->kill();
 }
 
 std::thread inputThread;

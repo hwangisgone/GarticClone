@@ -226,16 +226,6 @@ int WordHandler::getLevel(char *word){
 	else return wf->level;
 }
 
-int WordHandler::getPoint(char *word){
-	auto wf = findWord(word);
-	if(wf != wordsGlobal.end()){
-		return -1;
-	}
-	else if (wf->level == 1) return 30;
-	else if (wf->level == 2) return 50;
-	else return 80;
-}
-
 void WordHandler::updateWord(char *word, bool correct){
 	 auto wf = findWord(word);
 
