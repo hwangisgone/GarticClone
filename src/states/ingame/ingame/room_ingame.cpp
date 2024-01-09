@@ -40,6 +40,10 @@ InGameState::InGameState(RoomHandler * room) {	// Initialize a new game
 	strncpy(nextmsg.word, this->answer.word, sizeof(this->answer.word));
 	Player drawerPlayer = room->playerMap.at(drawerID);
 	sendMsg(room->sockfd, (struct sockaddr*)&drawerPlayer.currentAddr, sizeof(drawerPlayer.currentAddr), nextmsg);
+
+
+	// addToQueue (25 room)
+	// TSQueue<TIMERSTRUCT> 
 }
 
 
