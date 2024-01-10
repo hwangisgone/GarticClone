@@ -5,7 +5,7 @@ export const PlayerID = writable("");
 export const usernameCheck = writable("");
 // export const GameSettings = writable({ PlayerList: { Username	, Point } });
 export const GameSettings = writable({ PlayerList: [] });
-export const UIstate = writable(0);
+export const UIstate = writable(2);
 	// 0 is Login
 	// 1 is Lobby
 	// 2 is Room

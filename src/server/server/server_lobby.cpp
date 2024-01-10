@@ -9,6 +9,8 @@
 
 #include <auth/server_auth.hpp>
 #include <lobby/msg/msg_lobby.hpp>
+#include <timer/timer_thread.hpp>
+
 #include <printdebug/debugging.h>
 
 using namespace std;
@@ -142,6 +144,10 @@ void ServerLobby::run() {
 	// INITIALIZATIONGS
 	loadFromFile("txt/accounts.txt", allAccounts);
 	// DATABASE
+
+	// HAVE A TIMER THREAD
+	TimerThread lobbyTimer;
+	// RUN UNTIL ServerLobby::run() ends;
 
 	MsgWrapper oneWrapper;
 	int timeout_counter = 0;

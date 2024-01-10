@@ -7,7 +7,8 @@
 
 // Thread-safe queue
 template <typename T>
-class TSQueue {
+class TSQueue
+{
 private:
 	// Underlying queue
 	std::queue<T> m_queue;
@@ -19,11 +20,13 @@ private:
 	std::condition_variable m_cond;
 
 public:
-	size_t size() const {
+	size_t size() const
+	{
 		return m_queue.size();
 	}
 	// Pushes an element to the queue
-	void push(T& item) {
+	void push(T &item)
+	{
 		std::unique_lock<std::mutex> lock(m_mutex);
 		m_queue.push(std::move(item));
 
@@ -32,11 +35,20 @@ public:
 		m_cond.notify_one();
 	}
 
+	T front()
+	{
+		std::unique_lock<std::mutex> lock(m_mutex);
+
+		T item = m_queue.front();
+		return item;
+	}
 
 	// Pops an element off the queue
-	T pop() {
+	T pop()
+	{
 		std::unique_lock<std::mutex> lock(m_mutex);
-		m_cond.wait(lock, [this]() { return !m_queue.empty(); });
+		m_cond.wait(lock, [this]()
+					{ return !m_queue.empty(); });
 
 		T item = std::move(m_queue.front());
 		m_queue.pop();

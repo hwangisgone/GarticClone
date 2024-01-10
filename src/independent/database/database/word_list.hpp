@@ -9,7 +9,7 @@
 #include <cctype>   	// std::tolower
 #include <algorithm>	// std::equal
 #include <random>		// std::shuffle
-#include <ctime>
+#include <cstring>
 
 struct Word
 {
@@ -20,6 +20,17 @@ struct Word
 	//	0 easy
 	//	1 medium
 	//	2 hard
+
+	int getWordPoint() const {
+		if (level == 0) return 30;
+		else if (level == 1) return 50;
+		else if (level == 2) return 80;
+		else return -999;	// Breaks everything
+	}
+
+	bool isTheSame(const char *str) const {
+		return strncmp(str, word, 50) == 0;
+	}
 };
 
 class WordHandler {
@@ -36,7 +47,6 @@ public:
 	static void writeWordsToFile(const std::string& filename, const std::vector<Word>& words);
 
 	static int getLevel(char *word);
-	static int getPoint(char *word);
 	static void updateWord(char *word, bool correct);
 	
 	// get random from a vector Collection word
