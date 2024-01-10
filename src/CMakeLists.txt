@@ -1,5 +1,7 @@
 message(CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}")
 
+# Find SQLite3
+find_package(SQLite3 REQUIRED)
 
 # GUI
 add_library(webview_lib INTERFACE)

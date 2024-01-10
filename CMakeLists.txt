@@ -24,3 +24,5 @@ target_link_libraries(CharadeioClient PRIVATE
 	client_leaderboard_lib
 	debug_lib
 )
+
+configure_file(database/network.db ${CMAKE_BINARY_DIR}/db/network.db COPYONLY)

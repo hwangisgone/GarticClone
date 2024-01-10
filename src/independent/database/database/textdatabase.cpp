@@ -63,15 +63,7 @@ void writePlayerAccountsToFile(const std::string& filename, const std::vector<Pl
 	file.close();
 }
 
-std::vector<PlayerAccount>::iterator findPlayer(std::vector<PlayerAccount> &accounts, int playerID )
-{
-	for (auto it = accounts.begin(); it != accounts.end(); ++it)
-	{
-		if( it->playerID == playerID)
-			return it;
-	}
-	return accounts.end(); // Word not found
-}
+
 
 PlayerAccount * checkPassword(const char * username, const char * password) {
 	std::cerr << "Acc counts: " << allAccounts.size() << std::endl;
@@ -106,6 +98,16 @@ int addAccount(const char * in_username, const char * in_password) {
 	allAccounts.push_back(account);
 
 	return account.playerID;
+}
+
+std::vector<PlayerAccount>::iterator findPlayer(std::vector<PlayerAccount> &accounts, int playerID )
+{
+	for (auto it = accounts.begin(); it != accounts.end(); ++it)
+	{
+		if( it->playerID == playerID)
+			return it;
+	}
+	return accounts.end(); // Word not found
 }
 
 void updatePlayer(std::vector<PlayerAccount> &accounts, int playerID, int plusScore, bool win){

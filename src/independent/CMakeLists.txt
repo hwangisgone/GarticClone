@@ -4,3 +4,5 @@ add_subdirectory(sockaddr_in)
 
 add_subdirectory(msg)
 add_subdirectory(database)
+
+add_subdirectory(sqldatabase)
