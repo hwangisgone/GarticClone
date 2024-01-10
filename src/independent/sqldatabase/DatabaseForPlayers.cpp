@@ -100,7 +100,8 @@ PlayerAccount* checkPassword(const char* s, const char* username, const char* pa
 		account.gamesWin = sqlite3_column_int(stmt, 4);
 		account.totalScore = sqlite3_column_int(stmt, 5);
 
-		std::cout << "Information:" << account.playerID << ", " << account.playerName << ", " << account.password << ", " << account.gamesPlayed << ", " << account.gamesWin << ", " << account.totalScore;
+		std::cout << "Correct pass" << std::endl;
+		std::cout << "Information:" << account.playerID << ", " << account.playerName << ", " << account.password << ", " << account.gamesPlayed << ", " << account.gamesWin << ", " << account.totalScore << std::endl;
 		// Closing the statement and database
 
 		sqlite3_finalize(stmt);
@@ -109,7 +110,7 @@ PlayerAccount* checkPassword(const char* s, const char* username, const char* pa
 		// Returning the found account
 		return &account;
 	}
-	std::cout << "check FAIL";
+	std::cout << "check FAIL" << std::endl;
 	// Finalizing the statement and closing the database
 	sqlite3_finalize(stmt);
 	sqlite3_close(DB);
@@ -146,7 +147,7 @@ void updatePlayer(const char* s, ::vector<PlayerAccount>& accounts, int playerID
 		return;
 	}
 	else {
-		cout << "Records inserted successfully!" << endl;
+		cout << "Updated successfully!" << endl;
 	}
 
 	sqlite3_close(DB); // Close the connection after use
@@ -321,7 +322,7 @@ PlayerAccount* findPlayer(const char* s, std::vector<PlayerAccount>& accounts, i
 		account.gamesWin = sqlite3_column_int(stmt, 4);
 		account.totalScore = sqlite3_column_int(stmt, 5);
 
-		std::cout << "Information:" << account.playerID << ", " << account.playerName << ", " << account.password << ", " << account.gamesPlayed << ", " << account.gamesWin << ", " << account.totalScore;
+		std::cout << "Information:" << account.playerID << ", " << account.playerName << ", " << account.password << ", " << account.gamesPlayed << ", " << account.gamesWin << ", " << account.totalScore << std::endl;
 		// Closing the statement and database
 		sqlite3_finalize(stmt);
 		sqlite3_close(DB);
@@ -361,7 +362,9 @@ int main() {
 	updatePlayer(dir, allAccounts, 1, 200, false);
 	findPlayer(dir, allAccounts, 1);
 	//findPlayer(dir, allAccounts, 1);
-	//checkPassword(dir, name, pass);
+	checkPassword(dir, "hahaha", "dddasasas");
+	checkPassword(dir, "hahaha", "dddas");
+	checkPassword(dir, "hahaha", "dddas1234");
 
 	//addAccount(dir, name, pass);
 	return 0;
