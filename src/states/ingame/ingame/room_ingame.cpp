@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <random>
-#include <vector>
+
 #include <server/room_handler.hpp>
 
 #include "msg/msg_ingame.hpp"
@@ -10,27 +10,23 @@
 #include <msg/msg_sendrecv.h>
 
 #include <room/room_connection.hpp> // Allow other players to enter/exit in game
-#include <database/word_list.hpp>	// Word handling
-
-#include <utils/rng.hpp>			// Choosing who to draw
-#include <timer/timer_thread.hpp>	// End round
-
 #include <printdebug/debugging.h>
+#include <database/word_list.hpp>
+#include <utils/rng.hpp>
 
 using namespace std;
 
-InGameState::InGameState(RoomHandler *room)
-{							// Initialize a new game
-	this->setHandler(room); // Required, otherwise segmentation fault
+InGameState::InGameState(RoomHandler * room) {	// Initialize a new game
+	this->setHandler(room);	// Required, otherwise segmentation fault
 
-	this->roundAnswer = room->handlerWord.getRandomAndRemove();
+	this->answer = getRandomAndRemove(room->wordCollection);
 
 	// Get random playerID from the map
 	std::uniform_int_distribution<size_t> dist(0, room->playerMap.size() - 1);
-	size_t randomIndex = dist(gameRng); // Iterate to the random index to get the corresponding key
+	size_t randomIndex = dist(gameRng);		// Iterate to the random index to get the corresponding key
 	auto it = std::next(room->playerMap.begin(), randomIndex);
 
-	DEBUG_PRINT("New round started. This round word: '" + string(this->roundAnswer.word) + "'");
+	DEBUG_PRINT("This round word: '" + string(this->answer.word) + "'");
 	this->drawerID = it->first;
 	// Get random playerID from the map
 	// Choose as player to draw
@@ -40,116 +36,108 @@ InGameState::InGameState(RoomHandler *room)
 	nextmsg.role = 0;
 	room->broadcastExcept(nextmsg, this->drawerID);
 
-	// Send role to drawer
 	nextmsg.role = 1;
-	strncpy(nextmsg.word, this->roundAnswer.word, sizeof(this->roundAnswer.word));
+	strncpy(nextmsg.word, this->answer.word, sizeof(this->answer.word));
 	Player drawerPlayer = room->playerMap.at(drawerID);
-	sendMsg(room->sockfd, (struct sockaddr *)&drawerPlayer.currentAddr, sizeof(drawerPlayer.currentAddr), nextmsg);
+	sendMsg(room->sockfd, (struct sockaddr*)&drawerPlayer.currentAddr, sizeof(drawerPlayer.currentAddr), nextmsg);
 
-	// TODO: gamesettings with timer here
-	TimerThread::addTimer(25, room, 1);
+
+	// addToQueue (25 room)
+	// TSQueue<TIMERSTRUCT> 
 }
 
 
-bool handleAnswer(const AnswerMsg &msg, int playerID, const Word &correct_ans, RoomHandler *room)
+bool checkAnswer(const char *correct_ans, const char *ans)
 {
-	bool isCorrect = false;
-
-	if (correct_ans.isTheSame(msg.answer))
-	{
-		try
-		{
-			// Add score and send score message
-			Player &ppp = room->playerMap.at(playerID);
-			ppp.currentScore += correct_ans.getWordPoint();
-
-			ScoreMsg msg;
-			msg.playerID = playerID;
-			msg.score = ppp.currentScore;
-			room->broadcast(msg);
-
-			isCorrect = true;
-		}
-		catch (const std::out_of_range &e)
-		{
-			cerr << "PLAYER " << playerID << " NOT FOUND (handleScore). Exception at " << e.what() << endl;
-		}
-	}
-	else
-	{
-		// Only broadcast incorrect asnwers
-		AnswerMsg answermsg = msg;
-		answermsg.playerID = playerID;
-		room->broadcastExcept(answermsg, playerID);
-	}
-
-	return isCorrect;
+	return strcmp(correct_ans, ans) == 0;
 }
 
-// TODO: Handle if the player answered correctly. (Cannot answer again)
-// TODO: TIMER??? -> room->setState(new InGameState(room));
-//
-// total = playerMap.size()
-// correct = this->correctCount		 ("this" is InGameState)
-// playerDisconnect (correct) -> correctCount - 1
-//
-//		- Update at end of round OR update at handleAnswer
-//		- No more findWord
-// 		WordHandler::updateWord(wordsGlobal, correct_ans, true);
-//
-
-void InGameState::handle(const BaseMsg &msg, int playerID)
+void handleScore(const ScoreMsg &msg, int playerID, char *correct_ans, RoomHandler *room, vector<Word>&words)
 {
+	auto i = room->playerMap.find(playerID);
+	int score = getPoint(words, correct_ans); // TODO: fix compiler with this getPoint(correct_ans);
+
+	if (i != room->playerMap.end())
+	{
+		Player targetPlayer = i->second;
+		targetPlayer.currentScore += score;
+	}
+}
+
+
+void handleAnswer(const AnswerMsg &msg, int playerID, Word correct_ans, RoomHandler *room, vector<Word>& words)
+{
+
+	AnswerMsg answermsg;
+	answermsg.playerID = playerID;
+	room->broadcastExcept(answermsg, playerID);
+
+
+	char answer_client[900];
+	strcpy(answer_client, msg.answer);
+
+	// if (checkAnswer(correct_ans, answer_client))
+	// {
+	// 	ScoreMsg scoreMsg;
+	// 	scoreMsg.playerID = playerID;
+	// 	scoreMsg.score = getPoint(words, correct_ans);
+	// 	handleScore(static_cast<const ScoreMsg &>(scoreMsg), playerID, correct_ans, room, words);
+	// 	updateWord(wordsGlobal, correct_ans, true);
+
+	// 	// maybe can boardcast to all that some one correct
+	// 	room->broadcastExcept(scoreMsg, playerID);
+		
+	// }
+	// else
+	// {
+	// 	// something happen ??
+	// }		
+}
+
+
+void InGameState::handle(const BaseMsg &msg, int playerID) {
 	DEBUG_PRINT("  (InGameState) " + msg.toString());
 
 	// unordered_map<int, Player> state_playerMap;
 	// state_playerMap = room->playerMap;
 	// auto index = state_playerMap.find(playerID);
 
+
 	switch (msg.type())
 	{
-	case MsgType::JOIN_ROOM:
-	{
-		RoomConn::handleConnect(static_cast<const JoinRoomMsg &>(msg), playerID, room);
-		break;
-	}
-	case MsgType::DISCONNECT:
-	{
-		RoomConn::handleDisconnect(playerID, room);
-		break;
-	}
+		case MsgType::JOIN_ROOM: {
+			RoomConn::handleConnect(static_cast<const JoinRoomMsg&>(msg), playerID, room);
+			break;
+		}
+		case MsgType::DISCONNECT: {
+			RoomConn::handleDisconnect(playerID, room);
+			break;
+		}
 
-	case MsgType::DRAW:
-	{
-		if (playerID == this->drawerID)
-		{
-			TEST_PRINT("  (InGameState) Drawing...");
-			DrawMsg newmsg = static_cast<const DrawMsg &>(msg);
-			room->broadcastExcept(newmsg, playerID);
-		}
-		else
-		{
-			TEST_PRINT("  (InGameState) Non-Drawer attempted to draw????");
-		}
-	}
-	case MsgType::ANSWER:
-	{ // Send score here if correct
-		if (playerID != this->drawerID)
-		{
-			if (handleAnswer(static_cast<const AnswerMsg &>(msg), playerID, this->roundAnswer, room))
-			{
-				this->correctCount += 1;
+		case MsgType::DRAW: {
+			if (playerID == this->drawerID) {
+				TEST_PRINT("  (InGameState) Drawing...");
+				DrawMsg newmsg = static_cast<const DrawMsg&>(msg);
+				room->broadcastExcept(newmsg, playerID);
+			} else {
+				TEST_PRINT("  (InGameState) Non-Drawer attempted to draw????");
 			}
 		}
-		else
-		{
-			TEST_PRINT("  (InGameState) Drawer attempted to answer????");
+		// case MsgType::SCORE: {	// ANSWER send score
+		// 	handleScore(static_cast<const ScoreMsg &>(msg), playerID, answer, room, wordsGlobal);
+		// 	break;		
+		// }
+		case MsgType::ANSWER: {	// Send score here if correct
+			if (playerID != this->drawerID) {
+				handleAnswer(static_cast<const AnswerMsg &>(msg), playerID, answer, room, wordsGlobal);
+			} else {
+				TEST_PRINT("  (InGameState) Drawer attempted to answer????");
+			}
+			break;
 		}
-		break;
-	}
-		// next_round with word choose from word collectionstartGame
-	default:
-		cerr << "GAME ROOM: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;
-		break;
+			// next_round with word choose from word collectionstartGame
+		default:
+			cerr << "GAME ROOM: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;
+			break;
 	}
 }
