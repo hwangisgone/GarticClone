@@ -11,7 +11,7 @@
 	// window.requestLogin(1, username, password)
 	// C++ Call Js
 	window.auth_wrongPass = () => { wrongPassword = true; };
-	window.auth_toLobby = () => { $UIstate = 1; };
+	window.auth_toLobby = () => { $UIstate = 2; };
 </script>
 
 
@@ -47,12 +47,12 @@
 
 		<div class="grid grid-cols-3 gap-2">
 				<button 
-					on:click={() => window.requestLogin(1, username, password)} class="btn lg:btn-lg btn-primary w-full col-span-2">
+					on:click={() => window.requestLogin(1, username, password)} class="btn lg:btn-lg btn-primary w-full col-span-3">
 					Sign in
 				</button>
-				<button on:click={() => window.requestLogin(1, username, password)} class="btn lg:btn-lg hover:bg-secondary focus:bg-secondary w-full">
+<!-- 				<button on:click={() => window.requestLogin(1, username, password)} class="btn lg:btn-lg hover:bg-secondary focus:bg-secondary w-full">
 					Play as guest
-				</button>
+				</button> -->
 		</div>
 		<p class="text-md text-gray-400">Don't have an account yet? 
 			<a on:click|preventDefault={()=> $UIstate = 3} href="/" class="text-primary hover:underline focus:underline">Sign up</a>.</p>

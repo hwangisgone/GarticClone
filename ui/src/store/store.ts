@@ -11,11 +11,3 @@ export const UIstate = writable(2);
 	// 2 is Room
 	// 3 is Sign Up
 	// 4 LeaderBoard
-export const RoomList = writable([
-	{RoomID: 1, RoomName: "Me room"},
-	{RoomID: 2, RoomName: "You room"},
-	{RoomID: 3, RoomName: "Us room"},
-
-	]);
-
-export const drawSettings = writable({ color: '#000000', size: 4 });

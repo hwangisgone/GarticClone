@@ -1,36 +1,31 @@
 <script>
 	import RoomLayout from './RoomLayout.svelte';
-	import { PlayerID, UIstate, PlayerList } from '../store/store.ts';
+	import { PlayerID, UIstate } from '../store/store.ts';
 
-	export let roomState = 1;
+	// Js Call C++
+	// window.requestStart()
+	// C++ Call Js
 
-
-	function toLobby() {
-		$UIstate = 1;
-	}
-
-	function addPlayer(id, name) {
-		$PlayerList.push({playerID: id, playerName: name});
-	}
-
-	function removePlayer(id) {
-		$PlayerList = $PlayerList.filter(p => p.playerID != id);
-	}
-
-
-	window.room_addPlayer = addPlayer;
-	window.room_removePlayer = removePlayer;
+	window.room_toGame = () => { $UIstate = 4 };
 </script>
 
 <RoomLayout>
-	<button slot="header" class="btn btn-accent" type="button" on:click={() => $UIstate = 1 }>
-		Exit room
-	</button>
+	<div slot="draw" class="bg-white h-full text-neutral rounded-xl flex items-center justify-center">
+		<div class="text-gray-400 text-3xl">
+			Waiting for host to start...
+		</div>	
+	</div>
 
-	<div slot="interact">
-		Chatting here
-		<button class="btn btn-primary" type="button" on:click={() => roomState = 1 }>
-			Start game!
-		</button>
+	<div slot="interact" class="grid grid-cols-2 h-full">
+		<div class="border-r-2 border-primary flex items-center justify-center">
+			<button class="btn btn-primary " type="button" on:click={() => window.requestStart()}>
+				Start game!
+			</button>			
+		</div>
+
+		<div class="">
+			Chatting here		
+		</div>
+
 	</div>
 </RoomLayout>

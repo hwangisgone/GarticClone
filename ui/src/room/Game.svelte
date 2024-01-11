@@ -1,18 +1,11 @@
 <script>
 // @ts-nocheck
-	import { Canvas } from 'svelte-canvas';
-	import DrawingLayer from "./DrawingLayer.svelte";
-	import MeTest from "./MeTest.svelte";
-
+	import Drawing from "./Drawing.svelte";
 	import RoomLayout from "./RoomLayout.svelte";
-	import Lobby from "../Lobby.svelte";
-	import {UIstate, GameSettings} from "../store/store.ts";
-	import LeaderBoard  from '../LeaderBoard.svelte';
-	// import Room from './Room.svelte';
+
+	import { UIstate, GameSettings } from "../store/store.ts";
 
 
-	let windowState = 0;
-	// for(int i = 1; i <= 10; i++)
 	
 	$GameSettings.PlayerList.push( { id: 1, name: 'Thuy Trinh', point: 100})
 	$GameSettings.PlayerList.push( { id: 2, name: 'AAAAAA', point: 60})
@@ -22,21 +15,6 @@
 	// for(i = 0; i < 40; i++){
 	// 	$GameSettings.PlayerList.push( {Username: 'CCCCCCCCC', Point: i * 20})
 	// }
-
-	// Js Call C++
-	// window.requestDisconnect()
-	// window.requestStartGame()
-	// window.request
-	// C++ Call Js
-	window.room_addPlayer = (playerid, playername) => { 
-		$GameSettings.PlayerList.push( { id: playerid, name: playername, point: 100})
-		$GameSettings.PlayerList = $GameSettings.PlayerList;
-	};
-	window.room_removePlayer = (playerid) => { 
-		$GameSettings.PlayerList = $GameSettings.PlayerList.filter(p => p.id != playerid);
-		console.log("Removed?", playerid);
-	};
-
 
 	let messages = [];
 
@@ -53,19 +31,8 @@
 		messages = messages;
 	}
 
-	// let RoomList = [];
-	// let PlayerList = [];
-	
-	// Add rooms dynamically
-	// for (let i = 1; i <= 20; i++) {
-	//     RoomList.push({ RoomID: i, PlayerList: [] });
-	// }
-	// // automatic add a new username when enter to the room
-	// RoomList[$RoomID_Enter].PlayerList.push({Username: $usernameCheck, Point: 0 })
+
 	let numbers = [1, 2, 3, 4, 5 ,6 , 7, 0 ]
-	function Back(){
-		windowState = 1;
-	}
 	// count down time 
 	import { onMount } from "svelte";
 	let countdown = 30;
@@ -88,29 +55,10 @@
 
 </script>
 
-
-
-	<div class="fixed left-1/2">
-		<input class="input" type="number" on:change={e => window.room_removePlayer(e.target.value)} />
-		<button class="btn" on:click={() => window.room_addPlayer(1, "hehe")} >Add player</button>
-		<button class="btn" on:click={window.requestDisconnect} >Disconnect</button>
-	<!-- <button class="btn btn-accent" type="button" on:click={Back}> Back Lobby </button> -->
-		</div>
-
 <RoomLayout>
-	<div slot="players" class="bg-gray-900 text-neutral h-full">
-		{#each $GameSettings.PlayerList as player}
 
-			<div class = "flex flex-col text-center border-4 border-sky-500 rounded-full border-double w-full">
-				
-				<strong style = 'color-font: white'>{player.name} {player.id}</strong>
-				<span>{player.point} points</span>
-			</div>
-		{/each}
-	</div>
-
-	<div slot="draw" class="bg-white h-full">
-		<MeTest/>
+	<div slot="draw" class="bg-white h-full rounded-xl">
+		<Drawing/>
 	</div>
 
 	<div slot="interact" class="h-full">

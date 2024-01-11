@@ -1,81 +1,79 @@
-
-
 <script>
-	// @ts-nocheck  
-		import { UIstate, usernameCheck, RoomList } from "./store/store.ts";
-		import Game from "./room/Game.svelte"
-		
-		// Add rooms dynamically
-		// for (let i = 1; i <= 20; i++) {
-		//     RoomList.push({ RoomID: i, Players: 0 });
-		// }
+// @ts-nocheck  
+	import { UIstate, usernameCheck } from "./store/store.ts";
+	import { onMount } from "svelte";
 
-		// Js Call C++
-		// window.requestJoinRoom(roomID)
-		// window.requestCreateRoom(name)
-		// C++ Call Js
-		window.lobby_addRoom = (id, name) => { 
-			$RoomList.push({ RoomID: id, RoomName: name });
-			$RoomList = $RoomList;
-		};
-		window.lobby_toRoom = () => { $UIstate = 2; };	
-	</script>
-	
-<!-- 	{#if $UIstate == 2}
-		<Game/>
-	{:else if $UIstate == 1} -->
-		<div >
-			<div class="title">
-				<div>
-					<button class="top-left-button" on:click={() => $UIstate = 0}> Back </button>
-				</div>
-				<div>
-					Username {$usernameCheck} 
-				</div>
-				<span class="gTitle">
-					<h2 class = "font-bold text-primary content-center" style = "font-size:60px; font-family: Comic Sans MS;"> LOBBY </h2>
-				</span>
-			</div>
-	
-			<div >
-				<div>
-					<div class="grid grid-cols-5 gap-4 rounded-box  p-4 border border-secondary bg-base-content" >
-						{#each $RoomList as room}
-							<div>
-								<!-- <button on:click={() => EnterRoom(roomNumber.RoomID)} class=" font-semibold  btn-outline border-4  border-base-100 btn-secondary  room-button bg-base-content" style = "" > -->
-									<button 
-									on:click={() => { window.requestJoinRoom(room.RoomID); }} 
-									class="font-semibold btn-outline btn-info border-base-100 room-button text-neutral" style = "" >
-									<div>Room "{room.RoomName}"  </div>
-									<div>ID: {room.RoomID}</div>
-								</button>
-							</div>
-						{/each}
-						</div>
-				</div>
-			</div>
+	onMount(() => {
+		window.requestGetRooms();
+	});
+
+	let RoomList = [
+		{RoomID: 1, RoomName: "Me room"},
+		{RoomID: 2, RoomName: "You room"},
+		{RoomID: 3, RoomName: "Us room"},
+		{RoomID: 3, RoomName: "Us room"},
+		{RoomID: 3, RoomName: "Us room"},
+		{RoomID: 3, RoomName: "Us room"},
+		{RoomID: 3, RoomName: "Us room"},
+		{RoomID: 3, RoomName: "Us room"},
+		{RoomID: 3, RoomName: "Us room"},
+		{RoomID: 3, RoomName: "Us room"},
+		{RoomID: 3, RoomName: "Us room"},
+
+		{RoomID: 3, RoomName: "Us room"},
+		{RoomID: 3, RoomName: "Us room"},
+
+];
+	// Js Call C++
+	// window.requestGetRooms()
+	// window.requestJoinRoom(roomID)
+	// window.requestCreateRoom(name)
+
+	// C++ Call Js
+	window.lobby_addRoom = (id, name) => { 
+		RoomList.push({ RoomID: id, RoomName: name });
+		RoomList = RoomList;
+	};
+	window.lobby_toRoom = () => { $UIstate = 2; };	
+</script>
+<!-- 		<div class="title">
+		<div>
+			<button class="top-left-button" on:click={() => $UIstate = 0}> Logout </button>
 		</div>
-	<!-- {/if} -->
+		<div>
+			Username {$usernameCheck} 
+		</div>
+	</div> -->
+
+<div class="mx-auto container px-12 h-screen flex items-center justify-center">
+
+
+	<div class="bg-white p-4 rounded-xl flex flex-col items-center justify-content">
+		<span class="gTitle">
+			<h2 class = "font-bold text-primary content-center" style = "font-size:60px; font-family: Comic Sans MS;"> LOBBY </h2>
+		</span>
+		<div class=" h-[60vh] w-[70vw] rounded-box p-4 bg-gray-600 border border-neutral overflow-y-scroll " >
+	<div class="h-full grid grid-cols-5 gap-4">
+		{#each RoomList as room}
+			<div class="aspect-square ">
+				<button 
+					on:click={() => { window.requestJoinRoom(room.RoomID); }} 
+					class="hover:border-8 border-info rounded-2xl bg-white h-full w-full rounded-2xl text-neutral ">
+					<strong class="font-bold text-xl ">{room.RoomName}</strong>
+					<span class="text-gray-500">#{room.RoomID}</span>
+				</button>
+			</div>
+		{/each}
+	</div>
+		{#if RoomList.length == 0}
+			<div class="text-gray-500 text-xl">No room created yet...</div>
+		{/if}
+		</div>		
+	</div>
+	
+</div>
 	
 	<style>
-		.room-button {
-			width: 220px;
-			height: 140px;
-			/* display: flex; */
-			/* flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			margin: 5px
-			/* border: 1px solid #dbdee6; */
-			/* background-color: #2d5653; */
-			/* cursor: pointer; */
-			font-family: Comic Sans MS;
-			font-size: 23px;
-			margin: 5px;
-			 border: 5px solid #758bc6;
-			/* margin: 5px */
-		}
-	
 		.top-left-button {
 		width: 100px;
 		position: absolute;
