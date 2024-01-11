@@ -7,8 +7,8 @@ class NextRoundMsg: public BaseMsg {
 private:
 	uint32_t bodySize() const override { return sizeof(uint32_t) + sizeof(uint32_t) + strlen(word); }
 public:
+	uint32_t role;		// 0 as guesser, 1 as drawer
 	uint32_t timer;
-	uint32_t role;
 	char word[50];
 
 	NextRoundMsg(): BaseMsg(MsgType::NEXT_ROUND) {}

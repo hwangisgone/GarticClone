@@ -8,6 +8,8 @@
 #include <msg/msg_sendrecv.h>
 #include <printdebug/debugging.h>
 
+#include <timer/timer_thread.hpp>
+
 // roomThread related
 void RoomHandler::threadRun() {	// This thing runs at separate thread?
 	aliveThread = true;
@@ -30,6 +32,10 @@ void RoomHandler::threadKill() {
 		MsgWrapper emptyMsg;
 		msgQueue.push(emptyMsg);	// Final message if the queue is empty (stuck on pop())
 		DEBUG_PRINT("(Room) Killing thread...");
+
+		// remove from the map
+		TimerThread::removeRoomTimers(this->roomID);
+		TimerThread::eraseRoom(this->roomID);
 	}
 }
 
@@ -51,6 +57,7 @@ RoomHandler::~RoomHandler() {			// Destructor
 	
 	roomThread.join();					// Wait for thread to finish before releasing the currentState 💀
 	delete currentState;				// Release state resources
+
 	DEBUG_PRINT("{Room} destroyed successfully.");
 }
 
@@ -123,13 +130,16 @@ void RoomHandler::removePlayer(int playerID) {
 		if (playerID == host) {			// If host disconnect then person with highest score get to be the host
 			int highest_score = 0;
 			int highest_playerID = playerMap.begin()->first;
+			const PlayerAccount * highest_playerAcc; 
 			for (const auto& pair : playerMap) {
 				if (pair.second.currentScore > highest_score) {
 					highest_playerID = pair.first;
 					highest_score = pair.second.currentScore;
+					highest_playerAcc = &pair.second.account;
 				}
 			}
 			host = highest_playerID;
+			TEST_PRINT("(Room) Host is now '" + std::string(highest_playerAcc->playerName) + "' (" + std::to_string(highest_playerID) + ")");
 		}
 	} else {
 		DEBUG_PRINT("(Room) Remove " + playerName + " failed. Player not found.");

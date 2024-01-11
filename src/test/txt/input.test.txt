@@ -9,11 +9,11 @@ start
 
 pause!
 
-draw 1 3 4 #123456
-answer 0 dolpin
-answer 0 hello
-answer 0 house
-score 1 1000
+draw 3 4 #123456
+draw 0 777 #000000
+answer dolpin
+answer hello
+answer house
 
 pause!
 exitroom

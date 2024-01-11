@@ -62,6 +62,15 @@ int main(int argc, char* argv[]) {
 
 	// Room
 	w.bind("requestDisconnect", rqDisconnect, nullptr);
+	w.bind("requestStart", rqStart, nullptr);
+
+	// InGame
+	w.bind("requestDraw", rqDraw, nullptr);
+	w.bind("requestAnswer", rqAnswer, nullptr);
+
+	// Leaderboard
+	w.bind("requestGetLeaderboard", rqGetLeaderboard, nullptr);
+	w.bind("requestBackToRoom", rqBackToRoom, nullptr);
 
 	// A binding that increments a value and immediately returns the new value.
 	// w.bind("fuckaround", [&](const std::string & /*req*/) -> std::string {

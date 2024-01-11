@@ -32,6 +32,9 @@ enum class MsgType : uint16_t
 	DRAW,
 	ANSWER,
 	SCORE,
+
+	GET_LEADERBOARD, RANKING,
+	BACK_TO_ROOM
 };
 
 class BaseMsg {

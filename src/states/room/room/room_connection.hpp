@@ -9,6 +9,7 @@ namespace RoomConn
 {
 	void handleConnect(const JoinRoomMsg& msg, int playerID, RoomHandler * room);
 	void handleDisconnect(int playerID, RoomHandler * room);
+	void backToRoom(RoomHandler * room);
 }
 
 #endif

@@ -26,15 +26,14 @@ void run_test_input(const string& filePath) {
 // 	_ ROOM_LIST,		LobbyState::request
 // 	x CREATE_ROOM,		LobbyState::request
 
-// 	x CONNECT,			RoomState::requestDisconnect(int playerID);
-// 	_ DISCONNECT,
+// 	x CONNECT,			
+// 	x DISCONNECT,		RoomState::requestDisconnect(int playerID);
+// 	_ START_GAME,		RoomState::requestStart();
 
-// 	_ START_GAME,
-// 	_ END_GAME,
-// 	_ NEXT_ROUND,
-// 	_ DRAW,
-// 	_ ANSWER,
-// 	_ SCORE,
+// 	x DRAW,				InGameState::requestDraw(x,y,color);
+// 	x ANSWER,			InGameState::requestAnswer(int score);
+
+// 	_ END_GAME,			LeaderboardState::requestEndGame();
 
 	string query;
 	string input = "";
@@ -65,32 +64,25 @@ void run_test_input(const string& filePath) {
 		// } else if () {			
 		// } else if () {
 		// } else if () {
-
-		} else if( query == "draw") {
-
+		}
+		else if( query == "start"){
+			RoomState::requestStart();
+		}
+		else if( query == "draw") {
 			int x;
 			int y;
 			char color[7] ;
 			int playerID;
-			inputFile >> playerID >> x >> y >> color ;
-			InGameState::requestDraw(playerID,x,y,color);
+			inputFile >> x >> y >> color;
+			InGameState::requestDraw(x,y,color);
 		}
-		 else if( query == "start"){
-			RoomState::requestStart();
-		}
+
 		else if( query == "answer" ){
 			int playerID;
-			char ans[900];
-			inputFile >> playerID >> ans;
-			InGameState::requestAnswer(playerID, ans);
+			char ans[200];
+			inputFile >> ans;
+			InGameState::requestAnswer(ans);
 			
-		}
-		else if( query == "score"){
-			int score;
-			int playerID;
-			inputFile >> playerID >> score ;
-			InGameState::requestScore(playerID , score);
-		
 		// } else if () {
 		// } else if () {
 		} else if (query == "pause!") {

@@ -31,4 +31,11 @@ public:
 	std::string debugPrint() const override;
 };
 
+class BackToRoomMsg: public BaseMsg {
+private:
+	uint32_t bodySize() const override { return 0; };
+public:
+	BackToRoomMsg(): BaseMsg(MsgType::BACK_TO_ROOM) {}
+};
+
 #endif

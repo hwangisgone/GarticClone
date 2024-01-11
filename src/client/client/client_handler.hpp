@@ -54,20 +54,16 @@ class InGameState: public ClientState {
 public:
 	void handleRecv(const BaseMsg& msg) override;
 	
-	static void requestDraw(int playerID, int x, int y, const char* color);
-
-	static void requestAnswer(int playerID, const char* answer);
-
-	static void requestScore(int playerID, int score);
-
-	static void requestDisconnect();
-
-	static void requestConnect(int playerID);
+	static void requestDraw(int x, int y, const char* color);
+	static void requestAnswer(const char* answer);
 };
 
 class LeaderboardState: public ClientState {
 public:
 	void handleRecv(const BaseMsg& msg) override;
+
+	static void requestGetLeaderboard();
+	static void requestBackToRoom();
 };
 
 // GameState {

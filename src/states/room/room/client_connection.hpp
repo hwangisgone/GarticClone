@@ -8,6 +8,7 @@ namespace ClientConn
 {
 	void handleConnect(const PlayerConnectMsg& msg, ClientHandler * client);
 	void handleDisconnect(const PlayerDisconnectMsg& msg, ClientHandler * client);
+	void backToRoom(ClientHandler * client);
 }
 
 #endif

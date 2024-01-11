@@ -47,7 +47,7 @@ InGameState::InGameState(RoomHandler *room)
 	sendMsg(room->sockfd, (struct sockaddr *)&drawerPlayer.currentAddr, sizeof(drawerPlayer.currentAddr), nextmsg);
 
 	// TODO: gamesettings with timer here
-	TimerThread::addTimer(25, room, 1);
+	TimerThread::addTimer(25, room->roomID, 1);
 }
 
 
@@ -57,8 +57,7 @@ bool handleAnswer(const AnswerMsg &msg, int playerID, const Word &correct_ans, R
 
 	if (correct_ans.isTheSame(msg.answer))
 	{
-		try
-		{
+		try {
 			// Add score and send score message
 			Player &ppp = room->playerMap.at(playerID);
 			ppp.currentScore += correct_ans.getWordPoint();
@@ -70,8 +69,7 @@ bool handleAnswer(const AnswerMsg &msg, int playerID, const Word &correct_ans, R
 
 			isCorrect = true;
 		}
-		catch (const std::out_of_range &e)
-		{
+		catch (const std::out_of_range &e) {
 			cerr << "PLAYER " << playerID << " NOT FOUND (handleScore). Exception at " << e.what() << endl;
 		}
 	}
@@ -102,10 +100,6 @@ void InGameState::handle(const BaseMsg &msg, int playerID)
 {
 	DEBUG_PRINT("  (InGameState) " + msg.toString());
 
-	// unordered_map<int, Player> state_playerMap;
-	// state_playerMap = room->playerMap;
-	// auto index = state_playerMap.find(playerID);
-
 	switch (msg.type())
 	{
 	case MsgType::JOIN_ROOM:
@@ -116,6 +110,11 @@ void InGameState::handle(const BaseMsg &msg, int playerID)
 	case MsgType::DISCONNECT:
 	{
 		RoomConn::handleDisconnect(playerID, room);
+		if (room->playerMap.size() == 1) {
+			TEST_PRINT("(InGame) Game exited because there's only 1 player left");
+			TimerThread::removeRoomTimers(room->roomID);
+			RoomConn::backToRoom(room);
+		}
 		break;
 	}
 
@@ -131,6 +130,7 @@ void InGameState::handle(const BaseMsg &msg, int playerID)
 		{
 			TEST_PRINT("  (InGameState) Non-Drawer attempted to draw????");
 		}
+		break;
 	}
 	case MsgType::ANSWER:
 	{ // Send score here if correct

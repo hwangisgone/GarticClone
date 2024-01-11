@@ -2,5 +2,15 @@ login fuck 5678
 getrooms
 joinroom 0
 pause!
+
+draw 3 4 #123456
+draw 88 5 #FFFFFF
+answer dolpin
+answer hello
+answer house
+
+pause!
 exitroom
+pause!
+getrooms
 pause!

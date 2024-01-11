@@ -37,12 +37,12 @@ uint32_t AnswerMsg::bodySize() const {
 
 void AnswerMsg::serializeBody(MsgBuffer& buff) const {
 	buff.serializeField(this->playerID);
-	buff.serializeField(this->answer, 900);
+	buff.serializeField(this->answer, 200);
 }
 
 void AnswerMsg::deserializeBody(MsgBuffer& buff) {
 	buff.deserializeField(&this->playerID);
-	buff.deserializeField(this->answer, 900);
+	buff.deserializeField(this->answer, 200);
 }
 
 string AnswerMsg::debugPrint() const {

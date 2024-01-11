@@ -101,6 +101,8 @@ public:
 
 	int sockfd;
 	int host; // playerID
+
+	int roomID;
 	char roomName[50];
 	
 	std::unordered_map<int, Player> playerMap; // Map (playerID, Player)

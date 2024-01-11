@@ -28,13 +28,13 @@ public:
 };
 
     
-// AnswerMsg: [playerID 4|message 900]
+// AnswerMsg: [playerID 4|message 200]
 class AnswerMsg : public BaseMsg {
 private:
 	uint32_t bodySize() const override;					// (1)
 public:
 	uint32_t playerID;
-	char answer[900];
+	char answer[200];
 
 	AnswerMsg() : BaseMsg(MsgType::ANSWER) {}
 

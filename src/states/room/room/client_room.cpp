@@ -22,23 +22,13 @@ void RoomState::requestStart(){
 }
 
 
-
-void startTheGame(const StartMsg& msg, ClientHandler * client) {
-	DEBUG_PRINT("  (StateRoom) Game started!!!");
-	client->setState(new InGameState());
-	// Do something else here???
-	// Get timer or set role
-}
-void ClientConn::handleConnect(const PlayerConnectMsg& msg, ClientHandler * client) {
-	DEBUG_PRINT("  (StateRoom) Connection from " + std::string(msg.name));
-	client->addPlayer(msg.playerID, msg.name);
-}
-void ClientConn::handleDisconnect(const PlayerDisconnectMsg& msg, ClientHandler * client) {
-	DEBUG_PRINT("  (StateRoom) Disconnection.");
-	client->removePlayer(msg.playerID);
+void jsToRoom() {
+	globalJsEval("room_toRoom()");
 }
 
-
+void jsStartGame() {
+	globalJsEval("room_toGame()");
+}
 
 void jsAddPlayer(const PlayerConnectMsg& msg) {
 	globalJsEval("room_addPlayer(" + to_string(msg.playerID) + ",\"" + string(msg.name) + "\")");
@@ -47,6 +37,33 @@ void jsAddPlayer(const PlayerConnectMsg& msg) {
 void jsRemovePlayer(const PlayerDisconnectMsg& msg) {
 	globalJsEval("room_removePlayer(" + to_string(msg.playerID) + ")");
 }
+
+
+void startTheGame(const StartMsg& msg, ClientHandler * client) {
+	DEBUG_PRINT("  (StateRoom) Game started!!!");
+	client->setState(new InGameState());
+	jsStartGame();
+	// Do something else here???
+	// Get timer or set role
+}
+void ClientConn::handleConnect(const PlayerConnectMsg& msg, ClientHandler * client) {
+	DEBUG_PRINT("  (StateRoom) Connection from " + std::string(msg.name));
+	client->addPlayer(msg.playerID, msg.name);
+	jsAddPlayer(msg);
+}
+void ClientConn::handleDisconnect(const PlayerDisconnectMsg& msg, ClientHandler * client) {
+	DEBUG_PRINT("  (StateRoom) Disconnection.");
+	client->removePlayer(msg.playerID);
+	jsRemovePlayer(msg);
+}
+
+void ClientConn::backToRoom(ClientHandler * client) {
+	DEBUG_PRINT("!!! Forced back to room !!!");
+	client->setState(new RoomState());
+	jsToRoom();
+}
+
+
 
 void RoomState::handleRecv(const BaseMsg& msg) {
 	// - wait for host to start

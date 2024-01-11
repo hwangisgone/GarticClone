@@ -7,6 +7,7 @@
 std::set<TimeRoom> TimerThread::timer_set;
 std::mutex TimerThread::timer_mutex;
 std::chrono::steady_clock::time_point TimerThread::startTime;
+std::unordered_map<int, RoomHandler *> * TimerThread::allRooms = nullptr;
 // Static vars
 
 void printtime(const std::string& text, std::chrono::steady_clock::time_point stamp, std::chrono::steady_clock::time_point start) {
@@ -14,12 +15,12 @@ void printtime(const std::string& text, std::chrono::steady_clock::time_point st
 	std::cerr << text << timepoint;
 }
 
-void TimerThread::addTimer(int seconds, RoomHandler *room, int mode) {
+void TimerThread::addTimer(int seconds, int roomID, int mode) {
 	// get time in queue push by timestamp
 	TimeRoom tr;
 
 	tr.timestamp = std::chrono::steady_clock::now() + std::chrono::seconds(seconds);
-	tr.room = room;
+	tr.roomID = roomID;
 	tr.mode = mode;
 
 	{
@@ -30,28 +31,62 @@ void TimerThread::addTimer(int seconds, RoomHandler *room, int mode) {
 	printtime("Scheduled at ", tr.timestamp, startTime); std::cerr << std::endl;
 }
 
+void TimerThread::removeRoomTimers(int roomID) {
+	{
+		std::lock_guard<std::mutex> lock(timer_mutex);
+		auto it = timer_set.begin();
+		while (it != timer_set.end()) {
+			if (it->roomID == roomID) {
+				printtime("Timer removed: ", it->timestamp, startTime); std::cerr << std::endl;
+				it = timer_set.erase(it);
+			} else {
+				++it;
+			}
+		}
+	}
+}
+
+void TimerThread::eraseRoom(int roomID) {
+	auto result = allRooms->erase(roomID);
+	// Check if the removal was successful
+	if (result == 1) {
+		DEBUG_PRINT("> Timer: Remove room " + std::to_string(roomID) + " successful!");
+	} else {
+		DEBUG_PRINT("> Timer: Remove room " + std::to_string(roomID) + " failed. Not found.");
+	}
+}
+
+void timerHandleState(int mode, RoomHandler * room) {
+	if (mode == 1) {
+		if (room->endGameCheck() == false) {
+			room->setState(new InGameState(room));					
+		} else {
+			std::cout << "END GAME!" << std::endl;
+			room->setState(new LeaderboardState());
+		}
+	} else if (mode == 2) {
+		// state ping
+	} 
+}
+
 void TimerThread::runTimerThread() {
 	while (this->keepAlive) {
 		auto currentTime = std::chrono::steady_clock::now();
 
 		// Code here
-
-			
+	
 		// If larger then abort (since set are ordered by default);
 		auto it = timer_set.begin();
 		while(it != timer_set.end() && (*it).timestamp <= currentTime) {
 			const TimeRoom& tr = (*it);
-			if (tr.mode == 1) {
-				if (tr.room->endGameCheck() == false) {
-					tr.room->setState(new InGameState(tr.room));					
-				} else {
-					std::cout << "END GAME!" << std::endl;
-					// 
-					// tr.room->setState(new LeaderboardState())
-				}
-			} else if (tr.mode == 2) {
-				// state ping
-			} 
+
+			auto roomfind = allRooms->find(tr.roomID);
+			if (roomfind != allRooms->end()) {
+				timerHandleState(tr.mode, roomfind->second);
+			} else {
+				std::cerr << "!!! Room does not exist anymore? !!!" << std::endl;
+			}
+
 			printtime("Triggered timer mode " + std::to_string(tr.mode) + " at ", tr.timestamp, startTime); std::cerr << std::endl;
 			{
 				std::lock_guard<std::mutex> lock(timer_mutex);

@@ -59,6 +59,13 @@ void RoomConn::handleDisconnect(int playerID, RoomHandler * room) {
 	// TODO: broadcast
 }
 
+void RoomConn::backToRoom(RoomHandler * room) {
+	BackToRoomMsg msg;
+
+	room->broadcast(msg);
+	room->setState(new RoomState());
+}
+
 void RoomState::handle(const BaseMsg& msg, int playerID) {
 	// - wait for host to start
 	DEBUG_PRINT("  (StateRoom) " + msg.toString());

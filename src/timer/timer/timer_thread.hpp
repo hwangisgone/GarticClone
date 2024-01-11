@@ -12,7 +12,7 @@
 struct TimeRoom {
 	std::chrono::steady_clock::time_point timestamp;
 	int mode;
-	RoomHandler *room;
+	int roomID;
 
 	bool operator< (const TimeRoom& tr) const {
 		return timestamp < tr.timestamp;
@@ -26,15 +26,23 @@ private:
 
 	static std::chrono::steady_clock::time_point startTime;
 
+	static std::unordered_map<int, RoomHandler *> * allRooms;
 	// std::mutex mutex;
 	// std::condition_variable conditionVariable;
 	bool keepAlive;  // may multithreadnig error
 	std::thread thread;
-
 public:
-	static void addTimer(int seconds, RoomHandler* room , int mode);
+	static void addTimer(int seconds, int roomID, int mode);
+	static void removeRoomTimers(int roomID);
+	static void eraseRoom(int roomID);
 
-	TimerThread() {
+
+	TimerThread(std::unordered_map<int, RoomHandler *> * lobbyRooms){
+		if (lobbyRooms == nullptr) {
+			std::cerr << "Cannot init Timer Thread" << std::endl;
+			return;
+		}
+		allRooms = lobbyRooms; // only set once
 		// Start the thread upon object creation
 		keepAlive = true;
 		thread = std::thread(&TimerThread::runTimerThread, this);

@@ -38,6 +38,7 @@ bool ServerLobby::createRoom(PlayerSession& creator, const char * in_roomName) {
 		TEST_PRINT("> Lobby: Created room #" + to_string(result.first->first) + " successfully!");
 		RoomHandler * newRoom = result.first->second;
 
+		newRoom->roomID = this->roomCount;
 		strncpy(newRoom->roomName, in_roomName, 50);
 
 		creator.inRoom = newRoom;
@@ -49,6 +50,7 @@ bool ServerLobby::createRoom(PlayerSession& creator, const char * in_roomName) {
 		return false;
 	}	
 }
+
 
 void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddress) {
 	BaseMsg& msg = *wrapper.msg;
@@ -146,7 +148,7 @@ void ServerLobby::run() {
 	// DATABASE
 
 	// HAVE A TIMER THREAD
-	TimerThread lobbyTimer;
+	TimerThread lobbyTimer(&allRooms);
 	// RUN UNTIL ServerLobby::run() ends;
 
 	MsgWrapper oneWrapper;
