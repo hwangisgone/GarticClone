@@ -11,7 +11,7 @@ std::chrono::steady_clock::time_point TimerThread::startTime;
 
 void printtime(const std::string& text, std::chrono::steady_clock::time_point stamp, std::chrono::steady_clock::time_point start) {
 	auto timepoint = std::chrono::duration_cast<std::chrono::milliseconds>(stamp - start).count();
-	std::cerr << text << timepoint << std::endl;
+	std::cerr << text << timepoint;
 }
 
 void TimerThread::addTimer(int seconds, RoomHandler *room, int mode) {
@@ -27,7 +27,7 @@ void TimerThread::addTimer(int seconds, RoomHandler *room, int mode) {
 		timer_set.insert(tr);		
 	}
 
-	printtime("Scheduled at ", tr.timestamp, startTime);
+	printtime("Scheduled at ", tr.timestamp, startTime); std::cerr << std::endl;
 }
 
 void TimerThread::runTimerThread() {
@@ -35,30 +35,35 @@ void TimerThread::runTimerThread() {
 		auto currentTime = std::chrono::steady_clock::now();
 
 		// Code here
-		{
-			std::lock_guard<std::mutex> lock(timer_mutex);
+
 			
-			// If larger then abort (since set are ordered by default);
-			auto it = timer_set.begin();
-			while(it != timer_set.end() && (*it).timestamp <= currentTime) {
-				const TimeRoom& tr = (*it);
-				if (tr.mode == 1) {
-					if (tr.room->endGameCheck() == false) {
-						tr.room->setState(new InGameState(tr.room));					
-					} else {
-						//
-						// tr.room->setState(new LeaderboardState())
-					}
-				} else if (tr.mode == 2) {
-					// state ping
-				} 
-				printtime("Triggered timer mode " + std::to_string(tr.mode) + " at ", tr.timestamp, startTime);
+		// If larger then abort (since set are ordered by default);
+		auto it = timer_set.begin();
+		while(it != timer_set.end() && (*it).timestamp <= currentTime) {
+			const TimeRoom& tr = (*it);
+			if (tr.mode == 1) {
+				if (tr.room->endGameCheck() == false) {
+					tr.room->setState(new InGameState(tr.room));					
+				} else {
+					std::cout << "END GAME!" << std::endl;
+					// 
+					// tr.room->setState(new LeaderboardState())
+				}
+			} else if (tr.mode == 2) {
+				// state ping
+			} 
+			printtime("Triggered timer mode " + std::to_string(tr.mode) + " at ", tr.timestamp, startTime); std::cerr << std::endl;
+			{
+				std::lock_guard<std::mutex> lock(timer_mutex);
 				it = timer_set.erase(it);	// Remove timer. Set iterator to next
 			}  
 		}
 
+		printtime("\rTimer: ", currentTime, startTime); std::cerr << " ";
 		std::this_thread::sleep_for(std::chrono::milliseconds(500));		// Check every half a second
 	}
+
+	std::cerr << "Timer died for some reason?" << std::endl;
 }
 
 // Debug

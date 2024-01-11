@@ -24,6 +24,9 @@ void startGame(const StartMsg& msg, int playerID, RoomHandler * room) {
 		StartMsg startmsg = msg;
 		room->broadcast(startmsg);
 		
+		// TEMPORARY
+		room->setModeAutoRound();
+
 		room->setState(new InGameState(room));	// Broadcast NextRoundState
 	}
 }

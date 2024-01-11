@@ -36,7 +36,7 @@ InGameState::InGameState(RoomHandler *room)
 	// Choose as player to draw
 
 	NextRoundMsg nextmsg;
-	nextmsg.timer = 30;
+	nextmsg.timer = room->roundTimer;
 	nextmsg.role = 0;
 	room->broadcastExcept(nextmsg, this->drawerID);
 

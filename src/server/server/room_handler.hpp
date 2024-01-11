@@ -96,7 +96,6 @@ private:
 	int gameMode = 0;
 	int roundLeft = 0;
 	int targetScore = 0;
-	int roundTimer = 25;	// Default 25 seconds
 public:
 	TSQueue<MsgWrapper> msgQueue; // Exchanging data between threads
 
@@ -123,6 +122,7 @@ public:
 
 	// In Game stuffs
 	WordHandler handlerWord;
+	int roundTimer = 25;	// Default 25 seconds
 	void setModeAutoRound();
 	void setModeRounds(int rounds);
 	void setModeScoring(int score);
