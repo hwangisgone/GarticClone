@@ -2,10 +2,11 @@
 	// @ts-nocheck
 	import Login from "./auth/Login.svelte"
 	import SignUp from "./auth/SignUp.svelte";
+	import Room from "./room/Room.svelte";
 	import Lobby from "./Lobby.svelte";
 	// import Clock from "./Clock.svelte";
  // import Chat from "./chat.svelte";
-	import Game from "./room/Game.svelte";
+
 	import { PlayerID, UIstate } from './store/store.ts';
 		// import { sineIn } from "svelte/easing";
 		import LeaderBoard from "./LeaderBoard.svelte";
@@ -14,10 +15,10 @@
 
 <input type="number" class="fixed" bind:value={$UIstate} />
 
-{#if $UIstate == 1}
+{#if $UIstate == 2}
 	<Lobby/>
-{:else if $UIstate == 2}
-	<Game/>
+{:else if $UIstate == 3 || $UIstate == 4}
+	<Room/>
 {:else if $UIstate == 5}
 	<LeaderBoard/>
 {:else}
@@ -25,7 +26,7 @@
 		<div class="bg-gray-100 h-full shadow-2xl rounded-3xl flex justify-center text-center items-center">
 			{#if $UIstate == 0}
 				<Login/>
-			{:else if $UIstate == 3}
+			{:else if $UIstate == 1}
 				<SignUp/>
 			{/if}
 		</div>

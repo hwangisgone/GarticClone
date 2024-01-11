@@ -23,7 +23,7 @@
 	let selected = 0;
 </script>
 
-<Detached wStart=0.5 hStart=0.5>
+<Detached wStart=0.3 hStart=0.55>
 	<div class="w-[50vw] bg-neutral p-4 ">
 	<div class="max-w-64 grid grid-cols-6 gap-1 items-center justify-items-center">
 		{#each colors as color, i}
@@ -31,7 +31,7 @@
 			class:border-2={selected == i}>
 			<button style="background-color: {colors[i]}" 
 				class="border-black border-2 h-full aspect-square square p-0 rounded-xl "
-				on:click={() => { brushcolor = colors[i]; selected = i; console.log(selected, i, selected==i); }}
+				on:click={() => { brushcolor = colors[i]; selected = i; }}
 			>
 			</button>
 		</div>
