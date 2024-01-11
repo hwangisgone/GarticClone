@@ -52,7 +52,7 @@ void TimerThread::runTimerThread() {
 					// state ping
 				} 
 				printtime("Triggered timer mode " + std::to_string(tr.mode) + " at ", tr.timestamp, startTime);
-				it = timer_set.erase(it);	// Auto go to next
+				it = timer_set.erase(it);	// Remove timer. Set iterator to next
 			}  
 		}
 
