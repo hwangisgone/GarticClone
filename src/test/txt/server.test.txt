@@ -7,6 +7,7 @@ Login into: abcd - 1234
 (Room) 'abcd' joined successful!
 Login into: fuck - 5678
 > Lobby: Joined successful!
+>> RoomList | 0 | Fuckers
 > Lobby: Sent room list to #3
 (Room) 'fuck' joined successful!
   (ServerRoom) Game started!!!

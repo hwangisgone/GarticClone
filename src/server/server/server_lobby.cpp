@@ -103,6 +103,7 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 						msg.roomID = pair.first;
 						strncpy(msg.roomName, pair.second->roomName, 50);
 						
+						TEST_PRINT(">> RoomList | " + to_string(msg.roomID) + " | " + string(msg.roomName));
 						sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), msg);
 					}
 					TEST_PRINT("> Lobby: Sent room list to #" + to_string(wrapper.playerID));
@@ -128,12 +129,21 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 					break;
 			}	
 		} else {
-			if (msg.type() == MsgType::JOIN_ROOM) {
-				TEST_PRINT("> Lobby: Aready in room! This shouldn't happen.");
-				return;
+			switch(msg.type()) {
+				case MsgType::JOIN_ROOM: {
+					TEST_PRINT("> Lobby: Aready in room! This shouldn't happen.");
+					return;
+				}
+				case MsgType::DISCONNECT: {
+					currentClient.inRoom->msgQueue.push(wrapper);
+					currentClient.inRoom = nullptr;
+					return;
+				}
+				default:
+					// In room/game
+					currentClient.inRoom->msgQueue.push(wrapper);
+					break;
 			}
-			// In room/game
-			currentClient.inRoom->msgQueue.push(wrapper);
 		}
 	}
 }
