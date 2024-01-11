@@ -46,7 +46,8 @@ void TimerThread::runTimerThread() {
 					if (tr.room->endGameCheck() == false) {
 						tr.room->setState(new InGameState(tr.room));					
 					} else {
-						// Remove timer
+						//
+						// tr.room->setState(new LeaderboardState())
 					}
 				} else if (tr.mode == 2) {
 					// state ping
