@@ -21,7 +21,8 @@ add_library(server_ingame_lib STATIC
 	ingame/room_ingame.cpp
 )
 target_link_libraries(server_ingame_lib 
-	PRIVATE 
+	PRIVATE
+	timer_thread_lib
 	server_base_lib 
 	rng_lib 
 	msg_ingame_lib 

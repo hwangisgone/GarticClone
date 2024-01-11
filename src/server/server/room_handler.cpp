@@ -159,6 +159,7 @@ bool RoomHandler::endGameCheck() {
 			return true;
 		} else {
 			this->roundLeft--;
+			DEBUG_PRINT("Round left: " + std::to_string(this->roundLeft));
 		}
 	} else if (this->gameMode == 1) {	// Scoring mode. Ends after any player reaches certain point
 		for (const auto& pair : playerMap) {

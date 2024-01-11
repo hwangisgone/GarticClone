@@ -53,7 +53,7 @@ private:
 	// std::thread t;
 
 public:
-	InGameState(RoomHandler *handler, int index); // Initializer
+	InGameState(RoomHandler *handler); // Initializer
 
 	void handle(const BaseMsg &msg, int playerID) override;
 };
@@ -94,8 +94,9 @@ private:
 
 	// For endGameCheck
 	int gameMode = 0;
-	int roundCount = 0;
+	int roundLeft = 0;
 	int targetScore = 0;
+	int roundTimer = 25;	// Default 25 seconds
 public:
 	TSQueue<MsgWrapper> msgQueue; // Exchanging data between threads
 
@@ -122,6 +123,7 @@ public:
 
 	// In Game stuffs
 	WordHandler handlerWord;
+	void setModeAutoRound();
 	void setModeRounds(int rounds);
 	void setModeScoring(int score);
 	bool endGameCheck();
