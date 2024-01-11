@@ -80,26 +80,6 @@ struct Player
 	Player(const sockaddr_in &in_addr, const PlayerAccount &in_acc) : currentAddr(in_addr), account(in_acc) {}
 };
 
-// Timer thread
-// static TSQueue<MsgWrapper> msgQueue;
-// static addtoQueue(5) {
-// 		msgQueue.push(currentTime + 5, func)
-// }
-
-
-// Room thread -> static addtoQueue(5, func)
-
-
-// Timer Thread 1s ->
-// while (end 1s) 
-//	-> find msgQueue(0) -> func
-//	-> msgQueue.pop
-//  -> 
-// } 
-
-
-// Client -> Server
-// Client send -> Server Lobby
 
 
 
@@ -110,15 +90,18 @@ private:
 	ServerState *currentState = nullptr;
 
 	std::thread roomThread;
-	std::atomic<bool> aliveThread; // atomic for safety?	// TODO: May not be needed
+	std::atomic<bool> aliveThread; // atomic for safety?
+
+	// For endGameCheck
+	int gameMode = 0;
+	int roundCount = 0;
+	int targetScore = 0;
 public:
 	TSQueue<MsgWrapper> msgQueue; // Exchanging data between threads
 
 	int sockfd;
 	int host; // playerID
 	char roomName[50];
-
-	int roundIndex ;
 	
 	std::unordered_map<int, Player> playerMap; // Map (playerID, Player)
 
@@ -137,7 +120,11 @@ public:
 	void broadcast(BaseMsg &msg) const; // Cannot use const for BaseMsg because sendMsg needs to calculate msgLength
 	void broadcastExcept(BaseMsg &msg, int playerID) const;
 
+	// In Game stuffs
 	WordHandler handlerWord;
+	void setModeRounds(int rounds);
+	void setModeScoring(int score);
+	bool endGameCheck();
 };
 
 #endif

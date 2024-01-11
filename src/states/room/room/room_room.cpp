@@ -24,7 +24,7 @@ void startGame(const StartMsg& msg, int playerID, RoomHandler * room) {
 		StartMsg startmsg = msg;
 		room->broadcast(startmsg);
 		
-		room->setState(new InGameState(room, 1));	// Broadcast NextRoundState
+		room->setState(new InGameState(room));	// Broadcast NextRoundState
 	}
 }
 

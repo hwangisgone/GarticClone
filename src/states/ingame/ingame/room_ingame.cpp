@@ -10,26 +10,27 @@
 #include <msg/msg_sendrecv.h>
 
 #include <room/room_connection.hpp> // Allow other players to enter/exit in game
+#include <database/word_list.hpp>	// Word handling
+
+#include <utils/rng.hpp>			// Choosing who to draw
+#include <timer/timer_thread.hpp>	// End round
+
 #include <printdebug/debugging.h>
-#include <database/word_list.hpp>
-#include <utils/rng.hpp>
 
 using namespace std;
 
-InGameState::InGameState(RoomHandler *room, int index)
+InGameState::InGameState(RoomHandler *room)
 {							// Initialize a new game
 	this->setHandler(room); // Required, otherwise segmentation fault
 
 	this->roundAnswer = room->handlerWord.getRandomAndRemove();
-	
-	room->roundIndex = index;
 
 	// Get random playerID from the map
 	std::uniform_int_distribution<size_t> dist(0, room->playerMap.size() - 1);
 	size_t randomIndex = dist(gameRng); // Iterate to the random index to get the corresponding key
 	auto it = std::next(room->playerMap.begin(), randomIndex);
 
-	DEBUG_PRINT("This round word: '" + string(this->roundAnswer.word) + "'");
+	DEBUG_PRINT("New round started. This round word: '" + string(this->roundAnswer.word) + "'");
 	this->drawerID = it->first;
 	// Get random playerID from the map
 	// Choose as player to draw
@@ -44,6 +45,9 @@ InGameState::InGameState(RoomHandler *room, int index)
 	strncpy(nextmsg.word, this->roundAnswer.word, sizeof(this->roundAnswer.word));
 	Player drawerPlayer = room->playerMap.at(drawerID);
 	sendMsg(room->sockfd, (struct sockaddr *)&drawerPlayer.currentAddr, sizeof(drawerPlayer.currentAddr), nextmsg);
+
+	// TODO: gamesettings with timer here
+	TimerThread::addTimer(25, room, 1);
 }
 
 

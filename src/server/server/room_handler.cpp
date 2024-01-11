@@ -135,3 +135,41 @@ void RoomHandler::removePlayer(int playerID) {
 		DEBUG_PRINT("(Room) Remove " + playerName + " failed. Player not found.");
 	}
 }
+
+
+void RoomHandler::setModeAutoRound() {
+	this->gameMode = 0;
+	this->roundLeft = playerMap.size();
+}
+
+void RoomHandler::setModeRounds(int rounds) {
+	this->gameMode = 0;
+	this->roundLeft = rounds;
+}
+
+void RoomHandler::setModeScoring(int score) {
+	this->gameMode = 1;
+	this->targetScore = score;
+}
+
+bool RoomHandler::endGameCheck() {
+	if (this->gameMode == 0) {			// Round mode. Ends after predetermined rounds
+		if (this->roundLeft <= 0) {
+			DEBUG_PRINT("Game (rounds) ended.");
+			return true;
+		} else {
+			this->roundLeft--;
+		}
+	} else if (this->gameMode == 1) {	// Scoring mode. Ends after any player reaches certain point
+		for (const auto& pair : playerMap) {
+			if (pair.second.currentScore > this->targetScore) {
+				DEBUG_PRINT("Game (score) ended.");
+				return true;		// Leaderboard will handle the ranking
+			}
+		}
+	} else {
+		DEBUG_PRINT("Game mode not available?");
+	}
+
+	return false;
+}

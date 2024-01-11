@@ -43,7 +43,9 @@ void TimerThread::runTimerThread() {
 			while(it != timer_set.end() && (*it).timestamp <= currentTime) {
 				const TimeRoom& tr = (*it);
 				if (tr.mode == 1) {
-					// tr.r->setState(new InGameState(r, r->roundIndex + 1));
+					if (tr.r->endGameCheck()) {
+						tr.r->setState(new InGameState(r));					
+					}
 				} else if (tr.mode == 2) {
 					// state ping
 				} 

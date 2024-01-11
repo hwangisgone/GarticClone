@@ -56,9 +56,9 @@ Word WordHandler::getRandomAndRemove() {
 	return randomWord;
 }
 
-void WordHandler::setMode(int modeGame){
+void WordHandler::setDiff(int difficulty){
 	Word randomWord ;
-	if(modeGame == 0){
+	if(difficulty == 0){
 		// 6 word | 3 easy, 2 medium, 1 hard
 		// 6 word - easy all
 		for( int i = 1 ; i<= 6 ; i++)
@@ -67,7 +67,7 @@ void WordHandler::setMode(int modeGame){
 			wordCollection.push_back(w);
 		}
 	}
-	else if(modeGame == 1){ 
+	else if(difficulty == 1){ 
 		// 8 word | 2 easy, 3 medium, 3 hard
 		int a = 2;
 		int b = 3;
@@ -92,7 +92,7 @@ void WordHandler::setMode(int modeGame){
 				sum++;
 			}
 		}
-	} else if (modeGame == 2) {
+	} else if (difficulty == 2) {
 		// 10 word | 2 easy, 3 medium, 5 hard
 		int a = 2;
 		int b = 3;
@@ -118,7 +118,7 @@ void WordHandler::setMode(int modeGame){
 			}
 		}
 	} else {
-		printf("Mode %d not available", modeGame);
+		printf("Difficulty %d not available", difficulty);
 	}
 }
 

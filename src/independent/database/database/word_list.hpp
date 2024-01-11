@@ -39,10 +39,10 @@ private:
 	// Globals
 
 	std::vector<Word> wordCollection;
-	void setMode(int modeGame);
-	int modeGame;
+	void setDiff(int difficulty);
+	int difficulty;
 public:
-	// can load word in file into easy vector<word> for mode easy in game
+	// can load word in file into easy vector<word> for easy in game
 	static bool loadFromFile(const std::string &filename, std::vector<Word> &word);
 	static void writeWordsToFile(const std::string& filename, const std::vector<Word>& words);
 
