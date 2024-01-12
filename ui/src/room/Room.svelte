@@ -3,7 +3,7 @@
 	import GetReady from './GetReady.svelte';
 	import LeaderBoard from '../LeaderBoard.svelte';
 
-	import { UIstate, GameSettings } from "../store/store.ts";
+	import { UIstate, GameSettings, ThisRound } from "../store/store.ts";
 
 	let roomState = 1;
 	// 0 is Room (get ready)
@@ -21,6 +21,11 @@
 		$GameSettings.PlayerList = $GameSettings.PlayerList.filter(p => p.id != playerid);
 		console.log("Removed?", playerid);
 	};
+	window.game_nextRound = (role, timer, word) => {
+			$ThisRound.role = role;
+			$ThisRound.timer = timer;
+			$ThisRound.word = word;
+	}
 </script>
 
 

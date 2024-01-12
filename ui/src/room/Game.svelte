@@ -3,7 +3,7 @@
 	import Drawing from "./Drawing.svelte";
 	import RoomLayout from "./RoomLayout.svelte";
 
-	import { UIstate, GameSettings, PlayerID } from "../store/store.ts";
+	import { UIstate, GameSettings, PlayerID, ThisRound } from "../store/store.ts";
 
 
 	
@@ -22,17 +22,9 @@
 	let messages = [
 	{name: "Thuy", answer: "what"},
 	{name: "Thuy", answer: "what"},
-	{name: "Thuy", answer: "what"},
-	{name: "Thuy", answer: "what"},
-	{name: "Thuy", answer: "what"},
-	{name: "Thuy", answer: "what"},
-	{name: "Thuy", answer: "what"},
-	{name: "Thuy", answer: "what"},
-	{name: "Thuy", answer: "what"},
-	{name: "Thuy", answer: "what"},
 		];
 	let yourmsg = "";
-	let correctAnswer = false;
+	$: correctAnswer = $ThisRound.role;
 
 	// Js Call C++
 	// window.requestDraw(x, y, clr)
@@ -63,7 +55,7 @@
 	// count down time 
 	import { onMount } from "svelte";
 
-	let countdown = 30;
+	$: countdown = $ThisRound.timer;
 	let timer;
 	$: {
 		if (countdown === 0) {

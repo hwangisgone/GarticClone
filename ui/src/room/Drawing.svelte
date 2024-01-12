@@ -2,6 +2,7 @@
 	import { Canvas } from 'svelte-canvas';
 	import Palette from './detached/Palette.svelte'
 
+	import { ThisRound } from "../store/store.ts";
 
 	const setUp = (canvas) => {
 		const context = canvas?.getContext();
@@ -18,7 +19,7 @@
 		return context;
 	}
 
-	let brushcolor = '#000';
+	let brushcolor = '#000000';
 	let brushsize = 5;
 
 	const changeBrush = (color, size) => {
@@ -36,7 +37,7 @@
 	$: context = setUp(canvas);
 	$: changeBrush(brushcolor, brushsize);
 
-	let start
+	let start;
 	let t, l;
 	let isDrawing = false;
 
@@ -61,19 +62,33 @@
 		
 		const { x, y } = start;
 		context.lineCap = 'round';
-    context.beginPath();
+    	context.beginPath();
 		context.moveTo(x, y);
 		context.lineTo(x1, y1);
 		context.stroke();
 		
 		start = { x: x1, y: y1 };
+
+		window.requestDraw(x, y, brushcolor);
 	};
 
-	
+	let timer;
+	window.game_draw = (x, y, clr) => {
+		if (isDrawing) {
+			handleMove({ offsetX: x, offsetY: y});
+		} else {
+			handleStart({ offsetX: x, offsetY: y});
+		}
+		// isDrawing = true;
+		// timer = setInterval(() => {
+	  	// 	countdown -= 1;
+		// }, 100);
+	}
 </script>
 
-<Palette bind:brushcolor bind:brushsize {clearCanvas}/>
 
+{#if $ThisRound.role == 1}
+<Palette bind:brushcolor bind:brushsize {clearCanvas}/>
 <Canvas bind:this={canvas}
 	on:mousedown={handleStart}  
 	on:mouseup={handleEnd}
@@ -96,3 +111,6 @@
 	}}
 	on:touchend={handleEnd}
 />
+{:else}
+<Canvas bind:this={canvas}/>
+{/if}

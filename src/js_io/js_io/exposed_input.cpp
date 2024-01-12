@@ -5,6 +5,7 @@
 using namespace std;
 
 #include <webview.h>
+#include <iostream>
 
 // Wrapper
 void rqLogin(const string &seq, const string &req, void * /*arg*/) {
@@ -33,6 +34,8 @@ void rqDraw(const std::string &seq, const std::string &req, void * /*arg*/) {
 	auto y = stoll(webview::detail::json_parse(req, "", 1));
 	auto clr = webview::detail::json_parse(req, "", 2);
 	
+		std::cerr << "Drawcalled\n";
+
 	InGameState::requestDraw(x, y, clr.c_str());
 }
 
