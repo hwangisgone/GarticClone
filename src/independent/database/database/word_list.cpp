@@ -17,24 +17,41 @@ std::vector<Word> WordHandler::wordsGlobal;
 // initialize empty vector c++
 // "static" doesn't initialize it, it only declares
 
+// Word WordHandler::getRandomWord() {
+// 	if (this->wordCollection.empty()) {
+// 		return {"", 0, 0}; // Return an empty string if the vector is empty
+// 	}
+
+// 	// multithreading problem if use wordsGlobal
+// 	std::shuffle(wordCollection.begin(), wordCollection.end(), gameRng);
+
+// 	// Seed the random number generator with the current time
+// 	std::srand(std::time(0));
+
+// 	// Generate a random index within the range of the vector size
+// 	std::size_t randomIndex = std::rand() % this->wordCollection.size();
+
+// 	// Return the randomly selected string
+// 	return this->wordCollection[randomIndex];
+// }
+
 Word WordHandler::getRandomWord() {
-	if (this->wordCollection.empty()) {
+	if (this->wordsGlobal.empty()) {
 		return {"", 0, 0}; // Return an empty string if the vector is empty
 	}
 
 	// multithreading problem if use wordsGlobal
-	std::shuffle(wordCollection.begin(), wordCollection.end(), gameRng);
+	std::shuffle(wordsGlobal.begin(), wordsGlobal.end(), gameRng);
 
 	// Seed the random number generator with the current time
 	std::srand(std::time(0));
 
 	// Generate a random index within the range of the vector size
-	std::size_t randomIndex = std::rand() % this->wordCollection.size();
+	std::size_t randomIndex = std::rand() % this->wordsGlobal.size();
 
 	// Return the randomly selected string
-	return this->wordCollection[randomIndex];
+	return this->wordsGlobal[randomIndex];
 }
-
 
 Word WordHandler::getRandomAndRemove() {
 	if (this->wordCollection.empty()) {
