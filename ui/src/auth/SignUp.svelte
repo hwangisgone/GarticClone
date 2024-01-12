@@ -51,7 +51,7 @@
 			</InputContainer>
 
 			<!-- Register here -->
-			<button on:click={() => window.requestLogin(0, username, password)}   class="btn hover:bg-secondary focus:bg-secondary text-white px-12 py-3 font-semibold">REGISTER NOW</button>
+			<button on:click={() => window.requestLogin(1, username, password)}   class="btn hover:bg-secondary focus:bg-secondary text-white px-12 py-3 font-semibold">REGISTER NOW</button>
 
 			<p class="text-md text-gray-400">You have an account?
 				<a on:click|preventDefault={()=> $UIstate = 0} href="/" class="text-secondary hover:underline focus:underline">Sign in here</a>.</p>

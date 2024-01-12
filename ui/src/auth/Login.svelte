@@ -1,6 +1,6 @@
 <script>
 	// @ts-nocheck
-	import { PlayerID, UIstate } from '../store/store.ts';
+	import { UIstate } from '../store/store.ts';
 	import InputContainer from './InputContainer.svelte';
 	
 	let username;
@@ -47,7 +47,7 @@
 
 		<div class="grid grid-cols-3 gap-2">
 				<button 
-					on:click={() => window.requestLogin(1, username, password)} class="btn lg:btn-lg btn-primary w-full col-span-3">
+					on:click={() => window.requestLogin(0, username, password)} class="btn lg:btn-lg btn-primary w-full col-span-3">
 					Sign in
 				</button>
 <!-- 				<button on:click={() => window.requestLogin(1, username, password)} class="btn lg:btn-lg hover:bg-secondary focus:bg-secondary w-full">
@@ -55,6 +55,6 @@
 				</button> -->
 		</div>
 		<p class="text-md text-gray-400">Don't have an account yet? 
-			<a on:click|preventDefault={()=> $UIstate = 3} href="/" class="text-primary hover:underline focus:underline">Sign up</a>.</p>
+			<a on:click|preventDefault={()=> $UIstate = 1} href="/" class="text-primary hover:underline focus:underline">Sign up</a>.</p>
 	</div>
 </div>

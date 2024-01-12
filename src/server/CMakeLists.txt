@@ -17,4 +17,5 @@ PUBLIC
 
 	server_auth_lib
 	msg_lobby_lib
+	msg_room_lib
 )

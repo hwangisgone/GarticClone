@@ -68,6 +68,8 @@
 		
 		start = { x: x1, y: y1 };
 	};
+
+	
 </script>
 
 <Palette bind:brushcolor bind:brushsize {clearCanvas}/>

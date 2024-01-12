@@ -9,6 +9,7 @@
 
 #include <auth/server_auth.hpp>
 #include <lobby/msg/msg_lobby.hpp>
+#include <room/msg/msg_connection.hpp>
 #include <timer/timer_thread.hpp>
 
 #include <printdebug/debugging.h>
@@ -42,6 +43,7 @@ bool ServerLobby::createRoom(PlayerSession& creator, const char * in_roomName) {
 		strncpy(newRoom->roomName, in_roomName, 50);
 
 		creator.inRoom = newRoom;
+
 		newRoom->addPlayer(creator.account.playerID, creator.addr, creator.account);	// Add host to room 
 		this->roomCount++;
 		return true;
@@ -111,13 +113,20 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 				}
 				case MsgType::CREATE_ROOM: {
 					if (createRoom(currentClient, static_cast<CreateRoomMsg&>(msg).roomName) ) {
-						sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), msg);
+						SuccessMsg successmsg(MsgType::CREATE_ROOM);
+						sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), successmsg);
+
+
+						PlayerConnectMsg thisplayermsg;
+						thisplayermsg.playerID = currentClient.account.playerID;
+						strncpy(thisplayermsg.name, currentClient.account.playerName, 50);
+						sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), thisplayermsg);
 					}
 					break;
 				}
 				case MsgType::JOIN_ROOM: {
 					if (joinRoom(currentClient, msg)) {
-						JoinRoomMsg successmsg;
+						SuccessMsg successmsg(MsgType::JOIN_ROOM);
 						sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), successmsg);
 
 						currentClient.inRoom->msgQueue.push(wrapper);	

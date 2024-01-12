@@ -56,7 +56,7 @@ void handleFail(const FailMsg& msg) {
 	}
 }
 
-void handleSuccess(const SuccessMsg& msg, ClientHandler * client) {
+void auth_handleSuccess(const SuccessMsg& msg, ClientHandler * client) {
 	switch(msg.successtype()) {
 		case MsgType::LOGIN:
 			TEST_PRINT("-> (Login success!!!!)");
@@ -82,7 +82,7 @@ void AuthState::handleRecv(const BaseMsg& msg) {
 			handleFail(static_cast<const FailMsg&>(msg));
 			break;
 		case MsgType::SUCCESS:
-			handleSuccess(static_cast<const SuccessMsg&>(msg), this->client);
+			auth_handleSuccess(static_cast<const SuccessMsg&>(msg), this->client);
 			break;
 		default:
 			cerr << "CLIENT AUTH: MSG TYPE NOT INFERABLE: " << msg.toString() << endl;

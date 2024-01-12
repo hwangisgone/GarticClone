@@ -113,7 +113,7 @@ void ClientHandler::addPlayer(int playerID, const char * inputName) {
 	// If exist, will skip
 	auto result = playerMap.emplace(playerID, newPlayer);
 	if (result.second) {
-		TEST_PRINT("(Client) " + playerName + " joined successful!");
+		TEST_PRINT("(Client) " + playerName + " joined room!");
 
 		DisplayPlayer * newPlayerPtr = &result.first->second;
 		newPlayerPtr->currentScore = 0;

@@ -9,6 +9,8 @@
 	window.room_toGame = () => { $UIstate = 4 };
 </script>
 
+<button class="btn fixed" on:click={() => window.room_toGame()}>Start</button>
+
 <RoomLayout>
 	<div slot="draw" class="bg-white h-full text-neutral rounded-xl flex items-center justify-center">
 		<div class="text-gray-400 text-3xl">
@@ -24,7 +26,7 @@
 		</div>
 
 		<div class="">
-			Chatting here		
+			
 		</div>
 
 	</div>

@@ -124,7 +124,7 @@ public:
 
 	// In Game stuffs
 	WordHandler handlerWord;
-	int roundTimer = 25;	// Default 25 seconds
+	int roundTimer = 60;	// Default 25 seconds
 	void setModeAutoRound();
 	void setModeRounds(int rounds);
 	void setModeScoring(int score);
