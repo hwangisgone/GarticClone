@@ -29,12 +29,12 @@
 </script>
 
 
-	<div class="fixed left-1/2">
+<!-- 	<div class="fixed left-1/2">
 		<input class="input" type="number" on:change={e => window.room_removePlayer(e.target.value)} />
 		<button class="btn" on:click={() => window.room_addPlayer(1, "hehe")} >Add player</button>
 		<button class="btn" on:click={window.requestDisconnect} >Disconnect</button>
 	</div>
-
+ -->
 {#if $UIstate == 3}
 	<GetReady />
 {:else}

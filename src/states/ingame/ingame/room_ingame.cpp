@@ -60,7 +60,7 @@ bool handleAnswer(const AnswerMsg &msg, int playerID, const Word &correct_ans, R
 		try {
 			// Add score and send score message
 			Player &ppp = room->playerMap.at(playerID);
-			ppp.currentScore += correct_ans.getWordPoint();
+			ppp.currentScore += 30;
 
 			ScoreMsg msg;
 			msg.playerID = playerID;

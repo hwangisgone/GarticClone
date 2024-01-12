@@ -38,7 +38,7 @@
 
 		if (player.id == $PlayerID) {
 			correctAnswer = true;
-			messages.push({ name: player.name, answer: yourmsg });
+			messages.push({ name: "You guessed correct", answer: yourmsg });
 			messages = messages;
 		}
 	}
@@ -47,7 +47,7 @@
 		const player = $GameSettings.PlayerList.find(p => p.id === in_id);
 
 		if (player) {
-			messages.push({ name: "You guessed correct", answer: in_answer });
+			messages.push({ name: player.name, answer: in_answer });
 			messages = messages;
 		}
 	}
