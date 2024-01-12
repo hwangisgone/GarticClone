@@ -54,7 +54,7 @@ class InGameState: public ClientState {
 public:
 	void handleRecv(const BaseMsg& msg) override;
 	
-	static void requestDraw(int x, int y, const char* color);
+	static void requestDraw(int x, int y, const char* color, int size, int start);
 	static void requestAnswer(const char* answer);
 };
 

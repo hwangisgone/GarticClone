@@ -14,12 +14,16 @@ void DrawMsg::serializeBody(MsgBuffer& buff) const {
 	buff.serializeField(this->x);
 	buff.serializeField(this->y);
 	buff.serializeField(this->color, 7);
+	buff.serializeField(this->size);
+	buff.serializeField(&this->start, 1);
 }
 
 void DrawMsg::deserializeBody(MsgBuffer& buff) {
 	buff.deserializeField(&this->x);
 	buff.deserializeField(&this->y);
 	buff.deserializeField(this->color, 7);
+	buff.deserializeField(&this->size);
+	buff.deserializeField(&this->start, 1);
 }
 
 string DrawMsg::debugPrint() const {

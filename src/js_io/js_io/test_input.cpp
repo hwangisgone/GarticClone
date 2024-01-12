@@ -74,7 +74,7 @@ void run_test_input(const string& filePath) {
 			char color[7] ;
 			int playerID;
 			inputFile >> x >> y >> color;
-			InGameState::requestDraw(x,y,color);
+			InGameState::requestDraw(x,y,color, 5, 0);
 		}
 
 		else if( query == "answer" ){

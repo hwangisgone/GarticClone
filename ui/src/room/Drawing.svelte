@@ -25,8 +25,8 @@
 	const changeBrush = (color, size) => {
 		if(context) {
 			console.log("Change Brush success");
-			context.strokeStyle = brushcolor;
-			context.lineWidth = brushsize;
+			context.strokeStyle = color;
+			context.lineWidth = size;
 		} else {
 			console.log("changeBrush failed")
 		}
@@ -53,6 +53,7 @@
 		// } else {
 			isDrawing = true
 			start = { x, y }
+			window.requestDraw(x, y, brushcolor, brushsize, 1);
 		// }
 	};
 	
@@ -69,15 +70,16 @@
 		
 		start = { x: x1, y: y1 };
 
-		window.requestDraw(x, y, brushcolor);
+		window.requestDraw(x, y, brushcolor, brushsize, 0);
 	};
 
 	let timer;
-	window.game_draw = (x, y, clr) => {
-		if (isDrawing) {
-			handleMove({ offsetX: x, offsetY: y});
-		} else {
+	window.game_draw = (x, y, clr, size, start) => {
+		changeBrush(clr, size);
+		if (start == 1) {
 			handleStart({ offsetX: x, offsetY: y});
+		} else {
+			handleMove({ offsetX: x, offsetY: y});
 		}
 		// isDrawing = true;
 		// timer = setInterval(() => {

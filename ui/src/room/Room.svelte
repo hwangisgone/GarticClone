@@ -33,7 +33,6 @@
 		<input class="input" type="number" on:change={e => window.room_removePlayer(e.target.value)} />
 		<button class="btn" on:click={() => window.room_addPlayer(1, "hehe")} >Add player</button>
 		<button class="btn" on:click={window.requestDisconnect} >Disconnect</button>
-	<!-- <button class="btn btn-accent" type="button" on:click={Back}> Back lobby </button> -->
 	</div>
 
 {#if $UIstate == 3}

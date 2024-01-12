@@ -11,14 +11,16 @@
 
 using namespace std;
 
-void InGameState::requestDraw(int x, int y, const char* color){
+void InGameState::requestDraw(int x, int y, const char* color, int size, int start){
 	DrawMsg msg;
 
 	msg.x = x;
 	msg.y = y;
 	// color+1 to skip the #
 	strncpy(msg.color, color+1, 6); // Copy the color, skip the #
-	msg.color[7] = '\0';			// Ensure null termination
+	msg.color[7] = '\0';
+	msg.size = size;
+	msg.start = start > 0 ? 1 : 0;			// Ensure null termination
 
 	ClientHandler::clientSendMsg(msg);
 }
@@ -33,7 +35,12 @@ void InGameState::requestAnswer(const char *answer){
 
 
 void jsDraw(const DrawMsg &msg) {
-	globalJsEval("game_draw(" + to_string(msg.x) + "," + to_string(msg.y) + ",\"#" + string(msg.color) + "\")");
+	globalJsEval("game_draw(" 
+		+ to_string(msg.x) + "," 
+		+ to_string(msg.y) + ",\"#" 
+		+ string(msg.color) + "\"," 
+		+ to_string(msg.size) + ","
+		+ to_string(msg.start) + ")");
 }
 
 void jsAnswer(const AnswerMsg &msg) {
@@ -53,7 +60,11 @@ void jsNextRound(const NextRoundMsg& msg) {
 
 
 void handleDraw(const DrawMsg &msg) {
-	TEST_PRINT("Drawn " + to_string(msg.x) + ", " + to_string(msg.y) + ", #" + string(msg.color));
+	TEST_PRINT("Drawn " + to_string(msg.x) 
+		+ ", " + to_string(msg.y) 
+		+ ", #" + string(msg.color)
+		+ ", " + to_string(msg.size)
+		+ ", " + to_string(msg.start));
 	jsDraw(msg);
 }
 

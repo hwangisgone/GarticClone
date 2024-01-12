@@ -33,10 +33,12 @@ void rqDraw(const std::string &seq, const std::string &req, void * /*arg*/) {
 	auto x = stoll(webview::detail::json_parse(req, "", 0));
 	auto y = stoll(webview::detail::json_parse(req, "", 1));
 	auto clr = webview::detail::json_parse(req, "", 2);
+	auto size = stoll(webview::detail::json_parse(req, "", 3));
+	auto start = stoll(webview::detail::json_parse(req, "", 4));
 	
 		std::cerr << "Drawcalled\n";
 
-	InGameState::requestDraw(x, y, clr.c_str());
+	InGameState::requestDraw(x, y, clr.c_str(), size, start);
 }
 
 void rqAnswer(const std::string &seq, const std::string &req, void * /*arg*/) {

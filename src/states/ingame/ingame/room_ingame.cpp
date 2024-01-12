@@ -78,7 +78,7 @@ bool handleAnswer(const AnswerMsg &msg, int playerID, const Word &correct_ans, R
 		// Only broadcast incorrect asnwers
 		AnswerMsg answermsg = msg;
 		answermsg.playerID = playerID;
-		room->broadcastExcept(answermsg, playerID);
+		room->broadcast(answermsg, playerID);
 	}
 
 	return isCorrect;

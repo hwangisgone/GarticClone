@@ -45,7 +45,7 @@
 		const player = $GameSettings.PlayerList.find(p => p.id === in_id);
 
 		if (player) {
-			messages.push({ name: p.name, answer: in_answer });
+			messages.push({ name: player.name, answer: in_answer });
 			messages = messages;
 		}
 	}

@@ -18,12 +18,12 @@
 
 <div class="w-full max-w-sm lg:max-w-md ">
 
-	<div class="fixed">
+<!-- 	<div class="fixed">
 		<button class="btn" on:click={window.auth_toLobby}>To Lobby</button>
 		<button class="btn" on:click={window.auth_wrongPass}>Wrong pass</button>
-	</div>
+	</div> -->
 
-	<h1 class="text-5xl lg:text-6xl text-neutral pt-24 font-semibold">Sign In {$UIstate}</h1>
+	<h1 class="text-5xl lg:text-6xl text-neutral pt-24 font-semibold">Sign In</h1>
 	<p class="text-gray-400 mt-1">Sign in to access your account</p>
 
 	<div class="m-7 space-y-2 md:space-y-4">
