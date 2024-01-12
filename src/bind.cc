@@ -23,6 +23,7 @@ void fuckme() {
 
 	// std::string addrstr = resolve_host(funnyaddress);
 	// if (addrstr.empty()) return;
+	std::cerr << chosenaddr << std::endl;
 
 	client_sock = initialize_client(CHOSEN_PORT, chosenaddr.c_str());
 
