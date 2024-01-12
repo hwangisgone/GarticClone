@@ -23,7 +23,7 @@ InGameState::InGameState(RoomHandler *room)
 {							// Initialize a new game
 	this->setHandler(room); // Required, otherwise segmentation fault
 
-	this->roundAnswer = room->handlerWord.getRandomAndRemove();
+	this->roundAnswer = room->handlerWord.getRandomWord();
 
 	// Get random playerID from the map
 	std::uniform_int_distribution<size_t> dist(0, room->playerMap.size() - 1);
@@ -47,7 +47,7 @@ InGameState::InGameState(RoomHandler *room)
 	sendMsg(room->sockfd, (struct sockaddr *)&drawerPlayer.currentAddr, sizeof(drawerPlayer.currentAddr), nextmsg);
 
 	// TODO: gamesettings with timer here
-	TimerThread::addTimer(25, room->roomID, 1);
+	TimerThread::addTimer(room->roundTimer, room->roomID, 1);
 }
 
 
@@ -78,7 +78,7 @@ bool handleAnswer(const AnswerMsg &msg, int playerID, const Word &correct_ans, R
 		// Only broadcast incorrect asnwers
 		AnswerMsg answermsg = msg;
 		answermsg.playerID = playerID;
-		room->broadcast(answermsg, playerID);
+		room->broadcast(answermsg);
 	}
 
 	return isCorrect;

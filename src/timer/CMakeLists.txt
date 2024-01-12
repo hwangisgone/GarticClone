@@ -4,6 +4,6 @@ add_library(timer_thread_lib STATIC
 
 target_include_directories(timer_thread_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(timer_thread_lib
-	PRIVATE server_leaderboard_lib server_ingame_lib
+	PRIVATE server_leaderboard_lib server_ingame_lib server_room_lib
 	PUBLIC server_base_lib	# Public means implementation & header needs it
 )

@@ -11,6 +11,7 @@
 		// import { sineIn } from "svelte/easing";
 		import LeaderBoard from "./LeaderBoard.svelte";
 
+	window.updatePlayerID = (id) => { $PlayerID = id; }
 </script>
 
 <input type="number" class="fixed" bind:value={$UIstate} />

@@ -90,6 +90,9 @@
 
 
 {#if $ThisRound.role == 1}
+{#if $ThisRound.word != ""}
+	<div class="fixed text-4xl uppercase text-neutral text-center w-1/2 p-4">{$ThisRound.word}</div>
+{/if}
 <Palette bind:brushcolor bind:brushsize {clearCanvas}/>
 <Canvas bind:this={canvas}
 	on:mousedown={handleStart}  

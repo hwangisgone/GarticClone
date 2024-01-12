@@ -149,7 +149,7 @@ void RoomHandler::removePlayer(int playerID) {
 
 void RoomHandler::setModeAutoRound() {
 	this->gameMode = 0;
-	this->roundLeft = playerMap.size();
+	this->roundLeft = playerMap.size()-1;
 }
 
 void RoomHandler::setModeRounds(int rounds) {

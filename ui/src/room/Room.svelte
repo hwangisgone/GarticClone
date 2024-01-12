@@ -14,7 +14,7 @@
 	// C++ Call Js
 
 	window.room_addPlayer = (playerid, playername) => { 
-		$GameSettings.PlayerList.push( { id: playerid, name: playername, point: 100})
+		$GameSettings.PlayerList.push( { id: playerid, name: playername, point: 0})
 		$GameSettings.PlayerList = $GameSettings.PlayerList;
 	};
 	window.room_removePlayer = (playerid) => { 

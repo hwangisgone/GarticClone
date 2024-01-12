@@ -16,3 +16,4 @@ target_link_libraries(text_db_lib
 
 
 configure_file(database/accounts.txt ${CMAKE_BINARY_DIR}/txt/accounts.txt COPYONLY)
+configure_file(database/word.txt ${CMAKE_BINARY_DIR}/txt/word.txt COPYONLY)

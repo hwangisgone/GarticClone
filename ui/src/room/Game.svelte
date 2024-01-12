@@ -33,11 +33,13 @@
 
 	window.game_score = (in_id, in_score) => {
 		const player = $GameSettings.PlayerList.find(p => p.id === in_id);
-		if (player) {
-			player.point = score;
-			if (player.id == $PlayerID) {
-				correctAnswer = true;
-			}
+
+		$GameSettings.PlayerList = $GameSettings.PlayerList.map(player => (player.id == in_id ? { ...player, point: in_score } : player));
+
+		if (player.id == $PlayerID) {
+			correctAnswer = true;
+			messages.push({ name: player.name, answer: yourmsg });
+			messages = messages;
 		}
 	}
 
@@ -45,7 +47,7 @@
 		const player = $GameSettings.PlayerList.find(p => p.id === in_id);
 
 		if (player) {
-			messages.push({ name: player.name, answer: in_answer });
+			messages.push({ name: "You guessed correct", answer: in_answer });
 			messages = messages;
 		}
 	}

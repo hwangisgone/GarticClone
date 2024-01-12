@@ -35,13 +35,14 @@ struct Word
 
 class WordHandler {
 private:
-	static std::vector<Word> wordsGlobal;
+
 	// Globals
 
 	std::vector<Word> wordCollection;
 	void setDiff(int difficulty);
 	int difficulty;
 public:
+	static std::vector<Word> wordsGlobal;
 	// can load word in file into easy vector<word> for easy in game
 	static bool loadFromFile(const std::string &filename, std::vector<Word> &word);
 	static void writeWordsToFile(const std::string& filename, const std::vector<Word>& words);

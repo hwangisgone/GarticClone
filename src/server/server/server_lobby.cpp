@@ -164,6 +164,7 @@ void ServerLobby::run() {
 
 	// INITIALIZATIONGS
 	loadFromFile("txt/accounts.txt", allAccounts);
+	WordHandler::loadFromFile("txt/word.txt", WordHandler::wordsGlobal);
 	// DATABASE
 
 	// HAVE A TIMER THREAD

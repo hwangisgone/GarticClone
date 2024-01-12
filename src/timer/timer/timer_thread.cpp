@@ -2,6 +2,7 @@
 #include <string>
 
 #include "timer_thread.hpp"
+#include <room/room_connection.hpp>
 
 // Static vars
 std::set<TimeRoom> TimerThread::timer_set;
@@ -62,7 +63,8 @@ void timerHandleState(int mode, RoomHandler * room) {
 			room->setState(new InGameState(room));					
 		} else {
 			std::cout << "END GAME!" << std::endl;
-			room->setState(new LeaderboardState());
+			RoomConn::backToRoom(room);
+			// room->setState(new LeaderboardState());
 		}
 	} else if (mode == 2) {
 		// state ping

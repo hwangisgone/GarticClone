@@ -1,5 +1,5 @@
 <script>
-	import { GameSettings, UIstate } from "../store/store.ts";
+	import { GameSettings, UIstate, PlayerID } from "../store/store.ts";
 
 
 	// Js Call C++
@@ -23,7 +23,10 @@
 		<div class="text-neutral h-full divide-y-2 ">
 			{#each $GameSettings.PlayerList as player}
 				<div class="flex flex-col text-center w-full p-2">
-					<strong class="text-primary brightness-75">{player.name} {player.id}</strong>
+					<strong class="text-primary brightness-75">{player.name} #{player.id}
+						{#if player.id == $PlayerID}(You){/if}
+					</strong>
+					
 					<span>{player.point} points</span>
 				</div>
 			{/each}

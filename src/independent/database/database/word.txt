@@ -1,0 +1,8 @@
+apple 0 0
+banana 0 0
+house 0 0
+pineapple 0 0
+grape 0 0
+mango 0 0
+watermelon 0 0
+monkey 0 0
