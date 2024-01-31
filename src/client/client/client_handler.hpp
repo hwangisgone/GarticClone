@@ -90,6 +90,7 @@ public:
 	static sockaddr_in serverAddress;
 	static void clientSendMsg(BaseMsg& msg);
 
+	int meID = -1;
 	std::unordered_map<int, DisplayPlayer> playerMap;	// Map (playerID, Player)
 
 	ClientHandler(int sockfd, sockaddr_in inputAddress);

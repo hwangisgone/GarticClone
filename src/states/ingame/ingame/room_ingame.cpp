@@ -43,24 +43,41 @@ InGameState::InGameState(RoomHandler *room)
 	// Send role to drawer
 	nextmsg.role = 1;
 	strncpy(nextmsg.word, this->roundAnswer.word, sizeof(this->roundAnswer.word));
-	Player drawerPlayer = room->playerMap.at(drawerID);
+	Player &drawerPlayer = room->playerMap.at(this->drawerID);
 	sendMsg(room->sockfd, (struct sockaddr *)&drawerPlayer.currentAddr, sizeof(drawerPlayer.currentAddr), nextmsg);
 
+	// Setting up
+    for (auto& entry : room->playerMap) {
+    	// drawer are automatically done
+        entry.second.thisRoundDone = (entry.first == this->drawerID);	
+    }
+
+    TEST_PRINT("  (InGameState) HUH?");
 	// TODO: gamesettings with timer here
 	TimerThread::addTimer(room->roundTimer, room->roomID, 1);
 }
 
 
+bool allPlayersAnswered(RoomHandler *room) {
+	bool result = true;
+	for (const auto& entry : room->playerMap) {
+		const Player& player = entry.second;
+		result = result && player.thisRoundDone;
+	}
+	return result;
+}
+
 bool handleAnswer(const AnswerMsg &msg, int playerID, const Word &correct_ans, RoomHandler *room)
 {
 	bool isCorrect = false;
-
+	TEST_PRINT("  (InGameState) Answering...");
 	if (correct_ans.isTheSame(msg.answer))
 	{
 		try {
 			// Add score and send score message
 			Player &ppp = room->playerMap.at(playerID);
 			ppp.currentScore += 30;
+			ppp.thisRoundDone = true;
 
 			ScoreMsg msg;
 			msg.playerID = playerID;
@@ -68,8 +85,11 @@ bool handleAnswer(const AnswerMsg &msg, int playerID, const Word &correct_ans, R
 			room->broadcast(msg);
 
 			isCorrect = true;
-		}
-		catch (const std::out_of_range &e) {
+
+			if (allPlayersAnswered(room)) {
+				TimerThread::removeRoomTimers(room->roomID, room);	// Trigger the timer, move to next round now
+			}
+		} catch (const std::out_of_range &e) {
 			cerr << "PLAYER " << playerID << " NOT FOUND (handleScore). Exception at " << e.what() << endl;
 		}
 	}
@@ -112,7 +132,7 @@ void InGameState::handle(const BaseMsg &msg, int playerID)
 		RoomConn::handleDisconnect(playerID, room);
 		if (room->playerMap.size() == 1) {
 			TEST_PRINT("(InGame) Game exited because there's only 1 player left");
-			TimerThread::removeRoomTimers(room->roomID);
+			TimerThread::removeRoomTimers(room->roomID, nullptr);
 			RoomConn::backToRoom(room);
 		}
 		break;

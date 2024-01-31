@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
 	webview::webview w(false, nullptr);
 	globalw = &w;
 	w.set_title("Charade.io");
-	w.set_size(1000, 1000, WEBVIEW_HINT_NONE);
+	w.set_size(800, 800, WEBVIEW_HINT_NONE);
 
 	// Login
 	// Register

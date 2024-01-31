@@ -77,6 +77,8 @@ struct Player
 	const PlayerAccount &account;
 	const sockaddr_in currentAddr;
 	int currentScore;
+
+	bool thisRoundDone;	// Answered correct OR is the drawer
 	Player(const sockaddr_in &in_addr, const PlayerAccount &in_acc) : currentAddr(in_addr), account(in_acc) {}
 };
 

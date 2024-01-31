@@ -32,9 +32,15 @@
 	};
 	window.room_removePlayer = (playerid) => { 
 		$GameSettings.PlayerList = $GameSettings.PlayerList.filter(p => p.id != playerid);
-		console.log("Removed?", playerid);
+		$GameSettings.PlayerList = $GameSettings.PlayerList;
+		toast.success("Removed? " + playerid);
 	};
+	window.room_toLobby = () => { $GameSettings.PlayerList = []; $UIstate = 2; }
+	window.room_toRoom = () => { $UIstate = 3 }
+	window.room_toGame = () => { $UIstate = 4 }
+
 	window.game_nextRound = (role, timer, word) => {
+		window.room_toGame();
 		$ThisRound.role = role;
 		$ThisRound.timer = timer;
 		$ThisRound.word = word;
@@ -42,13 +48,13 @@
 </script>
 
 
-	<div class="fixed left-1/2">
+<!-- 	<div class="fixed left-1/2">
 		<input class="input" type="number" on:change={e => window.room_removePlayer(e.target.value)} />
 		<button class="btn" on:click={() => window.room_addPlayer(1, "hehe")} >Add player</button>
 		<button class="btn" on:click={window.requestDisconnect} >
 			Disconnect (Joined: {$JoinCounter})
 		</button>
-	</div>
+	</div> -->
 
 {#if $UIstate == 3}
 	<GetReady />

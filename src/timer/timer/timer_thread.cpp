@@ -32,13 +32,32 @@ void TimerThread::addTimer(int seconds, int roomID, int mode) {
 	printtime("Scheduled at ", tr.timestamp, startTime); std::cerr << std::endl;
 }
 
-void TimerThread::removeRoomTimers(int roomID) {
+
+void timerHandleState(int mode, RoomHandler * room) {
+	if (mode == 1) {
+		if (room->endGameCheck() == false) {
+			room->setState(new InGameState(room));					
+		} else {
+			std::cout << "END GAME!" << std::endl;
+			RoomConn::backToRoom(room);
+			// room->setState(new LeaderboardState());
+		}
+	} else if (mode == 2) {
+		// state ping
+	} 
+}
+
+
+void TimerThread::removeRoomTimers(int roomID, RoomHandler * roomactivate) {
 	{
 		std::lock_guard<std::mutex> lock(timer_mutex);
 		auto it = timer_set.begin();
 		while (it != timer_set.end()) {
 			if (it->roomID == roomID) {
 				printtime("Timer removed: ", it->timestamp, startTime); std::cerr << std::endl;
+				if (roomactivate != nullptr) {
+					timerHandleState(it->mode, roomactivate);
+				}
 				it = timer_set.erase(it);
 			} else {
 				++it;
@@ -55,20 +74,6 @@ void TimerThread::eraseRoom(int roomID) {
 	} else {
 		DEBUG_PRINT("> Timer: Remove room " + std::to_string(roomID) + " failed. Not found.");
 	}
-}
-
-void timerHandleState(int mode, RoomHandler * room) {
-	if (mode == 1) {
-		if (room->endGameCheck() == false) {
-			room->setState(new InGameState(room));					
-		} else {
-			std::cout << "END GAME!" << std::endl;
-			RoomConn::backToRoom(room);
-			// room->setState(new LeaderboardState());
-		}
-	} else if (mode == 2) {
-		// state ping
-	} 
 }
 
 void TimerThread::runTimerThread() {

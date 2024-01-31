@@ -24,9 +24,11 @@ unique_ptr<BaseMsg> factoryProduceMsg(MsgType type) {
 		// Begin
 		case MsgType::SUCCESS:		return make_unique<SuccessMsg>();
 		case MsgType::FAILURE:		return make_unique<FailMsg>();
+			
 		case MsgType::LOGIN:		return make_unique<LoginMsg>();
 		case MsgType::REGISTER:		return make_unique<RegisterMsg>();
 		case MsgType::LOGOUT:		return make_unique<LogoutMsg>();
+		case MsgType::ACC_INFO:		return make_unique<AccountInfoMsg>();
 
 		// Lobby
 		case MsgType::GET_ROOMS:	return make_unique<GetRoomsMsg>();

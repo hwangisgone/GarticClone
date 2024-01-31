@@ -1,6 +1,6 @@
 <script>
 	// @ts-nocheck
-	import { UIstate } from '../store/store.ts';
+	import { UIstate, PlayerID } from '../store/store.ts';
 	import InputContainer from './InputContainer.svelte';
 
 	import toast from 'svelte-french-toast';
@@ -13,8 +13,9 @@
 	// window.requestLogin(1, username, password)
 	// C++ Call Js
 	window.auth_wrongPass = () => { wrongPassword = true; };
-	window.auth_toLobby = () => { 
+	window.auth_toLobby = (pID) => { 
 		$UIstate = 2;
+		$PlayerID = pID;
 		toast.success("Logged in!"); 
 	};
 </script>

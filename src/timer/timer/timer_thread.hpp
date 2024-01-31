@@ -33,7 +33,7 @@ private:
 	std::thread thread;
 public:
 	static void addTimer(int seconds, int roomID, int mode);
-	static void removeRoomTimers(int roomID);
+	static void removeRoomTimers(int roomID, RoomHandler * room_activate);
 	static void eraseRoom(int roomID);
 
 

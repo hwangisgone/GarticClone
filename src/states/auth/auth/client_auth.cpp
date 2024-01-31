@@ -41,8 +41,8 @@ void jsRegistered() {
 	globalJsEval("auth_registered()");
 }
 
-void jsGoToLobby() {
-	globalJsEval("auth_toLobby()");
+void jsGoToLobby(int playerID) {
+	globalJsEval("auth_toLobby(" + std::to_string(playerID) + ")");
 }
 
 void handleFail(const FailMsg& msg) {
@@ -63,11 +63,6 @@ void handleFail(const FailMsg& msg) {
 
 void auth_handleSuccess(const SuccessMsg& msg, ClientHandler * client) {
 	switch(msg.successtype()) {
-		case MsgType::LOGIN:
-			TEST_PRINT("-> (Login success!!!!)");
-			client->setState(new LobbyState());
-			jsGoToLobby();
-			break;
 		case MsgType::REGISTER:
 			TEST_PRINT("-> (Register success!!!!)");
 			jsRegistered();
@@ -78,11 +73,21 @@ void auth_handleSuccess(const SuccessMsg& msg, ClientHandler * client) {
 	}
 }
 
+void handleAccount(const AccountInfoMsg& msg, ClientHandler * client) {
+	TEST_PRINT("-> (Login success!!!!)");
+	client->meID = msg.playerID;
+	client->setState(new LobbyState());
+	jsGoToLobby(client->meID);
+}
+
 void AuthState::handleRecv(const BaseMsg& msg) {
 	// - wait for host to start
 	DEBUG_PRINT("(StateAuth) " + msg.toString());
 
 	switch (msg.type()) {
+		case MsgType::ACC_INFO:
+			handleAccount(static_cast<const AccountInfoMsg&>(msg), this->client);
+			break;
 		case MsgType::FAILURE: 
 			handleFail(static_cast<const FailMsg&>(msg));
 			break;

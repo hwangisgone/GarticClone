@@ -25,7 +25,7 @@
 {:else if $UIstate == 3 || $UIstate == 4}
 	<Room/>
 {:else if $UIstate == 5}
-	<LeaderBoard/>
+	<!-- <LeaderBoard/> -->
 {:else}
 	<div class="container h-screen mx-auto py-10 max-w-[60rem]">
 		<div class="bg-gray-100 h-full shadow-2xl rounded-3xl flex justify-center text-center items-center">

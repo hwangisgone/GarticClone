@@ -19,10 +19,7 @@
 
 
 
-	let messages = [
-	{name: "Thuy", answer: "what"},
-	{name: "Thuy", answer: "what"},
-		];
+	let messages = [{ name: "Game started!", answer: "" }];
 	let yourmsg = "";
 	$: correctAnswer = $ThisRound.role;
 
@@ -40,6 +37,7 @@
 			correctAnswer = true;
 			messages.push({ name: "You guessed correct", answer: yourmsg });
 			messages = messages;
+			yourmsg = "";
 		}
 	}
 

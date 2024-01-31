@@ -22,6 +22,10 @@ void RoomState::requestStart(){
 }
 
 
+void jsToLobby() {
+	globalJsEval("room_toLobby()");
+}
+
 void jsToRoom() {
 	globalJsEval("room_toRoom()");
 }
@@ -52,9 +56,15 @@ void ClientConn::handleConnect(const PlayerConnectMsg& msg, ClientHandler * clie
 	jsAddPlayer(msg);
 }
 void ClientConn::handleDisconnect(const PlayerDisconnectMsg& msg, ClientHandler * client) {
-	DEBUG_PRINT("  (StateRoom) Disconnection.");
-	client->removePlayer(msg.playerID);
-	jsRemovePlayer(msg);
+	if (client->meID != msg.playerID) {
+		DEBUG_PRINT("  (StateRoom) Disconnection.");
+		client->removePlayer(msg.playerID);
+		jsRemovePlayer(msg);
+	} else {
+		DEBUG_PRINT("  (StateRoom) Disconnected.");
+		client->setState(new LobbyState());
+		jsToLobby();
+	}
 }
 
 void ClientConn::backToRoom(ClientHandler * client) {
@@ -62,7 +72,6 @@ void ClientConn::backToRoom(ClientHandler * client) {
 	client->setState(new RoomState());
 	jsToRoom();
 }
-
 
 
 void RoomState::handleRecv(const BaseMsg& msg) {

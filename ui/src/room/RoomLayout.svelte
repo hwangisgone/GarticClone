@@ -10,7 +10,6 @@
 
 <div class="h-[5vh] text-3xl">
 	<button class="btn btn-accent" type="button" on:click={() => {
-		$UIstate = 2;
 		window.requestDisconnect(); 
 	}}>
 		Exit
@@ -23,7 +22,8 @@
 		<div class="text-neutral h-full divide-y-2 ">
 			{#each $GameSettings.PlayerList as player}
 				<div class="flex flex-col text-center w-full p-2">
-					<strong class="text-primary brightness-75">{player.name} #{player.id}
+					<strong class="text-primary brightness-75" class:text-success={player.id == $PlayerID} >
+						{player.name} #{player.id}
 						{#if player.id == $PlayerID}(You){/if}
 					</strong>
 					

@@ -38,4 +38,18 @@ public:
 };
 
 
+// AccountInfoMsg: [playerID 4|...]
+class AccountInfoMsg: public BaseMsg {
+private:
+	uint32_t bodySize() const override { return sizeof(uint32_t); } // 4 
+public:
+	uint32_t playerID;
+
+	AccountInfoMsg() : BaseMsg(MsgType::ACC_INFO){}
+
+	void serializeBody(MsgBuffer& buff) const override;	// (2)
+	void deserializeBody(MsgBuffer& buff) override;		// (3)
+	std::string debugPrint() const override;			// (4)	// 1,2,3 are required
+};
+
 #endif

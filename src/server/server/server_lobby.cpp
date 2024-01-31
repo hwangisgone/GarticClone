@@ -67,8 +67,9 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 				this->addSession(clientAddress, *loggedacc);
 
 				// Send success msg first
-				SuccessMsg successmsg(MsgType::LOGIN);
-				sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), successmsg);
+				AccountInfoMsg accmsg;
+				accmsg.playerID = loggedacc->playerID;
+				sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), accmsg);
 			} else {
 				// TEST_PRINT("Incorrect credentials");
 				FailMsg failmsg(MsgType::LOGIN);
@@ -148,15 +149,17 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 			}	
 		} else {
 			switch(msg.type()) {
-				// Join again but in room state this time
-				case MsgType::JOIN_ROOM: {
-					TEST_PRINT("> Lobby: Aready in room! This shouldn't happen.");
-					return;
-				}
 				case MsgType::DISCONNECT: {
 					currentClient.inRoom->msgQueue.push(wrapper);
 					currentClient.inRoom = nullptr;
 					return;
+				}
+				case MsgType::JOIN_ROOM: {
+					if (!joinRoom(currentClient, msg)) {
+						TEST_PRINT("> Lobby: Aready in room! This shouldn't happen.");
+						return;
+					}
+					// activate with defaualt
 				}
 				default:
 					// In room/game

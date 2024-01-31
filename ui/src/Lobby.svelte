@@ -42,7 +42,9 @@
 		RoomList.push({ RoomID: id, RoomName: name });
 		RoomList = RoomList;
 	}
-	window.lobby_toRoom = () => { $UIstate = 3; }
+	window.lobby_toRoom = () => { 
+		$UIstate = 3; 
+	}
 	window.lobby_toLogin = () => { 
 		$UIstate = 0; // Back to login 
 		toast.success("Logged out.");
