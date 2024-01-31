@@ -1,0 +1,27 @@
+<map id="src/states/ingame/ingame" name="src/states/ingame/ingame">
+<area shape="rect" id="node2" href="dir_c4ccbc96e48acb3f1e4124d73544d82e.html" title="msg" alt="" coords="50,139,97,165"/>
+<area shape="poly" id="edge7" href="dir_000011_000021.html" alt="" coords="73,90,74,123,69,123,67,91"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000011_000021.html" title="4" alt="" coords="77,111,84,127"/>
+<area shape="rect" id="node3" href="dir_075bb3ff235063c77951cd176d15a741.html" title="server" alt="" coords="134,139,189,165"/>
+<area shape="poly" id="edge1" href="dir_000011_000029.html" alt="" coords="86,88,135,127,132,131,83,93"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000011_000029.html" title="1" alt="" coords="133,112,140,128"/>
+<area shape="rect" id="node4" href="dir_14e68af786cf3751744112ab7a9ce5bf.html" title="independent" alt="" coords="106,213,198,240"/>
+<area shape="poly" id="edge2" href="dir_000011_000009.html" alt="" coords="101,81,127,87,156,98,182,114,204,137,212,162,204,188,190,205,186,202,199,185,206,162,199,140,179,118,153,103,126,92,100,86"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000011_000009.html" title="7" alt="" coords="192,200,199,216"/>
+<area shape="rect" id="node5" href="dir_6908ff505388a07996d238c763adbdab.html" title="client" alt="" coords="265,139,317,165"/>
+<area shape="poly" id="edge3" href="dir_000011_000003.html" alt="" coords="101,86,251,135,249,140,100,91"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000011_000003.html" title="1" alt="" coords="246,120,253,136"/>
+<area shape="rect" id="node6" href="dir_8c35c1873c2690b478a9950d0638d637.html" title="timer" alt="" coords="342,139,392,165"/>
+<area shape="poly" id="edge4" href="dir_000011_000036.html" alt="" coords="101,82,198,104,327,136,326,141,197,109,100,88"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000011_000036.html" title="1" alt="" coords="322,121,329,137"/>
+<area shape="rect" id="node7" href="dir_aca20c703743f5a951cba71dbaf9b131.html" title="js_io" alt="" coords="416,139,464,165"/>
+<area shape="poly" id="edge5" href="dir_000011_000012.html" alt="" coords="101,80,229,100,401,136,400,141,228,105,100,85"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000011_000012.html" title="1" alt="" coords="396,121,403,137"/>
+<area shape="rect" id="node8" href="dir_bf412959aaa3d525c016e2a6b686d753.html" title="room" alt="" coords="488,139,539,165"/>
+<area shape="poly" id="edge6" href="dir_000011_000027.html" alt="" coords="101,79,258,97,363,114,474,136,473,141,362,119,257,103,100,84"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000011_000027.html" title="2" alt="" coords="469,122,476,138"/>
+<area shape="poly" id="edge8" href="dir_000021_000009.html" alt="" coords="89,164,129,201,125,205,85,168"/>
+<area shape="rect" id="edge8-headlabel" href="dir_000021_000009.html" title="2" alt="" coords="127,186,134,202"/>
+<area shape="rect" id="clust2" href="dir_18002a4afaf626025173b315942d53ba.html" alt="" coords="27,53,112,176"/>
+<area shape="rect" id="clust1" href="dir_d722aae805caf8e3ec0eb1d1a426bc73.html" title="ingame" alt="" coords="16,16,123,187"/>
+</map>

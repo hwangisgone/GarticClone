@@ -1,0 +1,15 @@
+<map id="RoomState" name="RoomState">
+<area shape="rect" id="Node000001" title=" " alt="" coords="99,924,239,1057"/>
+<area shape="rect" id="Node000002" href="$class_client_state.html" title=" " alt="" coords="61,784,159,875"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,888,147,923,142,925,129,890"/>
+<area shape="rect" id="Node000003" href="$class_client_handler.html" title=" " alt="" coords="5,331,161,656"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="99,656,108,767,102,767,94,656"/>
+<area shape="rect" id="Node000004" href="$class_server_state.html" title=" " alt="" coords="197,784,290,875"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="219,889,202,925,197,923,214,887"/>
+<area shape="rect" id="Node000005" href="$class_room_handler.html" title=" " alt="" coords="185,267,331,720"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="251,720,249,767,243,767,245,720"/>
+<area shape="rect" id="Node000006" href="$class_t_s_queue.html" title=" " alt="" coords="81,37,246,171"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="182,170,201,249,196,251,177,171"/>
+<area shape="rect" id="Node000007" href="$class_word_handler.html" title=" " alt="" coords="271,5,437,203"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="332,203,321,251,315,249,327,202"/>
+</map>

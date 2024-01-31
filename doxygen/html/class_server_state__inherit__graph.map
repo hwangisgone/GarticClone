@@ -1,0 +1,9 @@
+<map id="ServerState" name="ServerState">
+<area shape="rect" id="Node000001" title=" " alt="" coords="184,5,277,96"/>
+<area shape="rect" id="Node000002" href="$class_in_game_state.html" title=" " alt="" coords="5,144,123,299"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,108,137,146,124,159,120,155,133,142,171,104"/>
+<area shape="rect" id="Node000003" href="$class_leaderboard_state.html" title=" " alt="" coords="147,155,314,288"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,111,233,155,228,155,228,111"/>
+<area shape="rect" id="Node000004" href="$class_room_state.html" title=" " alt="" coords="338,155,478,288"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="290,104,341,153,337,157,286,108"/>
+</map>

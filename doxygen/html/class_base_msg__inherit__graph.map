@@ -1,0 +1,43 @@
+<map id="BaseMsg" name="BaseMsg">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1241,5,1395,267"/>
+<area shape="rect" id="Node000002" href="$class_answer_msg.html" title=" " alt="" coords="5,347,129,501"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1226,145,979,161,661,194,501,216,354,244,231,278,182,297,143,317,125,331,110,349,106,345,122,327,141,312,180,292,230,273,353,239,500,211,660,188,979,156,1226,139"/>
+<area shape="rect" id="Node000003" href="$class_auth_msg.html" title=" " alt="" coords="153,347,277,501"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1227,147,1009,167,734,201,597,224,471,251,367,282,325,299,291,317,273,331,258,349,254,345,270,327,289,312,323,294,365,277,470,246,596,219,733,196,1008,162,1226,141"/>
+<area shape="rect" id="Node000006" href="$class_back_to_room_msg.html" title=" " alt="" coords="301,389,436,459"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1226,150,1040,175,813,212,700,234,598,260,512,287,450,317,430,333,413,351,387,391,382,388,409,348,427,329,447,312,510,282,596,255,699,229,812,207,1039,169,1226,145"/>
+<area shape="rect" id="Node000007" href="$class_create_room_msg.html" title=" " alt="" coords="461,357,589,491"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1226,143,1095,155,1017,167,933,184,848,206,762,235,680,272,604,317,581,336,562,359,558,356,577,332,600,312,678,267,760,230,846,201,932,178,1016,162,1094,150,1226,138"/>
+<area shape="rect" id="Node000008" href="$class_draw_msg.html" title=" " alt="" coords="613,315,737,533"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1227,150,1122,168,998,200,934,222,870,248,809,280,752,317,739,327,736,323,748,313,806,275,868,243,932,217,997,195,1121,163,1226,145"/>
+<area shape="rect" id="Node000009" href="$class_end_msg.html" title=" " alt="" coords="762,389,842,459"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1227,154,1141,175,1043,207,994,229,945,254,899,283,857,317,842,333,830,352,814,390,809,388,826,349,838,330,853,313,896,279,942,249,991,224,1041,202,1140,170,1226,149"/>
+<area shape="rect" id="Node000010" href="$class_fail_msg.html" title=" " alt="" coords="867,336,991,512"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1229,177,1116,236,1058,274,1005,317,985,338,981,335,1002,313,1055,269,1114,231,1226,173"/>
+<area shape="rect" id="Node000011" href="$class_get_leaderboard_msg.html" title=" " alt="" coords="1015,389,1163,459"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1233,247,1177,316,1117,391,1113,388,1173,313,1229,243"/>
+<area shape="rect" id="Node000012" href="$class_get_rooms_msg.html" title=" " alt="" coords="1187,389,1305,459"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="1284,282,1257,390,1252,389,1279,280"/>
+<area shape="rect" id="Node000013" href="$class_join_room_msg.html" title=" " alt="" coords="1329,336,1453,512"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="1358,280,1372,336,1367,337,1352,282"/>
+<area shape="rect" id="Node000014" href="$class_next_round_msg.html" title=" " alt="" coords="1477,336,1601,512"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="1407,236,1468,313,1484,334,1479,338,1464,316,1403,239"/>
+<area shape="rect" id="Node000015" href="$class_player_connect_msg.html" title=" " alt="" coords="1626,347,1767,501"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="1410,178,1513,236,1566,273,1616,313,1646,345,1643,349,1612,317,1563,277,1510,241,1407,183"/>
+<area shape="rect" id="Node000016" href="$class_player_disconnect_msg.html" title=" " alt="" coords="1792,357,1951,491"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="1410,156,1494,179,1589,213,1688,257,1736,283,1781,313,1805,333,1827,356,1823,359,1802,337,1778,317,1733,288,1686,262,1587,218,1492,184,1409,161"/>
+<area shape="rect" id="Node000017" href="$class_ranking_msg.html" title=" " alt="" coords="1975,389,2079,459"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="1411,139,1530,152,1601,165,1675,182,1751,204,1827,233,1899,269,1965,313,1983,329,1997,349,2018,388,2013,391,1993,352,1979,333,1962,317,1896,273,1825,238,1750,209,1674,187,1600,170,1530,157,1410,144"/>
+<area shape="rect" id="Node000018" href="$class_room_list_msg.html" title=" " alt="" coords="2104,347,2228,501"/>
+<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="1410,135,1552,144,1638,155,1729,171,1824,194,1918,224,2008,263,2093,313,2127,345,2123,349,2090,317,2006,268,1916,229,1822,199,1728,176,1637,160,1551,150,1410,140"/>
+<area shape="rect" id="Node000019" href="$class_score_msg.html" title=" " alt="" coords="2252,347,2376,501"/>
+<area shape="poly" id="edge18_Node000001_Node000019" title=" " alt="" coords="1410,143,1608,166,1852,202,1973,225,2083,251,2175,280,2212,296,2242,312,2261,328,2276,345,2272,349,2257,331,2239,317,2210,301,2173,285,2081,256,1971,230,1851,207,1607,171,1410,149"/>
+<area shape="rect" id="Node000020" href="$class_start_msg.html" title=" " alt="" coords="2400,389,2484,459"/>
+<area shape="poly" id="edge19_Node000001_Node000020" title=" " alt="" coords="1411,139,1639,156,1781,169,1928,187,2072,210,2203,238,2313,272,2356,292,2390,313,2407,329,2420,348,2437,389,2432,391,2415,351,2403,332,2387,317,2353,296,2311,277,2202,244,2071,216,1927,193,1780,175,1638,161,1410,145"/>
+<area shape="rect" id="Node000021" href="$class_success_msg.html" title=" " alt="" coords="2508,336,2632,512"/>
+<area shape="poly" id="edge20_Node000001_Node000021" title=" " alt="" coords="1411,139,1658,156,1814,170,1978,188,2138,211,2285,239,2409,272,2458,292,2498,312,2523,334,2520,338,2495,317,2456,296,2407,278,2284,244,2137,216,1977,193,1814,175,1658,161,1410,144"/>
+<area shape="rect" id="Node000004" href="$class_login_msg.html" title=" " alt="" coords="111,581,199,651"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="189,517,168,583,163,581,184,515"/>
+<area shape="rect" id="Node000005" href="$class_register_msg.html" title=" " alt="" coords="223,581,327,651"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="247,515,267,581,262,583,241,517"/>
+</map>

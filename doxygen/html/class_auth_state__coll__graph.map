@@ -1,0 +1,7 @@
+<map id="AuthState" name="AuthState">
+<area shape="rect" id="Node000001" title=" " alt="" coords="31,535,136,625"/>
+<area shape="rect" id="Node000002" href="$class_client_state.html" title=" " alt="" coords="35,395,132,485"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,501,86,535,81,535,81,501"/>
+<area shape="rect" id="Node000003" href="$class_client_handler.html" title=" " alt="" coords="5,5,161,331"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="86,330,86,378,81,378,81,330"/>
+</map>

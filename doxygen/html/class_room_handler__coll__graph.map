@@ -1,0 +1,7 @@
+<map id="RoomHandler" name="RoomHandler">
+<area shape="rect" id="Node000001" title=" " alt="" coords="110,267,255,720"/>
+<area shape="rect" id="Node000002" href="$class_t_s_queue.html" title=" " alt="" coords="5,37,171,171"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,170,126,249,121,251,101,171"/>
+<area shape="rect" id="Node000003" href="$class_word_handler.html" title=" " alt="" coords="195,5,362,203"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="257,203,245,251,240,249,252,202"/>
+</map>
