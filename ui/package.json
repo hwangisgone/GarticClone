@@ -18,6 +18,7 @@
     "vite-plugin-singlefile": "^0.13.5"
   },
   "dependencies": {
-    "svelte-canvas": "^1.0.2"
+    "svelte-canvas": "^1.0.2",
+    "svelte-french-toast": "^1.2.0"
   }
 }

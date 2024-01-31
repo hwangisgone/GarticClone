@@ -1,7 +1,0 @@
-<map id="src/js_io/js_io/test_input.hpp" name="src/js_io/js_io/test_input.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="88,5,215,48"/>
-<area shape="rect" id="Node000002" href="$test__input_8cpp.html" title=" " alt="" coords="5,96,133,139"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,61,90,98,86,94,120,58"/>
-<area shape="rect" id="Node000003" href="$cmd__client_8cpp.html" title=" " alt="" coords="157,104,314,131"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="184,58,226,102,222,105,180,61"/>
-</map>

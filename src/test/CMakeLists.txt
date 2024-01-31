@@ -1,5 +1,5 @@
-add_executable(FuckClient cmd_client.cpp)
-target_link_libraries(FuckClient PRIVATE 
+add_executable(CmdClient cmd_client.cpp)
+target_link_libraries(CmdClient PRIVATE 
 	consts_lib
 	client_base_lib
 
@@ -13,8 +13,8 @@ target_link_libraries(FuckClient PRIVATE
 	auto_io_lib
 )
 
-add_executable(ServerAuth main_server.cpp)
-target_link_libraries(ServerAuth PRIVATE 
+add_executable(RunServer main_server.cpp)
+target_link_libraries(RunServer PRIVATE 
 	consts_lib
 	server_base_lib
 
@@ -24,14 +24,14 @@ target_link_libraries(ServerAuth PRIVATE
 	debug_lib
 )
 
-add_custom_command(TARGET ServerAuth POST_BUILD 
+add_custom_command(TARGET RunServer POST_BUILD 
 	COMMAND ${CMAKE_COMMAND} 
-	-E copy $<TARGET_FILE:ServerAuth> ${CMAKE_BINARY_DIR}/ServerAuth
+	-E copy $<TARGET_FILE:RunServer> ${CMAKE_BINARY_DIR}/RunServer
 )
 
-add_custom_command(TARGET FuckClient POST_BUILD 
+add_custom_command(TARGET CmdClient POST_BUILD 
 	COMMAND ${CMAKE_COMMAND} 
-	-E copy $<TARGET_FILE:FuckClient> ${CMAKE_BINARY_DIR}/FuckClient
+	-E copy $<TARGET_FILE:CmdClient> ${CMAKE_BINARY_DIR}/CmdClient
 )
 
 # Copy every .test.txt file to binary for use

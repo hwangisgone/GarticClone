@@ -1,5 +1,0 @@
-<map id="LobbyState" name="LobbyState">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,144,152,277"/>
-<area shape="rect" id="Node000002" href="$class_client_state.html" title=" " alt="" coords="30,5,127,96"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,111,81,145,76,145,76,111"/>
-</map>

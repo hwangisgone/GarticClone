@@ -1,4 +1,4 @@
-register fuck 5678
+register newacc 5678
 
 login nametest passtest
 // incorrect login
@@ -7,7 +7,7 @@ register abcd 1234
 
 login abcd 1234
 
-login fuck 5678
+login newacc 5678
 // test login 		after login
 register 1234 abcd	
 // test register	after login

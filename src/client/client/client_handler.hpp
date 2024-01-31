@@ -28,6 +28,7 @@ public:
 	void handleRecv(const BaseMsg& msg) override;
 	
 	static void requestLogin(char type, const char * name, const char * pass);
+	static void requestLogout();
 
 	// TODO:
 	// static void requestGuest(const char * name);

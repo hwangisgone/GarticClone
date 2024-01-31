@@ -42,9 +42,9 @@ bool ServerLobby::createRoom(PlayerSession& creator, const char * in_roomName) {
 		newRoom->roomID = this->roomCount;
 		strncpy(newRoom->roomName, in_roomName, 50);
 
-		creator.inRoom = newRoom;
+		// creator.inRoom = newRoom;
+		// newRoom->addPlayer(creator.account.playerID, creator.addr, creator.account);	// Add host to room 
 
-		newRoom->addPlayer(creator.account.playerID, creator.addr, creator.account);	// Add host to room 
 		this->roomCount++;
 		return true;
 	} else {
@@ -90,6 +90,14 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 		if (msg.type() == MsgType::LOGIN || msg.type() == MsgType::REGISTER) {
 			TEST_PRINT("> Already logged in.");
 			return;
+		} else if (msg.type() == MsgType::LOGOUT) {
+			TEST_PRINT("> Logging out...");
+			this->removeSession(clientAddress);
+
+			SuccessMsg successmsg(MsgType::LOGOUT);
+			sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), successmsg);
+			
+			return;
 		}
 
 		PlayerSession& currentClient = it->second;
@@ -117,19 +125,20 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 						sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), successmsg);
 
 
-						PlayerConnectMsg thisplayermsg;
-						thisplayermsg.playerID = currentClient.account.playerID;
-						strncpy(thisplayermsg.name, currentClient.account.playerName, 50);
-						sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), thisplayermsg);
+						// PlayerConnectMsg thisplayermsg;
+						// thisplayermsg.playerID = currentClient.account.playerID;
+						// strncpy(thisplayermsg.name, currentClient.account.playerName, 50);
+						// sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), thisplayermsg);
 					}
 					break;
 				}
 				case MsgType::JOIN_ROOM: {
+					DEBUG_PRINT("Joining room through lobby");
 					if (joinRoom(currentClient, msg)) {
 						SuccessMsg successmsg(MsgType::JOIN_ROOM);
 						sendMsg(this->sockfd, (struct sockaddr *)&clientAddress, sizeof(clientAddress), successmsg);
 
-						currentClient.inRoom->msgQueue.push(wrapper);	
+						// currentClient.inRoom->msgQueue.push(wrapper);	
 						// Also push this new thing to room	if joined success
 					}
 					break;
@@ -139,6 +148,7 @@ void ServerLobby::LobbyHandle(MsgWrapper& wrapper, const sockaddr_in& clientAddr
 			}	
 		} else {
 			switch(msg.type()) {
+				// Join again but in room state this time
 				case MsgType::JOIN_ROOM: {
 					TEST_PRINT("> Lobby: Aready in room! This shouldn't happen.");
 					return;

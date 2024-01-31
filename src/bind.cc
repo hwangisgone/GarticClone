@@ -17,7 +17,7 @@ webview::webview * globalw;
 
 std::string chosenaddr = "127.0.0.1";
 
-void fuckme() {
+void client_running_thread() {
 	int client_sock;
 	// char funnyaddress[] = "charade.io.crabdance.com";
 
@@ -49,14 +49,15 @@ int main(int argc, char* argv[]) {
 	webview::webview w(false, nullptr);
 	globalw = &w;
 	w.set_title("Charade.io");
-	w.set_size(500, 500, WEBVIEW_HINT_NONE);
+	w.set_size(1000, 1000, WEBVIEW_HINT_NONE);
 
 	// Login
+	// Register
 	w.bind("requestLogin", rqLogin, nullptr);
 
-	// Register
-
 	// Lobby
+	w.bind("requestLogout", rqLogout, nullptr);
+
 	w.bind("requestGetRooms", rqGetRooms, nullptr);
 	w.bind("requestJoinRoom", rqJoinRoom, nullptr);
 	w.bind("requestCreateRoom", rqCreateRoom, nullptr);
@@ -73,33 +74,9 @@ int main(int argc, char* argv[]) {
 	w.bind("requestGetLeaderboard", rqGetLeaderboard, nullptr);
 	w.bind("requestBackToRoom", rqBackToRoom, nullptr);
 
-	// A binding that increments a value and immediately returns the new value.
-	// w.bind("fuckaround", [&](const std::string & /*req*/) -> std::string {
-	// 	auto count_string = std::to_string(++count);
-	// 	return "{\"count\": " + count_string + "}";
-	// });
-
-	// // An binding that creates a new thread and returns the result at a later time.
-	// w.bind(
-	// 		"compute",
-	// 		[&](const std::string &seq, const std::string &req, void * /*arg*/) {
-	// 			// Create a thread and forget about it for the sake of simplicity.
-	// 			std::thread([&, seq, req] {
-	// 				// Simulate load.
-	// 				// std::this_thread::sleep_for(std::chrono::seconds(1));
-	// 				// json_parse() is an implementation detail and is only used here
-	// 				// to provide a working example.
-	// 				auto left = std::stoll(webview::detail::json_parse(req, "", 0));
-	// 				auto right = std::stoll(webview::detail::json_parse(req, "", 1));
-	// 				auto result = std::to_string(left * right);
-	// 				w.resolve(seq, 0, result);
-	// 			}).detach();
-	// 		},
-	// 		nullptr);
-
 	w.set_html(html_const);
 	
-	std::thread clientThread(fuckme);
+	std::thread clientThread(client_running_thread);
 
 	w.run();
 

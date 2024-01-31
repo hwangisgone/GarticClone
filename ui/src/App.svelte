@@ -4,6 +4,8 @@
 	import SignUp from "./auth/SignUp.svelte";
 	import Room from "./room/Room.svelte";
 	import Lobby from "./Lobby.svelte";
+
+	import { Toaster } from 'svelte-french-toast';
 	// import Clock from "./Clock.svelte";
  // import Chat from "./chat.svelte";
 
@@ -13,6 +15,8 @@
 
 	window.updatePlayerID = (id) => { $PlayerID = id; }
 </script>
+
+<Toaster/>
 
 <input type="number" class="fixed" bind:value={$UIstate} />
 

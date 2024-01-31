@@ -49,6 +49,9 @@ void rqAnswer(const std::string &seq, const std::string &req, void * /*arg*/) {
 
 
 // Only proxy
+void rqLogout(const string &seq, const string &req, void * /*arg*/) {
+	AuthState::requestLogout();
+}
 void rqGetRooms(const string &seq, const string &req, void * /*arg*/) {
 	LobbyState::requestGetRooms();
 }

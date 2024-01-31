@@ -1,9 +1,0 @@
-<map id="src/independent/aheaderonly/consts/consts/network_const.h" name="src/independent/aheaderonly/consts/consts/network_const.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="90,5,297,48"/>
-<area shape="rect" id="Node000002" href="$bind_8cc.html" title=" " alt="" coords="5,96,91,123"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,58,72,98,70,93,141,54"/>
-<area shape="rect" id="Node000003" href="$cmd__client_8cpp.html" title=" " alt="" coords="115,96,272,123"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="196,64,196,95,191,95,191,64"/>
-<area shape="rect" id="Node000004" href="$main__server_8cpp.html" title=" " alt="" coords="296,96,459,123"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="255,52,350,93,347,98,253,57"/>
-</map>

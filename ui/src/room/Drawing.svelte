@@ -44,7 +44,7 @@
 	const clearCanvas = () => { 
 		const { width, height } = canvas.getCanvas();
 		context.clearRect(0, 0, width, height); 
-		console.log("FUCK");
+		console.log("Cleared Canvas.");
 	}
 
 	const handleStart = ({ offsetX: x, offsetY: y }) => { 

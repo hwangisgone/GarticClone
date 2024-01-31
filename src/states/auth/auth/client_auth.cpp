@@ -24,6 +24,11 @@ void AuthState::requestLogin(char type, const char * name, const char * pass) {
 	}
 }
 
+void AuthState::requestLogout() {
+	LogoutMsg msg;
+	ClientHandler::clientSendMsg(msg);
+}
+
 void jsIncorrect() {
 	globalJsEval("auth_wrongPass()");
 }

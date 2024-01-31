@@ -1,4 +1,0 @@
-var dir_7c2ead505589bd62622b1d6674aa7b71 =
-[
-    [ "leaderboard", "dir_50306c9770f8289884180354b1b3c45c.html", "dir_50306c9770f8289884180354b1b3c45c" ]
-];

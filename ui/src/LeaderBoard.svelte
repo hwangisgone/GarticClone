@@ -76,16 +76,4 @@
 				background-color: #ffcc00; /* Highlight the highest rank with a background color */
 				margin-top: -100px; 
 			}
-	
-			.top-left-button {
-			width: 100px;
-			position: absolute;
-			top: 10px;
-			left: 10px;
-			padding: 10px;
-			/* background-color: white;
-			border: 1px solid #ccc; */
-			cursor: pointer;
-			background-color:rgb(46, 80, 81)
-		}
 	</style>

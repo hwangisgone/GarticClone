@@ -18,6 +18,7 @@ enum class MsgType : uint16_t
 
 	LOGIN,
 	REGISTER,
+	LOGOUT,
 
 	GET_ROOMS, ROOM_LIST,
 	CREATE_ROOM,

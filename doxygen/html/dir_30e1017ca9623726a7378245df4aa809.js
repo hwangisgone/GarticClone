@@ -1,4 +1,0 @@
-var dir_30e1017ca9623726a7378245df4aa809 =
-[
-    [ "sockaddr_in", "dir_880c24588ea3a975907c258521864d9f.html", "dir_880c24588ea3a975907c258521864d9f" ]
-];

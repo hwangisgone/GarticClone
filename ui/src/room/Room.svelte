@@ -1,9 +1,22 @@
 <script>
+	import { onMount } from "svelte";
+	import toast from 'svelte-french-toast';
+
 	import Game from './Game.svelte';
 	import GetReady from './GetReady.svelte';
 	import LeaderBoard from '../LeaderBoard.svelte';
 
-	import { UIstate, GameSettings, ThisRound } from "../store/store.ts";
+	import { UIstate, GameSettings, ThisRound, JoinCounter } from "../store/store.ts";
+
+	onMount(() => {
+		try {
+			window.requestJoinRoom($GameSettings.RoomID); 
+		} catch (e) {
+			toast.error(e.message);
+		}
+		$JoinCounter++;
+		// Join but this time handled by room state
+	});
 
 	let roomState = 1;
 	// 0 is Room (get ready)
@@ -22,19 +35,21 @@
 		console.log("Removed?", playerid);
 	};
 	window.game_nextRound = (role, timer, word) => {
-			$ThisRound.role = role;
-			$ThisRound.timer = timer;
-			$ThisRound.word = word;
+		$ThisRound.role = role;
+		$ThisRound.timer = timer;
+		$ThisRound.word = word;
 	}
 </script>
 
 
-<!-- 	<div class="fixed left-1/2">
+	<div class="fixed left-1/2">
 		<input class="input" type="number" on:change={e => window.room_removePlayer(e.target.value)} />
 		<button class="btn" on:click={() => window.room_addPlayer(1, "hehe")} >Add player</button>
-		<button class="btn" on:click={window.requestDisconnect} >Disconnect</button>
+		<button class="btn" on:click={window.requestDisconnect} >
+			Disconnect (Joined: {$JoinCounter})
+		</button>
 	</div>
- -->
+
 {#if $UIstate == 3}
 	<GetReady />
 {:else}

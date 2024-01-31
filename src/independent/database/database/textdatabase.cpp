@@ -10,6 +10,8 @@
 int accountCount = 0;
 std::vector<PlayerAccount> allAccounts;
 
+std::string databasefilename;
+
 // Function to load data from a text file into a vector of structs
 bool loadFromFile(const std::string& filename, std::vector<PlayerAccount>& accounts)
 {
@@ -40,6 +42,8 @@ bool loadFromFile(const std::string& filename, std::vector<PlayerAccount>& accou
 
 	// Close the file
 	file.close();
+
+	databasefilename = filename;	// set once;
 	return true;
 }
 
@@ -56,7 +60,11 @@ void writePlayerAccountsToFile(const std::string& filename, const std::vector<Pl
 	// Write each PlayerAccount to the file
 	for (const auto& account : accounts)
 	{
-		file << account.playerID << " " << account.playerName << " " << account.password << " " << account.gamesPlayed << " " << account.gamesWin << " " <<  account.totalScore;
+		file << account.playerID << " " << account.playerName << " " << account.password 
+			<< " " << account.gamesPlayed 
+			<< " " << account.gamesWin 
+			<< " " <<  account.totalScore 
+			<< std::endl;
 	}
 
 	// Close the file
@@ -96,6 +104,8 @@ int addAccount(const char * in_username, const char * in_password) {
 	account.totalScore	= 0;
 
 	allAccounts.push_back(account);
+
+	writePlayerAccountsToFile(databasefilename, allAccounts);
 
 	return account.playerID;
 }

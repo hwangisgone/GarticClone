@@ -34,6 +34,8 @@ void startGame(const StartMsg& msg, int playerID, RoomHandler * room) {
 void RoomConn::handleConnect(const JoinRoomMsg& msg, int playerID, RoomHandler * room) {
 	DEBUG_PRINT("  (ServerRoom) Connection from " + formatSockAddrIn(msg.addr));
 
+	DEBUG_PRINT("Still work");
+
 	for (const auto& pair : room->playerMap) {	// Send all players in the room to client
 		PlayerConnectMsg othermsg;
 		othermsg.playerID = pair.first;
@@ -41,12 +43,20 @@ void RoomConn::handleConnect(const JoinRoomMsg& msg, int playerID, RoomHandler *
 		sendMsg(room->sockfd, (struct sockaddr*)&msg.addr, sizeof(msg.addr), othermsg);
 	}
 
+	DEBUG_PRINT("Still work2");
+
+
 	room->addPlayer(playerID, msg.addr, *msg.account);
 	
+	DEBUG_PRINT("Still work3");
+
 	PlayerConnectMsg thisplayermsg;
 	thisplayermsg.playerID = playerID;
 	strncpy(thisplayermsg.name, msg.account->playerName, 50);
 	room->broadcast(thisplayermsg);
+
+	DEBUG_PRINT("Still work4");
+
 }
 
 void RoomConn::handleDisconnect(int playerID, RoomHandler * room) {

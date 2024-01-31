@@ -8,6 +8,8 @@
 extern std::vector<PlayerAccount> allAccounts;
 extern int accountCount;
 
+extern std::string databasefilename;
+
 bool loadFromFile(const std::string& filename, std::vector<PlayerAccount>& accounts);
 
 void writeWordsToFile(const std::string& filename, const std::vector<PlayerAccount>& accounts);

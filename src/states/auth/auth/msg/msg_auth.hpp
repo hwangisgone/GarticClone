@@ -30,4 +30,12 @@ public:
 	RegisterMsg(): AuthMsg(MsgType::REGISTER) {}
 };
 
+class LogoutMsg: public BaseMsg {
+private:
+	uint32_t bodySize() const override { return 0; };
+public:
+	LogoutMsg(): BaseMsg(MsgType::LOGOUT) {}
+};
+
+
 #endif

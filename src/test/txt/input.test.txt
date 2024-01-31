@@ -1,7 +1,7 @@
-register fuck 5678
+register newacc 5678
 login abcd 1234
 
-createroom Fuckers
+createroom NewRoom
 
 pause!
 

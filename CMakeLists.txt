@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(FUCK VERSION 1.0 LANGUAGES CXX)
+project(GarticClone VERSION 1.0 LANGUAGES CXX)
 
 add_subdirectory(src)
 
@@ -11,8 +11,8 @@ configure_file("src/html_const.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/src/html_con
 message(STATUS "Read the HTML file")
 
 # Append HTML to file
-add_executable(CharadeioClient src/bind.cc "${CMAKE_CURRENT_BINARY_DIR}/src/html_const.cpp")
-target_link_libraries(CharadeioClient PRIVATE 
+add_executable(GarticClient src/bind.cc "${CMAKE_CURRENT_BINARY_DIR}/src/html_const.cpp")
+target_link_libraries(GarticClient PRIVATE 
 	consts_lib
 	client_base_lib
 	js_io_lib
@@ -24,5 +24,3 @@ target_link_libraries(CharadeioClient PRIVATE
 	client_leaderboard_lib
 	debug_lib
 )
-
-configure_file(database/network.db ${CMAKE_BINARY_DIR}/db/network.db COPYONLY)

@@ -1,7 +1,0 @@
-<map id="JoinRoomMsg" name="JoinRoomMsg">
-<area shape="rect" id="Node000001" title=" " alt="" coords="97,331,221,485"/>
-<area shape="rect" id="Node000002" href="$class_base_msg.html" title=" " alt="" coords="5,5,160,267"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,280,140,330,135,331,121,282"/>
-<area shape="rect" id="Node000003" href="$struct_player_account.html" title=" " alt="" coords="185,48,287,224"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="214,224,188,315,183,314,209,223"/>
-</map>

@@ -4,6 +4,7 @@
 #include <string>
 
 void rqLogin(const std::string &seq, const std::string &req, void * /*arg*/);
+void rqLogout(const std::string &seq, const std::string &req, void * /*arg*/);
 
 void rqGetRooms(const std::string &seq, const std::string &req, void * /*arg*/);
 void rqCreateRoom(const std::string &seq, const std::string &req, void * /*arg*/);

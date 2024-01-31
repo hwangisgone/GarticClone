@@ -1,4 +1,4 @@
-login fuck 5678
+login newacc 5678
 getrooms
 joinroom 0
 pause!

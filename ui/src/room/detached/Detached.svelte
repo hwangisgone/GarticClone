@@ -25,7 +25,8 @@
 <svelte:window on:mouseup={onMouseUp} on:mouseleave={onMouseUp} on:mousemove={onMouseMove} />
 
 <div on:mousedown={onMouseDown}
-	class="card card-compact absolute overflow-hidden z-10 border border-primary"
+	class="card card-compact absolute overflow-hidden z-10 border border-primary drag-mouse"
+	role="application"
 	style="left: {left}px; top: {top}px;"> 
 	<slot />
 </div>
