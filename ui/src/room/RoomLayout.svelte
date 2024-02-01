@@ -8,7 +8,7 @@
 
 <div class="container mx-auto">
 
-<div class="h-[5vh] text-3xl">
+<div class="h-[5vh] text-3xl z-0 pt-1">
 	<button class="btn btn-accent" type="button" on:click={() => {
 		window.requestDisconnect(); 
 	}}>

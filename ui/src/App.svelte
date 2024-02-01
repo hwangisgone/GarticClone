@@ -18,7 +18,7 @@
 
 <Toaster/>
 
-<input type="number" class="fixed" bind:value={$UIstate} />
+<input type="number" class="fixed z-10" bind:value={$UIstate} />
 
 {#if $UIstate == 2}
 	<Lobby/>
